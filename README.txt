@@ -1,15 +1,25 @@
-USMAN'S IGCSE STUDY HUB — TOPICAL PAYPAL BUILD
+USMAN'S IGCSE TOPICAL PAST PAPERS — UPDATED DASHBOARD
 
-Publish the contents of this folder as the website root.
+This package contains the redesigned website:
+- Separate Physics, Chemistry and Accounting dashboards
+- Clear “Topical Past Papers” branding
+- Accounting clearly marked as the only free subject
+- Physics and Chemistry remain premium and encrypted
+- Existing PayPal hosted button and access-code system preserved
+- Search, PDF viewer, progress tracking and dark mode preserved
 
-CONTENT AND ACCESS MODEL
-- The question packs are topical practice resources.
-- Accounting 0452: free and directly accessible.
-- Physics 0625 and Chemistry 0620: encrypted premium files.
-- PayPal hosted button: SHCZMQMALAS5U.
-- Buyers enter the premium access code supplied by the seller after payment.
+TO UPDATE THE LIVE GITHUB PAGES WEBSITE
+1. Extract this ZIP.
+2. Open your local -igcse-study-hub folder using GitHub Desktop: Repository > Show in Explorer.
+3. Copy everything inside this extracted folder into the repository folder and replace the old files.
+4. Return to GitHub Desktop.
+5. Write a summary such as: Redesign subject dashboard
+6. Click Commit to main.
+7. Click Push origin.
+8. GitHub Pages will rebuild automatically.
 
 IMPORTANT
-- Keep USMAN_OWNER_ACCESS_CODE.txt private and outside the public website/repository.
-- A static website cannot automatically verify PayPal payments. Automatic per-buyer access requires a backend and PayPal webhooks.
-- The PayPal receiving account must be operated by an eligible adult or registered business.
+- Do not upload or share USMAN_OWNER_ACCESS_CODE.txt.
+- Accounting is free.
+- Physics and Chemistry require the premium access code after payment.
+- Card payment fields and card approval are controlled by PayPal, not by the website code.

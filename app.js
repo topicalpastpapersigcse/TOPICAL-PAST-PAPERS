@@ -52,20 +52,33 @@ const topics = [
   { id: "accounting-principles", subject: "accounting", code: "0452 · Paper 2 · Topical practice", number: "07", title: "Accounting Principles and Policies", count: 0, subtopics: ["Accounting principles", "Accounting policies"], questions: "assets/accounting/accounting-07-principles-policies.pdf" }
 ];
 
+
 const subjectNames = { physics: "Physics", chemistry: "Chemistry", accounting: "Accounting" };
+const subjectOrder = ["physics", "chemistry", "accounting"];
 
 const PREMIUM_SALT_B64 = "bi9ewq1Qsgwb2gmuCH2G1Q==";
 const PREMIUM_ITERATIONS = 210000;
 const PREMIUM_CHECK_FILE = "premium-check.enc";
 const PREMIUM_CHECK_TEXT = "USMAN_PREMIUM_ACCESS_V1";
+
 let premiumKey = null;
 let activeBlobUrl = null;
 
-const topicGrid = document.querySelector("#topicGrid");
+const grids = {
+  physics: document.querySelector("#physicsGrid"),
+  chemistry: document.querySelector("#chemistryGrid"),
+  accounting: document.querySelector("#accountingGrid")
+};
+const emptyMessages = {
+  physics: document.querySelector("#physicsEmpty"),
+  chemistry: document.querySelector("#chemistryEmpty"),
+  accounting: document.querySelector("#accountingEmpty")
+};
+
 const searchInput = document.querySelector("#searchInput");
 const resultCount = document.querySelector("#resultCount");
-const activeFilterLabel = document.querySelector("#activeFilterLabel");
-const emptyState = document.querySelector("#emptyState");
+const searchStatus = document.querySelector("#searchStatus");
+const library = document.querySelector("#library");
 const pdfDialog = document.querySelector("#pdfDialog");
 const pdfFrame = document.querySelector("#pdfFrame");
 const dialogTitle = document.querySelector("#dialogTitle");
@@ -76,14 +89,18 @@ const accessCodeForm = document.querySelector("#accessCodeForm");
 const accessCodeInput = document.querySelector("#accessCode");
 const accessMessage = document.querySelector("#accessMessage");
 const unlockButton = document.querySelector("#unlockButton");
-let activeSubject = "all";
 
 const getCompleted = () => {
-  try { return new Set(JSON.parse(localStorage.getItem("igcse-completed-topics") || "[]")); }
-  catch { return new Set(); }
+  try {
+    return new Set(JSON.parse(localStorage.getItem("igcse-completed-topics") || "[]"));
+  } catch {
+    return new Set();
+  }
 };
 
-const saveCompleted = set => localStorage.setItem("igcse-completed-topics", JSON.stringify([...set]));
+const saveCompleted = completed => {
+  localStorage.setItem("igcse-completed-topics", JSON.stringify([...completed]));
+};
 
 function icon(type) {
   if (type === "questions") return '<span aria-hidden="true">▤</span>';
@@ -94,24 +111,30 @@ function icon(type) {
 function cardMarkup(topic) {
   const completed = getCompleted().has(topic.id);
   const shownSubtopics = topic.subtopics.slice(0, 4);
-  const more = topic.subtopics.length - shownSubtopics.length;
-  const countText = topic.count ? `${topic.count} question${topic.count === 1 ? "" : "s"}` : "Topic outline";
+  const extraSubtopics = topic.subtopics.slice(4);
   const premium = topic.subject !== "accounting";
   const locked = premium && !premiumKey;
+  const countText = topic.count
+    ? `${topic.count} question${topic.count === 1 ? "" : "s"}`
+    : "Topic outline";
+
   const accessBadge = premium
     ? `<span class="access-badge premium-access">${locked ? "🔒 Premium" : "✓ Unlocked"}</span>`
-    : `<span class="access-badge free-access">✓ Free</span>`;
+    : '<span class="access-badge free-access">✓ Free</span>';
+
   const questionButton = locked
     ? `<button class="card-button primary unlock-premium" type="button" data-title="${topic.title}"><span aria-hidden="true">🔒</span> Unlock</button>`
     : `<button class="card-button primary open-pdf" type="button" data-file="${topic.questions}" data-kind="Questions" data-title="${topic.title}">${icon("questions")} Questions</button>`;
+
   const answerButton = topic.answers
-    ? (locked
+    ? locked
       ? `<button class="card-button unlock-premium" type="button" data-title="${topic.title}"><span aria-hidden="true">🔒</span> Answers</button>`
-      : `<button class="card-button open-pdf" type="button" data-file="${topic.answers}" data-kind="Answers" data-title="${topic.title}">${icon("answers")} Answers</button>`)
+      : `<button class="card-button open-pdf" type="button" data-file="${topic.answers}" data-kind="Answers" data-title="${topic.title}">${icon("answers")} Answers</button>`
     : "";
 
   return `
     <article class="topic-card ${topic.subject} ${locked ? "locked-card" : ""}" data-id="${topic.id}">
+      <div class="topic-number" aria-hidden="true">${topic.number}</div>
       <div class="card-top">
         <div class="card-meta">
           <span class="subject-pill">${subjectNames[topic.subject]} ${topic.number}</span>
@@ -123,31 +146,65 @@ function cardMarkup(topic) {
       </div>
       <ul class="subtopics">
         ${shownSubtopics.map(item => `<li>${item}</li>`).join("")}
-        ${topic.subtopics.slice(4).map(item => `<li class="extra-subtopic" hidden>${item}</li>`).join("")}
+        ${extraSubtopics.map(item => `<li class="extra-subtopic" hidden>${item}</li>`).join("")}
       </ul>
-      ${more > 0 ? `<button class="subtopics-toggle" type="button" data-more="${more}">+ ${more} more subtopic${more === 1 ? "" : "s"}</button>` : ""}
+      ${extraSubtopics.length ? `<button class="subtopics-toggle" type="button" data-more="${extraSubtopics.length}">+ ${extraSubtopics.length} more subtopic${extraSubtopics.length === 1 ? "" : "s"}</button>` : ""}
       <div class="card-actions">
-        <div class="open-group">
-          ${questionButton}
-          ${answerButton}
-        </div>
+        <div class="open-group">${questionButton}${answerButton}</div>
         <button class="card-button complete-button ${completed ? "completed" : ""}" type="button" data-complete="${topic.id}" aria-label="${completed ? "Mark topic incomplete" : "Mark topic complete"}" title="${completed ? "Completed" : "Mark complete"}">${completed ? "✓" : "○"}</button>
       </div>
     </article>`;
 }
 
+function updateAccessDisplay() {
+  const unlocked = Boolean(premiumKey);
+  ["physics", "chemistry"].forEach(subject => {
+    const badge = document.querySelector(`#${subject}AccessBadge`);
+    const button = document.querySelector(`#${subject} .subject-unlock`);
+    if (badge) {
+      badge.textContent = unlocked ? "Unlocked" : "Premium";
+      badge.className = `status ${unlocked ? "unlocked" : "premium"}`;
+    }
+    if (button) {
+      button.textContent = unlocked ? "Premium unlocked ✓" : `Unlock ${subjectNames[subject]}`;
+      button.disabled = unlocked;
+      button.classList.toggle("unlocked", unlocked);
+    }
+  });
+
+  const topButton = document.querySelector("#unlockPremiumTop");
+  if (topButton) {
+    topButton.textContent = unlocked ? "Physics + Chemistry unlocked ✓" : "Unlock Physics + Chemistry";
+    topButton.disabled = unlocked;
+    topButton.classList.toggle("unlocked", unlocked);
+  }
+}
+
 function renderTopics() {
   const term = searchInput.value.trim().toLowerCase();
-  const filtered = topics.filter(topic => {
-    const matchesSubject = activeSubject === "all" || topic.subject === activeSubject;
-    const haystack = [topic.title, topic.code, subjectNames[topic.subject], ...topic.subtopics].join(" ").toLowerCase();
-    return matchesSubject && haystack.includes(term);
+  let visibleTotal = 0;
+
+  subjectOrder.forEach(subject => {
+    const filtered = topics.filter(topic => {
+      if (topic.subject !== subject) return false;
+      const haystack = [topic.title, topic.code, subjectNames[topic.subject], ...topic.subtopics]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(term);
+    });
+
+    visibleTotal += filtered.length;
+    grids[subject].innerHTML = filtered.map(cardMarkup).join("");
+    emptyMessages[subject].hidden = filtered.length !== 0;
   });
-  topicGrid.innerHTML = filtered.map(cardMarkup).join("");
-  resultCount.textContent = `${filtered.length} topic${filtered.length === 1 ? "" : "s"}`;
-  activeFilterLabel.textContent = activeSubject === "all" ? "across all three subjects" : `in ${subjectNames[activeSubject]}`;
-  emptyState.hidden = filtered.length !== 0;
+
+  resultCount.textContent = `${visibleTotal} topic${visibleTotal === 1 ? "" : "s"} available`;
+  searchStatus.textContent = term
+    ? `matching “${searchInput.value.trim()}”`
+    : "across three organised subject dashboards";
+
   updateProgress();
+  updateAccessDisplay();
 }
 
 function updateProgress() {
@@ -155,12 +212,12 @@ function updateProgress() {
   const count = topics.filter(topic => completed.has(topic.id)).length;
   const percent = Math.round((count / topics.length) * 100);
   document.querySelector("#progressPercent").textContent = `${percent}%`;
-  document.querySelector("#progressLabel").textContent = `${count} of ${topics.length} topics`;
+  document.querySelector("#progressLabel").textContent = `${count} of ${topics.length} topics complete`;
   document.querySelector("#progressRing").style.setProperty("--progress", `${percent * 3.6}deg`);
 }
 
 function bytesFromBase64(value) {
-  return Uint8Array.from(atob(value), char => char.charCodeAt(0));
+  return Uint8Array.from(atob(value), character => character.charCodeAt(0));
 }
 
 async function derivePremiumKey(code) {
@@ -171,8 +228,14 @@ async function derivePremiumKey(code) {
     false,
     ["deriveKey"]
   );
+
   return crypto.subtle.deriveKey(
-    { name: "PBKDF2", salt: bytesFromBase64(PREMIUM_SALT_B64), iterations: PREMIUM_ITERATIONS, hash: "SHA-256" },
+    {
+      name: "PBKDF2",
+      salt: bytesFromBase64(PREMIUM_SALT_B64),
+      iterations: PREMIUM_ITERATIONS,
+      hash: "SHA-256"
+    },
     material,
     { name: "AES-GCM", length: 256 },
     false,
@@ -183,8 +246,10 @@ async function derivePremiumKey(code) {
 async function decryptPremiumFile(file, key) {
   const response = await fetch(file, { cache: "no-store" });
   if (!response.ok) throw new Error(`Unable to load premium file (${response.status})`);
+
   const encrypted = new Uint8Array(await response.arrayBuffer());
   if (encrypted.length < 29) throw new Error("Premium file is incomplete");
+
   const iv = encrypted.slice(0, 12);
   const payload = encrypted.slice(12);
   return crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, payload);
@@ -200,8 +265,9 @@ async function verifyAccessCode(code) {
 
 function showPaywall() {
   accessMessage.textContent = "";
+  accessMessage.className = "access-message";
   if (!paywallDialog.open) paywallDialog.showModal();
-  setTimeout(() => accessCodeInput.focus(), 80);
+  window.setTimeout(() => accessCodeInput.focus(), 80);
 }
 
 function closePaywall() {
@@ -210,14 +276,17 @@ function closePaywall() {
 
 async function openPdf(file, title, kind) {
   const topic = topics.find(item => item.title === title && (item.questions === file || item.answers === file));
-  const premium = topic && topic.subject !== "accounting";
+  const premium = Boolean(topic && topic.subject !== "accounting");
+
   if (premium && !premiumKey) {
     showPaywall();
     return;
   }
 
   dialogTitle.textContent = `${title} — ${kind}`;
-  dialogSubject.textContent = topic ? `${subjectNames[topic.subject]} ${topic.code.split("·")[0].trim()}` : "PDF";
+  dialogSubject.textContent = topic
+    ? `${subjectNames[topic.subject]} ${topic.code.split("·")[0].trim()}`
+    : "PDF";
   dialogDownload.download = file.split("/").pop();
 
   try {
@@ -256,50 +325,48 @@ async function openPdf(file, title, kind) {
   }
 }
 
-document.querySelectorAll(".subject-tab").forEach(button => {
-  button.addEventListener("click", () => {
-    activeSubject = button.dataset.subject;
-    document.querySelectorAll(".subject-tab").forEach(tab => {
-      tab.classList.toggle("active", tab === button);
-      tab.setAttribute("aria-selected", tab === button ? "true" : "false");
-    });
-    renderTopics();
-  });
-});
-
 searchInput.addEventListener("input", renderTopics);
 
-topicGrid.addEventListener("click", event => {
+library.addEventListener("click", event => {
   const unlockPremiumButton = event.target.closest(".unlock-premium");
   if (unlockPremiumButton) {
     showPaywall();
     return;
   }
+
   const openButton = event.target.closest(".open-pdf");
   if (openButton) {
     openPdf(openButton.dataset.file, openButton.dataset.title, openButton.dataset.kind);
     return;
   }
+
   const completeButton = event.target.closest("[data-complete]");
   if (completeButton) {
     const completed = getCompleted();
-    if (completed.has(completeButton.dataset.complete)) completed.delete(completeButton.dataset.complete);
-    else completed.add(completeButton.dataset.complete);
+    const topicId = completeButton.dataset.complete;
+    if (completed.has(topicId)) completed.delete(topicId);
+    else completed.add(topicId);
     saveCompleted(completed);
     renderTopics();
     return;
   }
+
   const toggle = event.target.closest(".subtopics-toggle");
   if (toggle) {
     const card = toggle.closest(".topic-card");
     const extras = card.querySelectorAll(".extra-subtopic");
     const opening = extras[0]?.hidden;
-    extras.forEach(item => item.hidden = !opening);
-    toggle.textContent = opening ? "Show fewer subtopics" : `+ ${toggle.dataset.more} more subtopics`;
+    extras.forEach(item => { item.hidden = !opening; });
+    toggle.textContent = opening
+      ? "Show fewer subtopics"
+      : `+ ${toggle.dataset.more} more subtopic${Number(toggle.dataset.more) === 1 ? "" : "s"}`;
   }
 });
 
+document.querySelector("#unlockPremiumTop").addEventListener("click", showPaywall);
 document.querySelector("#dialogClose").addEventListener("click", () => pdfDialog.close());
+document.querySelector("#paywallClose").addEventListener("click", closePaywall);
+
 pdfDialog.addEventListener("close", () => {
   pdfFrame.src = "about:blank";
   if (activeBlobUrl) {
@@ -307,13 +374,13 @@ pdfDialog.addEventListener("close", () => {
     activeBlobUrl = null;
   }
 });
+
 pdfDialog.addEventListener("click", event => {
   const box = pdfDialog.getBoundingClientRect();
   const outside = event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom;
   if (outside) pdfDialog.close();
 });
 
-document.querySelector("#paywallClose").addEventListener("click", closePaywall);
 paywallDialog.addEventListener("click", event => {
   const box = paywallDialog.querySelector(".paywall-shell").getBoundingClientRect();
   const outside = event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom;
@@ -324,17 +391,19 @@ accessCodeForm.addEventListener("submit", async event => {
   event.preventDefault();
   const code = accessCodeInput.value.trim();
   if (!code) return;
+
   unlockButton.disabled = true;
   unlockButton.textContent = "Checking…";
   accessMessage.textContent = "Verifying your access code…";
   accessMessage.className = "access-message";
+
   try {
     premiumKey = await verifyAccessCode(code);
     localStorage.setItem("igcse-premium-code", code);
     accessMessage.textContent = "Premium access unlocked on this browser.";
     accessMessage.className = "access-message success";
     renderTopics();
-    setTimeout(closePaywall, 700);
+    window.setTimeout(closePaywall, 700);
   } catch (error) {
     console.error(error);
     premiumKey = null;
@@ -351,12 +420,15 @@ document.querySelector("#continueButton").addEventListener("click", () => {
   try {
     const last = JSON.parse(localStorage.getItem("igcse-last-opened") || "null");
     if (last) openPdf(last.file, last.title, last.kind);
-    else document.querySelector("#library").scrollIntoView({ behavior: "smooth" });
-  } catch { document.querySelector("#library").scrollIntoView({ behavior: "smooth" }); }
+    else document.querySelector("#subjects").scrollIntoView({ behavior: "smooth" });
+  } catch {
+    document.querySelector("#subjects").scrollIntoView({ behavior: "smooth" });
+  }
 });
 
 document.addEventListener("keydown", event => {
-  if (event.key === "/" && document.activeElement !== searchInput) {
+  const typing = ["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName);
+  if (event.key === "/" && !typing) {
     event.preventDefault();
     searchInput.focus();
   }
@@ -366,6 +438,7 @@ const themeToggle = document.querySelector("#themeToggle");
 const savedTheme = localStorage.getItem("igcse-theme");
 if (savedTheme === "dark") document.body.classList.add("dark");
 themeToggle.querySelector(".theme-icon").textContent = document.body.classList.contains("dark") ? "☀" : "☾";
+
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark");
   const dark = document.body.classList.contains("dark");
