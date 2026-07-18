@@ -54,7 +54,7 @@ const topics = [
 
 
 const subjectNames = { physics: "Physics", chemistry: "Chemistry", accounting: "Accounting" };
-const subjectOrder = ["physics", "chemistry", "accounting"];
+const subjectOrder = ["accounting", "physics", "chemistry"];
 
 const PREMIUM_SALT_B64 = "bi9ewq1Qsgwb2gmuCH2G1Q==";
 const PREMIUM_ITERATIONS = 210000;
@@ -177,6 +177,13 @@ function updateAccessDisplay() {
     topButton.textContent = unlocked ? "Physics + Chemistry unlocked ✓" : "Unlock Physics + Chemistry";
     topButton.disabled = unlocked;
     topButton.classList.toggle("unlocked", unlocked);
+  }
+
+  const headerButton = document.querySelector("#unlockPremiumHeader");
+  if (headerButton) {
+    headerButton.textContent = unlocked ? "Premium unlocked ✓" : "Premium access";
+    headerButton.disabled = unlocked;
+    headerButton.classList.toggle("unlocked", unlocked);
   }
 }
 
@@ -364,6 +371,7 @@ library.addEventListener("click", event => {
 });
 
 document.querySelector("#unlockPremiumTop").addEventListener("click", showPaywall);
+document.querySelector("#unlockPremiumHeader").addEventListener("click", showPaywall);
 document.querySelector("#dialogClose").addEventListener("click", () => pdfDialog.close());
 document.querySelector("#paywallClose").addEventListener("click", closePaywall);
 
@@ -432,18 +440,6 @@ document.addEventListener("keydown", event => {
     event.preventDefault();
     searchInput.focus();
   }
-});
-
-const themeToggle = document.querySelector("#themeToggle");
-const savedTheme = localStorage.getItem("igcse-theme");
-if (savedTheme === "dark") document.body.classList.add("dark");
-themeToggle.querySelector(".theme-icon").textContent = document.body.classList.contains("dark") ? "☀" : "☾";
-
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  const dark = document.body.classList.contains("dark");
-  localStorage.setItem("igcse-theme", dark ? "dark" : "light");
-  themeToggle.querySelector(".theme-icon").textContent = dark ? "☀" : "☾";
 });
 
 async function initialisePremiumAccess() {

@@ -3,120 +3,139 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Usman's organised IGCSE topical past papers for Physics 0625, Chemistry 0620 and Accounting 0452.">
-  <title>Usman's IGCSE Topical Past Papers</title>
+  <meta name="description" content="IGCSE topical past papers for Accounting 0452, Physics 0625 and Chemistry 0620, organised by syllabus topic.">
+  <meta name="theme-color" content="#071a23">
+  <title>Topical Past Papers IGCSE</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#subjects">Skip to subject dashboard</a>
+  <a class="skip-link" href="#subjects">Skip to subjects</a>
 
   <header class="site-header">
     <div class="nav-shell">
-      <a class="brand" href="#top" aria-label="Topical Past Papers home">
-        <span class="brand-mark">U</span>
-        <span>
-          <strong>Topical Past Papers</strong>
-          <small>IGCSE 2026</small>
-        </span>
+      <a class="brand" href="#top" aria-label="Topical Past Papers IGCSE home">
+        <span class="brand-title">Topical Past Papers</span>
+        <span class="brand-badge">IGCSE</span>
       </a>
       <nav aria-label="Main navigation">
-        <a href="#subjects">Subjects</a>
+        <a href="#accounting">Accounting <span>Free</span></a>
         <a href="#physics">Physics</a>
         <a href="#chemistry">Chemistry</a>
-        <a href="#accounting">Accounting</a>
+        <a href="#how-to-use">How it works</a>
       </nav>
-      <button class="icon-button" id="themeToggle" type="button" aria-label="Switch colour theme" title="Switch colour theme">
-        <span class="theme-icon" aria-hidden="true">☾</span>
-      </button>
+      <button class="header-access" id="unlockPremiumHeader" type="button">Premium access</button>
     </div>
   </header>
 
   <main id="top">
-    <section class="dashboard-hero">
-      <div class="hero-copy">
-        <div class="eyebrow"><span></span> IGCSE TOPICAL PAST PAPERS</div>
-        <h1>Study every subject.<br><em>One topic at a time.</em></h1>
-        <p>Physics 0625, Chemistry 0620 and Accounting 0452 arranged into clear subject dashboards with topical questions and matching answers.</p>
+    <section class="hero-section">
+      <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> CAMBRIDGE IGCSE REVISION LIBRARY</div>
+          <h1>TOPICAL PAST PAPERS <em>IGCSE</em></h1>
+          <p class="hero-lead">A clear, organised revision website for Accounting 0452, Physics 0625 and Chemistry 0620. Choose a subject, practise one topic, check the answers and track your progress.</p>
 
-        <div class="free-notice">
-          <span class="notice-icon" aria-hidden="true">★</span>
-          <div>
-            <strong>Only Accounting is free</strong>
-            <small>Physics and Chemistry require premium access after PayPal payment.</small>
+          <div class="hero-actions">
+            <a class="button button-free" href="#accounting">Start Accounting free <span aria-hidden="true">→</span></a>
+            <button class="button button-outline" id="unlockPremiumTop" type="button">Unlock Physics + Chemistry</button>
+          </div>
+
+          <div class="trust-row" aria-label="Website features">
+            <span>✓ 25 syllabus topics</span>
+            <span>✓ Questions and answers</span>
+            <span>✓ Progress tracking</span>
           </div>
         </div>
 
-        <div class="hero-actions">
-          <a class="button button-primary" href="#subjects">Browse all subjects <span aria-hidden="true">→</span></a>
-          <button class="button button-secondary" id="unlockPremiumTop" type="button">Unlock Physics + Chemistry</button>
-        </div>
+        <aside class="hero-dashboard" aria-label="Revision dashboard summary">
+          <div class="dashboard-topline">
+            <div>
+              <span>YOUR REVISION LIBRARY</span>
+              <strong>739 topical questions</strong>
+            </div>
+            <div class="progress-ring" id="progressRing"><span id="progressPercent">0%</span></div>
+          </div>
+
+          <a class="dashboard-subject dashboard-accounting" href="#accounting">
+            <span class="dashboard-code">0452</span>
+            <span class="dashboard-details"><strong>Accounting</strong><small>7 topics · 130 questions</small></span>
+            <span class="status free">Free</span>
+          </a>
+          <a class="dashboard-subject dashboard-physics" href="#physics">
+            <span class="dashboard-code">0625</span>
+            <span class="dashboard-details"><strong>Physics</strong><small>6 topics · 353 questions</small></span>
+            <span class="status premium">Premium</span>
+          </a>
+          <a class="dashboard-subject dashboard-chemistry" href="#chemistry">
+            <span class="dashboard-code">0620</span>
+            <span class="dashboard-details"><strong>Chemistry</strong><small>12 topics · 256 questions</small></span>
+            <span class="status premium">Premium</span>
+          </a>
+
+          <div class="dashboard-footer">
+            <span id="progressLabel">0 of 25 topics complete</span>
+            <button id="continueButton" type="button">Continue →</button>
+          </div>
+        </aside>
       </div>
-
-      <aside class="dashboard-summary" aria-label="Topical paper dashboard summary">
-        <div class="summary-head">
-          <div>
-            <span>YOUR REVISION DASHBOARD</span>
-            <strong>739 topical questions</strong>
-          </div>
-          <div class="progress-ring" id="progressRing"><span id="progressPercent">0%</span></div>
-        </div>
-
-        <div class="summary-subject physics-summary">
-          <div class="summary-icon">P</div>
-          <div><strong>Physics 0625</strong><small>6 topics · 353 questions</small></div>
-          <span class="status premium">Premium</span>
-        </div>
-        <div class="summary-subject chemistry-summary">
-          <div class="summary-icon">C</div>
-          <div><strong>Chemistry 0620</strong><small>12 topics · 256 questions</small></div>
-          <span class="status premium">Premium</span>
-        </div>
-        <div class="summary-subject accounting-summary">
-          <div class="summary-icon">A</div>
-          <div><strong>Accounting 0452</strong><small>7 topics · 130 questions</small></div>
-          <span class="status free">Free</span>
-        </div>
-
-        <div class="summary-footer">
-          <span id="progressLabel">0 of 25 topics complete</span>
-          <button id="continueButton" type="button">Continue studying →</button>
-        </div>
-      </aside>
     </section>
 
     <section class="subject-dashboard" id="subjects">
-      <div class="section-heading centered-heading">
-        <div class="eyebrow"><span></span> SUBJECT DASHBOARD</div>
-        <h2>Choose your subject</h2>
-        <p>Each subject has its own organised area, so the topical papers are never mixed together.</p>
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow"><span></span> CHOOSE YOUR SUBJECT</div>
+          <h2>Every subject has its own clear dashboard.</h2>
+          <p>Accounting is completely free. Physics and Chemistry are premium subject libraries unlocked after payment.</p>
+        </div>
+        <div class="subject-total"><strong>3</strong><span>subjects<br>organised</span></div>
       </div>
 
       <div class="subject-overview-grid">
+        <a class="overview-card accounting-overview featured-subject" href="#accounting">
+          <div class="featured-ribbon">START HERE — FREE</div>
+          <div class="overview-top"><span class="subject-code">0452</span><span class="status free">100% free access</span></div>
+          <div class="overview-title-row"><div class="overview-icon">ACC</div><div><p>CAMBRIDGE IGCSE</p><h3>Accounting</h3></div></div>
+          <p class="overview-description">Full Paper 2 topical practice covering every major syllabus area.</p>
+          <div class="coverage-heading"><strong>All 7 topics included</strong><span>130 questions</span></div>
+          <ul class="topic-preview accounting-preview">
+            <li>Fundamentals of Accounting</li>
+            <li>Sources and Recording of Data</li>
+            <li>Verification of Records</li>
+            <li>Accounting Procedures</li>
+            <li>Financial Statements</li>
+            <li>Analysis and Interpretation</li>
+            <li>Principles and Policies</li>
+          </ul>
+          <b class="overview-link">Open free Accounting dashboard <span>→</span></b>
+        </a>
+
         <a class="overview-card physics-overview" href="#physics">
           <div class="overview-top"><span class="subject-code">0625</span><span class="status premium">Premium</span></div>
-          <div class="overview-icon">⚡</div>
-          <h3>Physics</h3>
-          <p>Motion, thermal physics, waves, electricity, nuclear physics and space physics.</p>
-          <div class="overview-stats"><span><strong>6</strong> topics</span><span><strong>353</strong> questions</span></div>
-          <b>Open Physics dashboard →</b>
+          <div class="overview-title-row"><div class="overview-icon">PHY</div><div><p>CAMBRIDGE IGCSE EXTENDED</p><h3>Physics</h3></div></div>
+          <p class="overview-description">Topical questions across mechanics, thermal physics, waves, electricity, nuclear and space physics.</p>
+          <div class="coverage-heading"><strong>All 6 topics included</strong><span>353 questions</span></div>
+          <ul class="topic-preview compact-preview">
+            <li>Motion, Forces and Energy</li>
+            <li>Thermal Physics</li>
+            <li>Waves</li>
+            <li>Electricity and Magnetism</li>
+            <li>Nuclear Physics</li>
+            <li>Space Physics</li>
+          </ul>
+          <b class="overview-link">View Physics dashboard <span>→</span></b>
         </a>
 
         <a class="overview-card chemistry-overview" href="#chemistry">
           <div class="overview-top"><span class="subject-code">0620</span><span class="status premium">Premium</span></div>
-          <div class="overview-icon">⚗</div>
-          <h3>Chemistry</h3>
-          <p>Complete topical coverage from particles and bonding to organic chemistry and analysis.</p>
-          <div class="overview-stats"><span><strong>12</strong> topics</span><span><strong>256</strong> questions</span></div>
-          <b>Open Chemistry dashboard →</b>
-        </a>
-
-        <a class="overview-card accounting-overview" href="#accounting">
-          <div class="overview-top"><span class="subject-code">0452</span><span class="status free">Free access</span></div>
-          <div class="overview-icon">▤</div>
-          <h3>Accounting</h3>
-          <p>Paper 2 topical practice covering records, procedures, statements and analysis.</p>
-          <div class="overview-stats"><span><strong>7</strong> topics</span><span><strong>130</strong> questions</span></div>
-          <b>Open free Accounting dashboard →</b>
+          <div class="overview-title-row"><div class="overview-icon">CHEM</div><div><p>CAMBRIDGE IGCSE EXTENDED</p><h3>Chemistry</h3></div></div>
+          <p class="overview-description">Complete coverage from particle theory and bonding to organic chemistry and experimental analysis.</p>
+          <div class="coverage-heading"><strong>All 12 topics included</strong><span>256 questions</span></div>
+          <ul class="topic-preview compact-preview two-column-preview">
+            <li>States of Matter</li><li>Atoms and Bonding</li><li>Stoichiometry</li><li>Electrochemistry</li><li>Energetics</li><li>Reactions</li><li>Acids and Salts</li><li>Periodic Table</li><li>Metals</li><li>Environment</li><li>Organic Chemistry</li><li>Analysis</li>
+          </ul>
+          <b class="overview-link">View Chemistry dashboard <span>→</span></b>
         </a>
       </div>
     </section>
@@ -124,14 +143,14 @@
     <section class="library-section" id="library">
       <div class="library-toolbar">
         <div>
-          <div class="eyebrow"><span></span> TOPICAL PAST PAPER LIBRARY</div>
-          <h2>All topics, organised by subject</h2>
-          <p>Search across every subject or scroll directly to the subject you need.</p>
+          <div class="eyebrow"><span></span> COMPLETE TOPIC LIBRARY</div>
+          <h2>Find exactly what you need to practise.</h2>
+          <p>Accounting appears first because it is free. Search by topic, subtopic or subject code.</p>
         </div>
         <label class="search-box">
           <span aria-hidden="true">⌕</span>
           <span class="sr-only">Search topics and subtopics</span>
-          <input id="searchInput" type="search" placeholder="Search a topic…" autocomplete="off">
+          <input id="searchInput" type="search" placeholder="Search topics…" autocomplete="off">
           <kbd>/</kbd>
         </label>
       </div>
@@ -141,15 +160,25 @@
         <span id="searchStatus">across three organised subject dashboards</span>
       </div>
 
+      <section class="subject-library accounting-library" id="accounting">
+        <div class="subject-section-head">
+          <div class="subject-heading-icon">ACC</div>
+          <div>
+            <div class="subject-title-row"><h2>Accounting</h2><span class="status free">Free access</span></div>
+            <p>IGCSE 0452 Paper 2 · all 7 topics · 130 questions · no payment required</p>
+          </div>
+          <span class="free-section-label">Open every paper free</span>
+        </div>
+        <div class="topic-grid" id="accountingGrid"></div>
+        <div class="subject-empty" id="accountingEmpty" hidden>No Accounting topics match your search.</div>
+      </section>
+
       <section class="subject-library physics-library" id="physics">
         <div class="subject-section-head">
-          <div class="subject-heading-icon">⚡</div>
+          <div class="subject-heading-icon">PHY</div>
           <div>
-            <div class="subject-title-row">
-              <h2>Physics</h2>
-              <span class="status premium" id="physicsAccessBadge">Premium</span>
-            </div>
-            <p>IGCSE 0625 Extended · 6 topical past-paper packs · 353 questions</p>
+            <div class="subject-title-row"><h2>Physics</h2><span class="status premium" id="physicsAccessBadge">Premium</span></div>
+            <p>IGCSE 0625 Extended · all 6 topics · 353 questions</p>
           </div>
           <button class="subject-unlock unlock-premium" type="button">Unlock Physics</button>
         </div>
@@ -159,51 +188,34 @@
 
       <section class="subject-library chemistry-library" id="chemistry">
         <div class="subject-section-head">
-          <div class="subject-heading-icon">⚗</div>
+          <div class="subject-heading-icon">CHEM</div>
           <div>
-            <div class="subject-title-row">
-              <h2>Chemistry</h2>
-              <span class="status premium" id="chemistryAccessBadge">Premium</span>
-            </div>
-            <p>IGCSE 0620 Extended · 12 topical past-paper packs · 256 questions</p>
+            <div class="subject-title-row"><h2>Chemistry</h2><span class="status premium" id="chemistryAccessBadge">Premium</span></div>
+            <p>IGCSE 0620 Extended · all 12 topics · 256 questions</p>
           </div>
           <button class="subject-unlock unlock-premium" type="button">Unlock Chemistry</button>
         </div>
         <div class="topic-grid" id="chemistryGrid"></div>
         <div class="subject-empty" id="chemistryEmpty" hidden>No Chemistry topics match your search.</div>
       </section>
-
-      <section class="subject-library accounting-library" id="accounting">
-        <div class="subject-section-head">
-          <div class="subject-heading-icon">▤</div>
-          <div>
-            <div class="subject-title-row">
-              <h2>Accounting</h2>
-              <span class="status free">Free access</span>
-            </div>
-            <p>IGCSE 0452 Paper 2 · 7 topical past-paper packs · 130 questions</p>
-          </div>
-          <span class="free-section-label">Open without payment</span>
-        </div>
-        <div class="topic-grid" id="accountingGrid"></div>
-        <div class="subject-empty" id="accountingEmpty" hidden>No Accounting topics match your search.</div>
-      </section>
     </section>
 
     <section class="how-section" id="how-to-use">
-      <div class="eyebrow light"><span></span> HOW TO USE THE DASHBOARD</div>
-      <h2>A simple revision routine</h2>
+      <div class="how-heading">
+        <div class="eyebrow light"><span></span> A BETTER REVISION ROUTINE</div>
+        <h2>Practise. Mark. Improve.</h2>
+      </div>
       <div class="steps">
-        <article><b>01</b><div><h3>Choose a subject</h3><p>Open the separate Physics, Chemistry or Accounting dashboard.</p></div></article>
-        <article><b>02</b><div><h3>Complete one topical paper</h3><p>Answer the questions without notes and show every step clearly.</p></div></article>
-        <article><b>03</b><div><h3>Check and track progress</h3><p>Use the matching answers, correct mistakes and mark the topic complete.</p></div></article>
+        <article><b>01</b><div><h3>Choose one topic</h3><p>Start with Accounting free or open a premium Physics or Chemistry pack.</p></div></article>
+        <article><b>02</b><div><h3>Answer without notes</h3><p>Work under timed conditions and show every calculation clearly.</p></div></article>
+        <article><b>03</b><div><h3>Use the answers</h3><p>Correct every mistake, then mark the topic complete in your dashboard.</p></div></article>
       </div>
     </section>
   </main>
 
   <footer>
-    <div><strong>Usman's IGCSE Topical Past Papers</strong><span>Physics 0625 · Chemistry 0620 · Accounting 0452</span></div>
-    <p>Only Accounting is free · Physics and Chemistry are premium</p>
+    <div><strong>Topical Past Papers IGCSE</strong><span>Accounting 0452 · Physics 0625 · Chemistry 0620</span></div>
+    <p>Accounting free · Physics and Chemistry premium</p>
   </footer>
 
   <dialog class="pdf-dialog" id="pdfDialog">
@@ -220,26 +232,30 @@
   <dialog class="paywall-dialog" id="paywallDialog">
     <div class="paywall-shell">
       <button id="paywallClose" class="paywall-close" type="button" aria-label="Close payment window">×</button>
-      <div class="paywall-icon" aria-hidden="true">🔒</div>
-      <div class="eyebrow"><span></span> PREMIUM ACCESS</div>
-      <h2>Unlock Physics + Chemistry</h2>
-      <p class="paywall-lead">Accounting is free. Pay securely with PayPal to access every Physics and Chemistry topical past paper and answer booklet.</p>
+      <div class="paywall-heading">
+        <div class="paywall-icon" aria-hidden="true">✓</div>
+        <div>
+          <div class="eyebrow"><span></span> PREMIUM SUBJECT ACCESS</div>
+          <h2>Unlock Physics + Chemistry</h2>
+        </div>
+      </div>
+      <p class="paywall-lead">One payment gives access to all Physics and Chemistry topical question packs and available answer booklets.</p>
 
       <div class="paywall-benefits">
-        <span>✓ 609 premium questions</span>
-        <span>✓ Organised topical papers</span>
-        <span>✓ Questions and answers</span>
+        <span><strong>609</strong> premium questions</span>
+        <span><strong>18</strong> complete topics</span>
+        <span><strong>2</strong> premium subjects</span>
       </div>
 
-      <div class="paypal-box">
-        <div class="paypal-label">PAY WITH PAYPAL</div>
-        <script src="https://www.paypal.com/sdk/js?client-id=BAAl1SqpCsbnsuno79pYwpUkazZYkaVHTD1ZRQHjyT0vsP_GZ0z9y26bonVRBo7U_wVglcNHHPePnXHqxA&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+      <div class="paypal-product-summary">
+        <div><span>PAYPAL CHECKOUT</span><strong>IGCSE Physics + Chemistry Premium</strong></div>
+        <p>Secure payment in USD. The checkout below is intentionally kept in light mode so every word remains clear.</p>
+      </div>
+
+      <div class="paypal-box" data-force-light="true">
+        <div class="paypal-label">SECURE PAYMENT WITH PAYPAL</div>
         <div id="paypal-container-SHCZMQMALAS5U"></div>
-        <script>
-          paypal.HostedButtons({
-            hostedButtonId: "SHCZMQMALAS5U",
-          }).render("#paypal-container-SHCZMQMALAS5U")
-        </script>
+        <p id="paypalFallback" class="paypal-fallback" hidden>PayPal could not load. Refresh the page and try again.</p>
       </div>
 
       <div class="access-divider"><span>Already paid?</span></div>
@@ -247,14 +263,28 @@
         <label for="accessCode">Enter the access code supplied after payment</label>
         <div class="access-code-row">
           <input id="accessCode" name="accessCode" type="password" autocomplete="off" spellcheck="false" placeholder="Premium access code" required>
-          <button id="unlockButton" class="button button-primary" type="submit">Unlock</button>
+          <button id="unlockButton" class="button button-paywall" type="submit">Unlock access</button>
         </div>
         <p id="accessMessage" class="access-message" role="status" aria-live="polite"></p>
       </form>
-      <p class="paywall-note">Keep your PayPal receipt. On this static website, the seller confirms payment and supplies the access code.</p>
+      <p class="paywall-note">Keep your PayPal receipt. On this static website, payment is confirmed and the access code is supplied separately.</p>
     </div>
   </dialog>
 
   <script src="app.js"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAl1SqpCsbnsuno79pYwpUkazZYkaVHTD1ZRQHjyT0vsP_GZ0z9y26bonVRBo7U_wVglcNHHPePnXHqxA&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+  <script>
+    (() => {
+      const fallback = document.querySelector('#paypalFallback');
+      try {
+        if (!window.paypal || !paypal.HostedButtons) throw new Error('PayPal SDK unavailable');
+        paypal.HostedButtons({ hostedButtonId: 'SHCZMQMALAS5U' })
+          .render('#paypal-container-SHCZMQMALAS5U')
+          .catch(() => { if (fallback) fallback.hidden = false; });
+      } catch (error) {
+        if (fallback) fallback.hidden = false;
+      }
+    })();
+  </script>
 </body>
 </html>

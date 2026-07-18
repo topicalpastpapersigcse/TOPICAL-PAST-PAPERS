@@ -1,25 +1,16 @@
-USMAN'S IGCSE TOPICAL PAST PAPERS — UPDATED DASHBOARD
+TOPICAL PAST PAPERS IGCSE — REDESIGNED VERSION
 
-This package contains the redesigned website:
-- Separate Physics, Chemistry and Accounting dashboards
-- Clear “Topical Past Papers” branding
-- Accounting clearly marked as the only free subject
-- Physics and Chemistry remain premium and encrypted
-- Existing PayPal hosted button and access-code system preserved
-- Search, PDF viewer, progress tracking and dark mode preserved
+Main improvements:
+- Completely redesigned dark, high-contrast homepage
+- Removed the old “U” symbol
+- Main heading changed to “TOPICAL PAST PAPERS IGCSE”
+- Accounting appears first and is clearly marked as free
+- All seven Accounting topics are shown on the homepage
+- Physics and Chemistry are clearly marked as premium
+- Improved responsive layout for mobile, tablet and desktop
+- Removed the confusing light/dark theme switch
+- PayPal checkout is forced into a clear white, light-colour panel
+- Added a readable product summary above PayPal
+- Kept progress tracking, search, PDF viewer and premium access-code system
 
-TO UPDATE THE LIVE GITHUB PAGES WEBSITE
-1. Extract this ZIP.
-2. Open your local -igcse-study-hub folder using GitHub Desktop: Repository > Show in Explorer.
-3. Copy everything inside this extracted folder into the repository folder and replace the old files.
-4. Return to GitHub Desktop.
-5. Write a summary such as: Redesign subject dashboard
-6. Click Commit to main.
-7. Click Push origin.
-8. GitHub Pages will rebuild automatically.
-
-IMPORTANT
-- Do not upload or share USMAN_OWNER_ACCESS_CODE.txt.
-- Accounting is free.
-- Physics and Chemistry require the premium access code after payment.
-- Card payment fields and card approval are controlled by PayPal, not by the website code.
+To preview locally, open index.html. For encrypted premium files, use a local web server or GitHub Pages because browser security may block file decryption from file:// URLs.
