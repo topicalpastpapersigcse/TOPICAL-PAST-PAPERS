@@ -1,16 +1,15 @@
-TOPICAL PAST PAPERS IGCSE — REDESIGNED VERSION
+USMAN'S IGCSE STUDY HUB - PREMIUM UPDATE
 
-Main improvements:
-- Completely redesigned dark, high-contrast homepage
-- Removed the old “U” symbol
-- Main heading changed to “TOPICAL PAST PAPERS IGCSE”
-- Accounting appears first and is clearly marked as free
-- All seven Accounting topics are shown on the homepage
-- Physics and Chemistry are clearly marked as premium
-- Improved responsive layout for mobile, tablet and desktop
-- Removed the confusing light/dark theme switch
-- PayPal checkout is forced into a clear white, light-colour panel
-- Added a readable product summary above PayPal
-- Kept progress tracking, search, PDF viewer and premium access-code system
+Open index.html in a browser.
 
-To preview locally, open index.html. For encrypted premium files, use a local web server or GitHub Pages because browser security may block file decryption from file:// URLs.
+Included subjects:
+- Mathematics 0580 Paper 4: 10 topical question PDFs and 10 matching answer PDFs
+- Physics 0625 Paper 4: 6 updated premium topical PDFs
+- Chemistry 0620 Paper 4: 12 updated premium topical PDFs
+- Accounting 0452 Paper 2: 7 updated premium topical PDFs
+
+The old subject PDFs were removed and replaced.
+The Maths answer button opens the matching answers-only booklet for the selected topic.
+Topic completion and the last-opened PDF are saved in the browser using local storage.
+
+Note: Legacy Matrices is included because it was in the supplied pack, but it is clearly marked as removed from the current syllabus.
