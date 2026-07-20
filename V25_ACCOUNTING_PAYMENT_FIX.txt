@@ -1,0 +1,12 @@
+V25 PUBLISHED FIX
+
+Accounting answer booklets use standard Dr/Cr ledger ruling with Date, Details and Amount columns.
+The payment box no longer shows the long PayPal-return sentence.
+The highlighted notice says: Keep your transaction ID safe. You will receive it by email after payment.
+Sign-in remains after payment only. US$20 once for 30 days remains unchanged.
+
+assets/accounting/accounting-02-sources-recording-answers.pdf: 18 pages, 22 Dr/Cr accounts, 12 pages with accounts
+assets/accounting/accounting-03-verification-records-answers.pdf: 16 pages, 16 Dr/Cr accounts, 10 pages with accounts
+assets/accounting/accounting-04-procedures-answers.pdf: 15 pages, 24 Dr/Cr accounts, 7 pages with accounts
+assets/accounting/accounting-05-financial-statements-answers.pdf: 56 pages, 43 Dr/Cr accounts, 29 pages with accounts
+assets/accounting/accounting-06-analysis-interpretation-answers.pdf: 9 pages, 1 Dr/Cr accounts, 1 pages with accounts
