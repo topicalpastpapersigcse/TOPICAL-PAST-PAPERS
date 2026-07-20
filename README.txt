@@ -1,29 +1,21 @@
-USMAN'S TOPICAL IGCSE STUDY HUB — DARK PREMIUM SUBSCRIPTION BUILD
+TOPICAL IGCSE PAST PAPERS — ONE-TIME PAYMENT VERSION
 
-WHAT IS INCLUDED
-- Dark premium study-platform design.
-- 35 topical packs across Mathematics 0580, Physics 0625, Chemistry 0620 and Accounting 0452.
-- All 12 Chemistry question PDFs and all 12 matching Chemistry answer PDFs.
-- All 10 Mathematics question PDFs and all 10 matching Mathematics answer PDFs.
-- All 6 Physics topical question PDFs.
-- All 7 Accounting topical question PDFs.
-- Search, subject filters, progress tracking and in-page PDF viewer.
-- Google sign-in through the existing Supabase project.
-- PayPal subscription checkout restored with plan ID P-58263651AM188451SNJOJBBQ.
+HOME PAGE
+- All Subjects is now the main home dashboard.
+- Mathematics, Physics, Chemistry and Accounting are shown immediately.
+- Subject pages stay inside the website.
+- PDF papers open in a new browser tab.
 
-ACCESS RULES
-- Chemistry is free.
-- Mathematics, Physics and Accounting are premium.
-- Premium resources open only when profiles.premium_until is active for the signed-in user.
+PAYMENT
+- Old monthly PayPal subscription removed from the website.
+- New payment link: https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
+- US$20 one-time payment gives 30 days of access.
+- No automatic renewal. Customers pay again after 30 days.
+- Secure automatic activation requires the Supabase setup in SETUP_30_DAY_PAYMENT.txt.
 
-IMPORTANT ANSWER FILE NOTE
-- Mathematics: answers included for every topic.
-- Chemistry: answers included for every topic.
-- Physics: the supplied website package contains question PDFs only. A complete matching answer set was not supplied.
-- Accounting: the supplied website package contains question PDFs only. A complete matching answer set was not supplied.
+LOGIN RESET
+- The reset version signs out previously saved website sessions once after publishing.
 
-PAYPAL AND BACKEND NOTE
-The front end contains the restored PayPal subscription button, Client ID, plan ID and signed-in user's custom_id. Successful automatic account activation still depends on the existing secure PayPal webhook/backend updating the user's Supabase profiles.premium_until value. A static GitHub Pages ZIP cannot securely perform that server-side confirmation by itself.
-
-PUBLISHING
-Upload the CONTENTS of the igcse-study-hub folder to the root of the GitHub Pages repository. Keep the assets folders and file names unchanged.
+IMPORTANT
+- Never upload PayPal Identity Tokens, client secrets or Supabase service-role keys to GitHub.
+- app-config.js contains only public website settings.

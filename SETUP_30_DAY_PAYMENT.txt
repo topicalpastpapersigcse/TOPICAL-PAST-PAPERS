@@ -1,0 +1,40 @@
+FINAL 30-DAY PAYMENT SETUP
+
+The website now uses ONLY this one-time PayPal payment link:
+https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
+
+Price: US$20
+Access: 30 days
+Renewal: customer pays again manually after access expires
+Old monthly subscription: removed from the website
+
+TO MAKE ACCESS ACTIVATE AUTOMATICALLY AFTER PAYMENT:
+
+1. In PayPal Business > Account Settings > Website payments > Website preferences:
+   - Auto Return: ON
+   - Return URL: https://topicalpastpapersigcse.github.io/TOPICAL-PAST-PAPERS/
+   - Payment Data Transfer: ON
+   - Copy the PayPal Identity Token shown there.
+
+2. In Supabase SQL Editor, run:
+   supabase/migrations/20260720_one_time_30_day_payment.sql
+
+3. Deploy the Edge Function:
+   supabase/functions/claim-paypal-payment
+
+4. In Supabase Edge Function secrets, add:
+   PAYPAL_PDT_IDENTITY_TOKEN = the Identity Token copied from PayPal
+   PAYPAL_EXPECTED_AMOUNT = 20.00
+   PAYPAL_EXPECTED_CURRENCY = USD
+   PAYPAL_EXPECTED_ITEM_WORDS = igcse study hub|30 days premium
+   PREMIUM_DAYS = 30
+
+Never place the PayPal Identity Token or Supabase service-role key in app-config.js or GitHub Pages.
+
+HOW IT WORKS:
+- Customer pays through the PayPal link.
+- PayPal returns the customer to the website with a transaction ID.
+- Customer signs in.
+- The secure Supabase function verifies the payment with PayPal.
+- Premium is extended by 30 days.
+- A transaction cannot be claimed twice.

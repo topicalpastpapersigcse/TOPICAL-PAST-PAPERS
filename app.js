@@ -1,10 +1,72 @@
-const SUPABASE_URL = "https://zkqfyejxkrkazhjovmwr.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_wxOGkyVKgF78gHFD7A8BzA__Z80Wnpw";
-const SITE_URL = "https://topicalpastpapersigcse.github.io/TOPICAL-PAST-PAPERS/";
-const PAYPAL_PLAN_ID = "P-58263651AM188451SNJOJBBQ";
+const CONFIG = window.STUDY_HUB_CONFIG || {};
+const SUPABASE_URL = CONFIG.SUPABASE_URL || "";
+const SUPABASE_PUBLISHABLE_KEY = CONFIG.SUPABASE_PUBLISHABLE_KEY || "";
+const SITE_URL = CONFIG.SITE_URL || window.location.href.split(/[?#]/)[0];
+const PAYPAL_ONE_TIME_LINK = (CONFIG.PAYPAL_ONE_TIME_LINK || "").trim();
+const ACCESS_RESET_VERSION = CONFIG.ACCESS_RESET_VERSION || "2026-07-20-home-dashboard-payment-reset-v2";
+const AUTH_STORAGE_KEY = "igcse-study-hub-auth-v9";
+const PENDING_PAYMENT_KEY = "igcse-pending-paypal-payment-v9";
+
+function createMemoryStorage() {
+  const data = new Map();
+  return {
+    getItem: key => data.has(String(key)) ? data.get(String(key)) : null,
+    setItem: (key, value) => data.set(String(key), String(value)),
+    removeItem: key => data.delete(String(key)),
+    clear: () => data.clear(),
+    key: index => [...data.keys()][index] ?? null,
+    get length() { return data.size; }
+  };
+}
+function getSafeStorage(name) {
+  try {
+    const storage = window[name];
+    const testKey = "__igcse_storage_test__";
+    storage.setItem(testKey, "1");
+    storage.removeItem(testKey);
+    return storage;
+  } catch {
+    return createMemoryStorage();
+  }
+}
+const localStore = getSafeStorage("localStorage");
+const sessionStore = getSafeStorage("sessionStorage");
+
+function resetOldWebsiteSessionsOnce() {
+  const resetKey = "igcse-access-reset-version";
+  if (localStore.getItem(resetKey) === ACCESS_RESET_VERSION) return;
+
+  const keys = [];
+  for (let i = 0; i < localStore.length; i += 1) {
+    const key = localStore.key(i);
+    if (key) keys.push(key);
+  }
+  for (const key of keys) {
+    const isOldSupabaseSession = key.startsWith("sb-") && key.includes("auth-token");
+    const isWebsiteAuth = key.startsWith("igcse-study-hub-auth") || key.includes("premium") || key.includes("paypal");
+    if (isOldSupabaseSession || isWebsiteAuth) localStore.removeItem(key);
+  }
+  sessionStore.clear();
+  try {
+    document.cookie.split(";").forEach(cookie => {
+      const name = cookie.split("=")[0].trim();
+      if (name) document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
+    });
+  } catch {
+    // Some privacy modes block cookie access; the storage reset still works.
+  }
+  localStore.setItem(resetKey, ACCESS_RESET_VERSION);
+}
+resetOldWebsiteSessionsOnce();
 
 const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+    storageKey: AUTH_STORAGE_KEY,
+    storage: localStore
+  }
 });
 
 const topics = [
@@ -76,7 +138,7 @@ const palette = {
 const premiumSubjects = new Set(['maths','physics','accounting']);
 let session = null;
 let profile = null;
-let paypalRenderedFor = null;
+let claimInFlight = false;
 let currentSubject = null;
 
 const $ = s => document.querySelector(s);
@@ -84,12 +146,19 @@ const els = {
   dashboardPage: $('#dashboardPage'), subjectPage: $('#subjectPage'), subjectGrid: $('#subjectGrid'), sideSubjects: $('#sideSubjects'),
   subjectHero: $('#subjectHero'), topicGrid: $('#topicGrid'), topicSearch: $('#topicSearch'), globalSearch: $('#globalSearch'), emptyTopics: $('#emptyTopics'),
   topTitle: $('#topTitle'), topSubtitle: $('#topSubtitle'), premiumDialog: $('#premiumDialog'), closePremium: $('#closePremium'),
-  signedOutPayment: $('#signedOutPayment'), signedInPayment: $('#signedInPayment'), premiumActive: $('#premiumActive'), payEmail: $('#payEmail'), paymentMessage: $('#paymentMessage'),
+  checkoutPayment: $('#checkoutPayment'), postPaymentSignIn: $('#postPaymentSignIn'), activatingPremium: $('#activatingPremium'),
+  premiumActive: $('#premiumActive'), activationMessage: $('#activationMessage'), premiumExpiry: $('#premiumExpiry'),
+  oneTimePrice: $('#oneTimePrice'), oneTimePaymentLink: $('#oneTimePaymentLink'), alreadyPaidToggle: $('#alreadyPaidToggle'),
+  manualClaim: $('#manualClaim'), transactionIdInput: $('#transactionIdInput'), saveTransactionId: $('#saveTransactionId'),
   toast: $('#toast'), progressRing: $('#progressRing'), ringText: $('#ringText'), overallPercent: $('#overallPercent'), progressText: $('#progressText')
 };
 
-function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem('igcse-completed-topics')||'[]'))}catch{return new Set()}}
-function isPremiumActive(){return !!(profile?.premium_until && new Date(profile.premium_until).getTime()>Date.now())}
+function getCompleted(){try{return new Set(JSON.parse(localStore.getItem('igcse-completed-topics')||'[]'))}catch{return new Set()}}
+function isPremiumActive(){
+  const expiryMs = profile?.premium_until ? new Date(profile.premium_until).getTime() : 0;
+  const isNewOneTimeAccess = profile?.premium_source === 'paypal_one_time' && !!profile?.paypal_transaction_id;
+  return isNewOneTimeAccess && Number.isFinite(expiryMs) && expiryMs > Date.now();
+}
 function totalQuestions(subject){return topics.filter(t=>t.subject===subject).reduce((a,t)=>a+(t.count||0),0)}
 function showToast(msg){els.toast.textContent=msg;els.toast.hidden=false;clearTimeout(showToast.t);showToast.t=setTimeout(()=>els.toast.hidden=true,3500)}
 function subjectUrl(subject){return `index.html?subject=${encodeURIComponent(subject)}`}
@@ -97,7 +166,7 @@ function subjectUrl(subject){return `index.html?subject=${encodeURIComponent(sub
 function renderSideSubjects(){
   els.sideSubjects.innerHTML=subjectOrder.map(s=>{
     const m=subjectMeta[s],p=palette[s];
-    return `<a class="side-subject ${currentSubject===s?'active':''}" href="${subjectUrl(s)}" target="_blank"><span class="subject-dot ${p.cls}">${p.icon}</span><span>${m.code} ${m.name}</span>${m.access==='free'?'<span class="side-free">★ FREE</span>':''}</a>`
+    return `<a class="side-subject ${currentSubject===s?'active':''}" href="${subjectUrl(s)}"><span class="subject-dot ${p.cls}">${p.icon}</span><span>${m.code} ${m.name}</span>${m.access==='free'?'<span class="side-free">★ FREE</span>':''}</a>`
   }).join('');
 }
 
@@ -125,10 +194,10 @@ function updateProgress(){
   els.progressRing.style.setProperty('--angle',`${pct*3.6}deg`);
 }
 
-function openSubject(subject){ window.open(subjectUrl(subject),'_blank','noopener'); }
+function openSubject(subject){ window.location.href = subjectUrl(subject); }
 function showDashboard(){
-  currentSubject=null; els.dashboardPage.hidden=false; els.subjectPage.hidden=true; els.topTitle.textContent='Dashboard'; els.topSubtitle.textContent='Topical IGCSE Past Papers';
-  document.querySelectorAll('.nav-link').forEach(a=>a.classList.toggle('active',a.dataset.page==='dashboard')); renderSideSubjects();
+  currentSubject=null; els.dashboardPage.hidden=false; els.subjectPage.hidden=true; els.topTitle.textContent='All Subjects'; els.topSubtitle.textContent='Your home study dashboard';
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.toggle('active',a.dataset.page==='subjects')); renderSideSubjects();
 }
 
 function topicCard(topic){
@@ -172,25 +241,82 @@ async function loadProfile(){
   const {data}=await supabaseClient.from('profiles').select('*').eq('id',session.user.id).maybeSingle(); profile=data||null;
 }
 async function refreshAuth(){
-  if(!supabaseClient)return; const {data}=await supabaseClient.auth.getSession(); session=data.session; await loadProfile(); updatePaymentUI(); if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value);
+  if(!supabaseClient)return;
+  const {data}=await supabaseClient.auth.getSession();
+  session=data.session;
+  await loadProfile();
+  if(session?.user && getPendingPayment()?.transaction_id) await claimPendingPayment();
+  updatePaymentUI();
+  if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value);
+}
+
+function getPendingPayment(){
+  try{return JSON.parse(localStore.getItem(PENDING_PAYMENT_KEY)||'null')}catch{return null}
+}
+function savePendingPayment(transactionId){
+  const clean=String(transactionId||'').trim().toUpperCase();
+  if(!/^[A-Z0-9]{10,30}$/.test(clean))return false;
+  localStore.setItem(PENDING_PAYMENT_KEY,JSON.stringify({type:'one_time',transaction_id:clean,created_at:new Date().toISOString()}));
+  return true;
+}
+function capturePayPalReturn(){
+  const url=new URL(window.location.href);
+  const transactionId=url.searchParams.get('tx')||url.searchParams.get('transaction_id')||'';
+  if(!savePendingPayment(transactionId))return false;
+  ['tx','transaction_id','st','amt','cc','cm','item_number'].forEach(key=>url.searchParams.delete(key));
+  history.replaceState({},'',`${url.pathname}${url.search}${url.hash}`);
+  return true;
 }
 async function signIn(){
+  if(!getPendingPayment()?.transaction_id)return showToast('Complete the PayPal payment first, then return here.');
   if(!supabaseClient)return showToast('Google sign-in could not load.');
-  const {error}=await supabaseClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL}}); if(error)showToast(error.message);
+  const {error}=await supabaseClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL}});
+  if(error)showToast(error.message);
 }
-function showPremium(){els.premiumDialog.showModal();updatePaymentUI();if(session?.user&&!isPremiumActive())setTimeout(renderPayPal,100)}
+function showPremium(){
+  els.premiumDialog.showModal();
+  updatePaymentUI();
+}
+function formatExpiry(value){
+  const date=value?new Date(value):null;
+  if(!date||Number.isNaN(date.getTime()))return '';
+  return date.toLocaleString(undefined,{dateStyle:'medium',timeStyle:'short'});
+}
 function updatePaymentUI(){
-  const active=isPremiumActive(); els.signedOutPayment.hidden=!!session; els.signedInPayment.hidden=!session||active; els.premiumActive.hidden=!active;
-  if(session){els.payEmail.textContent=session.user.email||''; if(!active)setTimeout(renderPayPal,50)}
+  const active=isPremiumActive();
+  const pending=getPendingPayment();
+  const hasTransaction=!!pending?.transaction_id;
+  els.premiumActive.hidden=!active;
+  els.checkoutPayment.hidden=active||hasTransaction;
+  els.postPaymentSignIn.hidden=active||!hasTransaction||!!session;
+  els.activatingPremium.hidden=active||!hasTransaction||!session;
+  if(els.oneTimePrice)els.oneTimePrice.textContent=`US$${CONFIG.ONE_TIME_PRICE_USD||'20'}`;
+  if(els.oneTimePaymentLink&&PAYPAL_ONE_TIME_LINK)els.oneTimePaymentLink.href=PAYPAL_ONE_TIME_LINK;
+  if(active&&els.premiumExpiry)els.premiumExpiry.textContent=`Full access is available until ${formatExpiry(profile.premium_until)}. Pay again after that date to renew for another ${CONFIG.PREMIUM_DAYS||30} days.`;
+  if(!active&&hasTransaction&&session&&els.activationMessage&&!claimInFlight){
+    els.activationMessage.textContent='Checking your completed PayPal payment and activating 30 days of access…';
+  }
 }
-function renderPayPal(){
-  if(!session?.user||isPremiumActive()||!window.paypal?.Buttons)return; if(paypalRenderedFor===session.user.id)return;
-  const c=$('#paypal-button-container-P-58263651AM188451SNJOJBBQ'); if(!c)return; c.innerHTML=''; paypalRenderedFor=session.user.id;
-  window.paypal.Buttons({style:{shape:'pill',color:'blue',layout:'vertical',label:'subscribe',height:50},
-    createSubscription(_d,a){els.paymentMessage.textContent='Opening secure PayPal checkout…';return a.subscription.create({plan_id:PAYPAL_PLAN_ID,custom_id:session.user.id,application_context:{shipping_preference:'NO_SHIPPING',user_action:'SUBSCRIBE_NOW'}})},
-    onApprove(){els.paymentMessage.textContent='Subscription approved. Premium activation is being confirmed.';showToast('Subscription approved. Refresh shortly if access is not active yet.')},
-    onCancel(){els.paymentMessage.textContent='Payment cancelled. You were not charged.'},onError(){els.paymentMessage.textContent='PayPal could not complete the subscription.'}
-  }).render(c).catch(()=>{paypalRenderedFor=null;els.paymentMessage.textContent='PayPal button could not load. Refresh and try again.'});
+async function claimPendingPayment(){
+  const pending=getPendingPayment();
+  if(!pending?.transaction_id||!session?.user||claimInFlight||isPremiumActive())return;
+  claimInFlight=true;
+  updatePaymentUI();
+  if(els.activationMessage)els.activationMessage.textContent='Securely verifying your PayPal payment…';
+  try{
+    const {data,error}=await supabaseClient.functions.invoke('claim-paypal-payment',{body:{transaction_id:pending.transaction_id}});
+    if(error)throw error;
+    if(!data?.ok)throw new Error(data?.error||'Payment verification failed.');
+    localStore.removeItem(PENDING_PAYMENT_KEY);
+    await loadProfile();
+    updatePaymentUI();
+    if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value);
+    showToast('Premium is active for 30 days.');
+  }catch(error){
+    if(els.activationMessage)els.activationMessage.textContent=`Your payment could not be activated automatically yet. ${error?.message||'Please check the Supabase payment setup.'}`.trim();
+  }finally{
+    claimInFlight=false;
+  }
 }
 
 els.subjectGrid.addEventListener('click',e=>{const b=e.target.closest('[data-open-subject]');if(b)openSubject(b.dataset.openSubject)});
@@ -198,14 +324,26 @@ els.sideSubjects.addEventListener('click',e=>{const a=e.target.closest('a');if(a
 els.topicGrid.addEventListener('click',e=>{const b=e.target.closest('[data-resource]');if(!b)return;const t=topics.find(x=>x.id===b.dataset.id);if(t)requestResource(t,b.dataset.resource)});
 els.topicSearch.addEventListener('input',()=>renderSubjectPage(currentSubject,els.topicSearch.value));
 els.globalSearch.addEventListener('input',()=>{if(currentSubject){els.topicSearch.value=els.globalSearch.value;renderSubjectPage(currentSubject,els.globalSearch.value)}else renderDashboardSubjects(els.globalSearch.value)});
-$('#exploreSubjects').addEventListener('click',()=>$('#subjects').scrollIntoView({behavior:'smooth'}));
-$('#continueStudy').addEventListener('click',()=>{const last=localStorage.getItem('igcse-last-subject')||'maths';openSubject(last)});
-$('#backSubjects').addEventListener('click',()=>window.open('index.html#subjects','_blank','noopener'));
+$('#backSubjects').addEventListener('click',()=>{window.location.href='index.html'});
 $('#premiumTop').addEventListener('click',showPremium);$('#upgradeSide').addEventListener('click',showPremium);els.closePremium.addEventListener('click',()=>els.premiumDialog.close());$('#googleSignIn').addEventListener('click',signIn);
+if(els.alreadyPaidToggle)els.alreadyPaidToggle.addEventListener('click',()=>{els.manualClaim.hidden=!els.manualClaim.hidden;if(!els.manualClaim.hidden)els.transactionIdInput.focus();});
+if(els.saveTransactionId)els.saveTransactionId.addEventListener('click',()=>{
+  if(!savePendingPayment(els.transactionIdInput.value))return showToast('Enter the PayPal transaction ID from the payment receipt.');
+  updatePaymentUI();
+  showToast('Payment ID saved. Sign in now to activate access.');
+});
 $('#mobileMenu').addEventListener('click',()=>document.querySelector('.sidebar').classList.toggle('open'));
 els.premiumDialog.addEventListener('click',e=>{const r=els.premiumDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)els.premiumDialog.close()});
 
+const returnedFromPayPal=capturePayPalReturn();
 const params=new URLSearchParams(location.search); const requested=params.get('subject');
-renderDashboardSubjects();updateProgress();if(requested&&subjectMeta[requested]){localStorage.setItem('igcse-last-subject',requested);renderSubjectPage(requested)}else showDashboard();
-supabaseClient?.auth.onAuthStateChange(async(_e,s)=>{session=s;await loadProfile();updatePaymentUI();if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value)});
+renderDashboardSubjects();updateProgress();if(requested&&subjectMeta[requested]){localStore.setItem('igcse-last-subject',requested);renderSubjectPage(requested)}else showDashboard();
+supabaseClient?.auth.onAuthStateChange(async(_event,s)=>{
+  session=s;
+  await loadProfile();
+  if(session?.user&&getPendingPayment()?.transaction_id)await claimPendingPayment();
+  updatePaymentUI();
+  if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value);
+});
 refreshAuth().catch(console.error);
+if(returnedFromPayPal)setTimeout(showPremium,250);

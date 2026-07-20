@@ -16,8 +16,7 @@
     </a>
 
     <nav class="main-nav" aria-label="Main navigation">
-      <a class="nav-link" data-page="dashboard" href="index.html"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
-      <a class="nav-link" data-page="subjects" href="index.html#subjects"><span class="nav-icon">▦</span><span>All Subjects</span></a>
+      <a class="nav-link" data-page="subjects" href="index.html"><span class="nav-icon">▦</span><span>All Subjects</span></a>
       <a class="nav-link" href="index.html#progress"><span class="nav-icon">↗</span><span>My Progress</span></a>
     </nav>
 
@@ -29,78 +28,41 @@
       <b>Unlock the full library</b>
       <p>Access Mathematics, Physics, Accounting and every available mark scheme.</p>
       <button id="upgradeSide" type="button">Get Premium Access</button>
-      <small>Secure monthly subscription</small>
+      <small>US$20 one-time payment · 30 days access</small>
     </div>
   </aside>
 
   <div class="shell">
     <header class="topbar">
       <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open menu">☰</button>
-      <div class="page-title"><strong id="topTitle">Dashboard</strong><span id="topSubtitle">Topical IGCSE Past Papers</span></div>
+      <div class="page-title"><strong id="topTitle">All Subjects</strong><span id="topSubtitle">Your home study dashboard</span></div>
       <label class="search"><span>⌕</span><input id="globalSearch" placeholder="Search subjects or topics..." aria-label="Search"></label>
       <button class="premium-top" id="premiumTop" type="button"><span>♛</span> Get Premium</button>
     </header>
 
     <main>
       <section id="dashboardPage" class="page">
-        <div class="hero-layout">
-          <section class="hero-card">
-            <div class="hero-glow glow-one"></div><div class="hero-glow glow-two"></div>
-            <div class="hero-copy">
-              <span class="eyebrow"><i></i> TOPICAL IGCSE PAST PAPERS</span>
-              <h1>Study smarter with<br><em>topical past papers.</em></h1>
-              <p>Everything you need for focused IGCSE revision — organised by topic, built around questions from the last 5 years.</p>
-              <div class="hero-points"><span>✓ Complete topic coverage</span><span>✓ Questions and mark schemes</span><span>✓ Full-screen paper viewer</span></div>
-              <div class="hero-buttons">
-                <button id="exploreSubjects" class="btn primary" type="button">Explore all subjects <span>→</span></button>
-                <button id="continueStudy" class="btn secondary" type="button">Continue studying</button>
-              </div>
+        <section class="section-block home-dashboard" id="subjects">
+          <div class="section-head home-head">
+            <div>
+              <span class="eyebrow"><i></i> HOME DASHBOARD</span>
+              <h1>Choose your IGCSE subject</h1>
+              <p>All subjects are shown immediately on the home dashboard. Open a subject here, then open each paper in its own new tab.</p>
             </div>
-            <div class="hero-visual" aria-hidden="true">
-              <div class="study-scene">
-                <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
-                <div class="floating-card formula-card"><span>Mathematics</span><b>x² + y²</b><small>Topical practice</small></div>
-                <div class="floating-card atom-card"><span>Physics</span><b>⚛</b><small>Master concepts</small></div>
-                <div class="main-device">
-                  <div class="device-top"><i></i><i></i><i></i><span>Study Session</span></div>
-                  <div class="device-body">
-                    <div class="mini-sidebar"><b>◆</b><i></i><i></i><i></i></div>
-                    <div class="paper-preview">
-                      <div class="paper-title"><span>IGCSE Chemistry</span><b>Acids, Bases &amp; Salts</b></div>
-                      <div class="question-lines"><i></i><i></i><i></i><i></i></div>
-                      <div class="answer-row"><span>A</span><span>B</span><span>C</span><span>D</span></div>
-                      <div class="paper-progress"><i></i></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="floating-card score-card"><span>Weekly progress</span><b>84%</b><small>Keep going!</small></div>
-              </div>
-            </div>
-          </section>
+            <div class="free-highlight"><span>★</span><div><b>Chemistry is free</b><small>Start practising without Premium</small></div></div>
+          </div>
 
-          <aside class="stats-column" id="progress">
-            <article class="stat-card progress-stat">
+          <div class="home-metrics" id="progress">
+            <article class="stat-card progress-stat compact-progress">
               <div class="stat-title"><span>Study progress</span><strong id="overallPercent">0%</strong></div>
               <div class="ring" id="progressRing"><b id="ringText">0%</b></div>
               <small id="progressText">0 topics completed</small>
             </article>
-            <article class="stat-card accent-card"><div class="stat-icon">✦</div><div><span>Available subjects</span><strong>4</strong><small>Organised by syllabus topic</small></div></article>
-            <article class="stat-card"><div class="stat-icon">▤</div><div><span>Topical packs</span><strong id="topicCountStat">35</strong><small>Questions from the last 5 years</small></div></article>
-          </aside>
-        </div>
-
-        <section class="section-block" id="subjects">
-          <div class="section-head">
-            <div><span class="eyebrow"><i></i> SUBJECT LIBRARY</span><h2>Topical IGCSE Past Papers</h2><p>Choose a subject to open its complete topical question library in a new tab.</p></div>
-            <div class="free-highlight"><span>★</span><div><b>Chemistry is free</b><small>Start practising without Premium</small></div></div>
+            <article class="stat-card accent-card"><div class="stat-icon">✦</div><div><span>Available subjects</span><strong>4</strong><small>Clearly separated by subject</small></div></article>
+            <article class="stat-card"><div class="stat-icon">▤</div><div><span>Topical packs</span><strong id="topicCountStat">35</strong><small>Recent exam-style practice</small></div></article>
           </div>
-          <div id="subjectGrid" class="subject-grid"></div>
-        </section>
 
-        <section class="features-grid">
-          <article><span class="feature-number">01</span><div class="feature-icon">◎</div><h3>Complete syllabus coverage</h3><p>Every listed syllabus topic has a dedicated topical question collection.</p></article>
-          <article><span class="feature-number">02</span><div class="feature-icon">◷</div><h3>Questions from the last 5 years</h3><p>Focus on recent exam-style questions instead of searching through full papers.</p></article>
-          <article><span class="feature-number">03</span><div class="feature-icon">↗</div><h3>Full-screen paper viewer</h3><p>Question papers and supplied mark schemes open clearly in separate tabs.</p></article>
+          <div id="subjectGrid" class="subject-grid"></div>
         </section>
       </section>
 
@@ -108,7 +70,7 @@
         <section class="subject-hero" id="subjectHero"></section>
         <div class="subject-toolbar">
           <div class="topic-search"><span>⌕</span><input id="topicSearch" placeholder="Search topics in this subject..."></div>
-          <button id="backSubjects" class="btn secondary" type="button">← All subjects</button>
+          <button id="backSubjects" class="btn secondary" type="button">← Home dashboard</button>
         </div>
         <section id="topicGrid" class="topic-grid"></section>
         <div id="emptyTopics" class="empty" hidden><h3>No topic found</h3><p>Try another search word.</p></div>
@@ -120,19 +82,47 @@
   <dialog id="premiumDialog">
     <div class="modal">
       <button class="close" id="closePremium" type="button">×</button>
-      <span class="eyebrow"><i></i> SECURE PREMIUM CHECKOUT</span>
+      <span class="eyebrow"><i></i> SECURE 30-DAY PREMIUM</span>
       <h2>Unlock the complete study library</h2>
-      <p>Sign in only when you are ready to subscribe. Visitors can browse the website without creating an account.</p>
-      <div class="price"><strong>US$20</strong><span>per month</span></div>
-      <ul><li>Every available syllabus topic</li><li>Topical questions from the last 5 years</li><li>Full-screen papers and supplied mark schemes</li></ul>
-      <div id="signedOutPayment"><button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Continue securely with Google</button></div>
-      <div id="signedInPayment" hidden><p class="signed-line">Signed in as <b id="payEmail"></b></p><div id="paypal-button-container-P-58263651AM188451SNJOJBBQ"></div><p id="paymentMessage"></p></div>
-      <div id="premiumActive" hidden><div class="success">Premium access is active.</div></div>
+      <p>Pay US$20 once for 30 days of full access. There is no automatic renewal and no old monthly subscription on this website.</p>
+      <ul><li>Every available syllabus topic</li><li>Topical questions from the last 5 years</li><li>Full-screen papers and supplied mark schemes</li><li>Access expires automatically after 30 days</li></ul>
+
+      <div id="checkoutPayment" class="checkout-options">
+        <section class="payment-choice featured-choice" aria-label="One-time 30-day payment">
+          <div class="choice-label">ONE-TIME PAYMENT · NO AUTOMATIC RENEWAL</div>
+          <div class="price"><strong id="oneTimePrice">US$20</strong><span>for 30 days</span></div>
+          <p>Pay securely through PayPal using an eligible debit card, credit card, or PayPal account. After payment, PayPal returns you here to activate your 30 days.</p>
+          <a id="oneTimePaymentLink" class="pay-link" href="https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q">Pay US$20 for 30 days ↗</a>
+          <button id="alreadyPaidToggle" class="paid-button" type="button">Already paid? Enter the PayPal transaction ID</button>
+          <div id="manualClaim" class="manual-claim" hidden>
+            <label for="transactionIdInput">PayPal transaction ID</label>
+            <input id="transactionIdInput" type="text" inputmode="text" autocomplete="off" maxlength="30" placeholder="Example: 8AB12345CD678901E">
+            <button id="saveTransactionId" type="button">Continue to sign in</button>
+            <small>Find this ID in the PayPal payment receipt. It is used only to verify the payment securely.</small>
+          </div>
+        </section>
+        <div class="payment-steps" aria-label="Payment steps">
+          <span><b>1</b> Pay once</span><span><b>2</b> Return here</span><span><b>3</b> Sign in</span><span><b>4</b> Use Premium for 30 days</span>
+        </div>
+      </div>
+
+      <div id="postPaymentSignIn" hidden>
+        <div class="success">Payment return received. Sign in to connect the 30-day access to your account.</div>
+        <button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Sign in and activate Premium</button>
+      </div>
+      <div id="activatingPremium" hidden>
+        <div class="success">You are signed in.</div>
+        <p id="activationMessage" class="payment-message"></p>
+      </div>
+      <div id="premiumActive" hidden>
+        <div class="success">Premium access is active.</div>
+        <p id="premiumExpiry" class="payment-message"></p>
+      </div>
     </div>
   </dialog>
   <div id="toast" class="toast" hidden></div>
+  <script src="app-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
-  <script src="https://www.paypal.com/sdk/js?client-id=BAATetN_LODrb-EEEaunHB2zNTKqWz-VCNOedyHPVhB5tJ-xca4AsP2EhXEpZqQ6q4_kQf7wZFeByCgEXM&components=buttons&vault=true&intent=subscription&currency=USD"></script>
   <script src="app.js"></script>
 </body>
 </html>

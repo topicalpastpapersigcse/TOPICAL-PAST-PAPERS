@@ -1,0 +1,11 @@
+CURRENT USER ACCESS RESET
+
+This website version uses ACCESS_RESET_VERSION:
+2026-07-20-one-time-payment-only-v4
+
+When the newly published site is opened, previously saved website login sessions, old premium browser data, old PayPal subscription data, sessionStorage and website cookies are cleared once.
+
+Old monthly-plan access is also rejected by the website. Only a verified one-time PayPal transaction with premium_source = paypal_one_time and an unexpired premium_until date can unlock Premium.
+
+IMPORTANT:
+This website ZIP cannot delete people from your live Supabase Authentication dashboard or erase PayPal's legal transaction records. Those live account actions must be done inside Supabase and PayPal. Do not delete the website owner's account.

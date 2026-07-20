@@ -18,5 +18,8 @@ PDF OPENING:
 - Every available question or answer PDF now opens fully in a separate browser tab.
 
 PAYMENT AND ACCESS:
-- PayPal subscription code, Google sign-in, Supabase account checks and premium locking are retained.
-- Chemistry remains free. Mathematics, Physics and Accounting remain premium.
+- The old monthly PayPal subscription code has been completely removed from the published website files.
+- The website uses only the US$20 one-time PayPal link for 30 days of Premium.
+- Verified 30-day access expires automatically and must be renewed with another payment.
+- Old monthly-plan access is not accepted by the website.
+- Chemistry remains free. Mathematics, Physics and Accounting remain Premium.
