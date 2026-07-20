@@ -1,0 +1,35 @@
+/* V12 — subjects-first home dashboard and premium-active status */
+main{padding:18px 24px 52px}
+.home-dashboard{margin-top:0;padding:20px 22px 24px}
+.home-head{align-items:center;margin-bottom:16px}
+.home-head h1{margin:7px 0 5px;font-size:clamp(28px,3.2vw,42px);line-height:1;letter-spacing:-.04em}
+.home-head p{font-size:12px;line-height:1.45;max-width:620px}
+.free-highlight{padding:9px 12px}
+.free-highlight>span{width:34px;height:34px}
+.subjects-first{margin-top:2px}
+.subject-grid{gap:13px}
+.subject-card{min-height:246px;padding:16px}
+.big-icon{width:48px;height:48px;border-radius:14px;font-size:20px}
+.subject-card .code{margin-top:13px}
+.subject-card h3{font-size:20px;margin:5px 0}
+.subject-card p{font-size:11px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.subject-stats{margin:13px 0;gap:18px}
+.subject-card button{height:39px}
+.home-metrics{margin:18px 0 0;gap:12px}
+.home-metrics .stat-card{min-height:104px;padding:15px}
+.home-metrics .compact-progress{min-height:104px}
+.home-metrics .ring{width:64px;height:64px}
+.badge.active{color:#52f3a4;background:rgba(35,219,130,.13);border:1px solid rgba(35,219,130,.32)}
+.premium-box{margin-top:14px;padding:12px;border-radius:14px}
+.premium-box .crown{font-size:18px}
+.premium-box b{margin:7px 0 3px;font-size:13px}
+.premium-box p{font-size:10px;line-height:1.4;margin-bottom:9px}
+.premium-box button{padding:9px;font-size:11px}
+.premium-box small{margin-top:6px;font-size:8px}
+.premium-box.active{border-color:rgba(35,219,130,.4);background:linear-gradient(145deg,rgba(9,60,47,.95),rgba(7,27,29,.98));box-shadow:0 0 32px rgba(35,219,130,.12)}
+.premium-box.active .premium-mini,.premium-box.active .crown{color:#5ff4aa}
+.premium-box.active button{background:rgba(35,219,130,.18);color:#75ffc0;box-shadow:none;border:1px solid rgba(35,219,130,.3);cursor:default}
+.premium-top.active{background:rgba(35,219,130,.14);color:#66f7ad;border:1px solid rgba(35,219,130,.3);box-shadow:none}
+@media(max-width:1180px){.subject-card{min-height:240px}}
+@media(max-width:860px){main{padding:14px 14px 42px}.home-dashboard{padding:17px}.home-head{align-items:flex-start}.subject-card{min-height:235px}}
+@media(max-width:560px){.home-dashboard{padding:15px}.home-head h1{font-size:30px}.subject-card{min-height:226px}.home-metrics{margin-top:14px}}

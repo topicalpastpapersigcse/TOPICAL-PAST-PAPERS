@@ -6,7 +6,8 @@
   <meta name="theme-color" content="#050914">
   <meta name="description" content="Topical IGCSE past papers covering every available syllabus topic from the last 5 years.">
   <title>Topical IGCSE Past Papers</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=12">
+  <link rel="stylesheet" href="v12.css?v=12">
 </head>
 <body>
   <aside class="sidebar">
@@ -23,12 +24,12 @@
     <div class="side-heading">SUBJECT LIBRARY</div>
     <div id="sideSubjects" class="side-subjects"></div>
 
-    <div class="premium-box">
-      <div class="premium-box-head"><span class="crown">♛</span><span class="premium-mini">PREMIUM</span></div>
-      <b>Unlock the full library</b>
-      <p>Access Mathematics, Physics, Accounting and every available mark scheme.</p>
+    <div class="premium-box" id="premiumSideBox">
+      <div class="premium-box-head"><span class="crown">♛</span><span class="premium-mini" id="premiumSideLabel">PREMIUM</span></div>
+      <b id="premiumSideTitle">Unlock premium subjects</b>
+      <p id="premiumSideText">Mathematics, Physics and Accounting for 30 days.</p>
       <button id="upgradeSide" type="button">Get 30-Day Access</button>
-      <small>US$20 once · 30 days full access</small>
+      <small id="premiumSideMeta">US$20 once · no renewal</small>
     </div>
   </aside>
 
@@ -46,13 +47,15 @@
           <div class="section-head home-head">
             <div>
               <span class="eyebrow"><i></i> HOME DASHBOARD</span>
-              <h1>Choose your IGCSE subject</h1>
-              <p>All subjects are shown immediately on the home dashboard. Open a subject here, then open each paper in its own new tab.</p>
+              <h1>Choose your subject</h1>
+              <p>All four subjects are ready below. Open one to start practising.</p>
             </div>
             <div class="free-highlight"><span>★</span><div><b>Chemistry is free</b><small>Start practising without Premium</small></div></div>
           </div>
 
-          <div class="home-metrics" id="progress">
+          <div id="subjectGrid" class="subject-grid subjects-first"></div>
+
+          <div class="home-metrics home-metrics-after" id="progress">
             <article class="stat-card progress-stat compact-progress">
               <div class="stat-title"><span>Study progress</span><strong id="overallPercent">0%</strong></div>
               <div class="ring" id="progressRing"><b id="ringText">0%</b></div>
@@ -61,8 +64,6 @@
             <article class="stat-card accent-card"><div class="stat-icon">✦</div><div><span>Available subjects</span><strong>4</strong><small>Clearly separated by subject</small></div></article>
             <article class="stat-card"><div class="stat-icon">▤</div><div><span>Topical packs</span><strong id="topicCountStat">35</strong><small>Recent exam-style practice</small></div></article>
           </div>
-
-          <div id="subjectGrid" class="subject-grid"></div>
         </section>
       </section>
 
@@ -123,6 +124,7 @@
   <div id="toast" class="toast" hidden></div>
   <script src="app-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=12"></script>
+  <script src="v12-ui.js?v=12"></script>
 </body>
 </html>
