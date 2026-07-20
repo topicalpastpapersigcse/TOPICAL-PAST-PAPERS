@@ -1,0 +1,22 @@
+ANSWER COVERAGE IN THIS PACKAGE
+
+Mathematics 0580:
+- Complete question and answer PDFs are included for every listed Mathematics topic.
+
+Chemistry 0620:
+- Complete question and answer PDFs are included for all 12 listed Chemistry topics.
+
+Physics 0625:
+- The supplied website archive contains the six complete topical question banks.
+- Complete matching answer PDFs for five Physics topics were not present in the supplied files, so they have not been falsely labelled as included.
+
+Accounting 0452:
+- The supplied website archive contains the topical question banks.
+- Complete matching answer PDFs were not present in the supplied files, so they have not been falsely labelled as included.
+
+PDF OPENING:
+- Every available question or answer PDF now opens fully in a separate browser tab.
+
+PAYMENT AND ACCESS:
+- PayPal subscription code, Google sign-in, Supabase account checks and premium locking are retained.
+- Chemistry remains free. Mathematics, Physics and Accounting remain premium.
