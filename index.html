@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#050914">
   <meta name="description" content="Topical IGCSE past papers covering every available syllabus topic from the last 5 years.">
   <title>Topical IGCSE Past Papers</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
   <aside class="sidebar">
@@ -23,12 +23,12 @@
     <div class="side-heading">SUBJECT LIBRARY</div>
     <div id="sideSubjects" class="side-subjects"></div>
 
-    <div class="premium-box">
-      <div class="premium-box-head"><span class="crown">♛</span><span class="premium-mini">PREMIUM</span></div>
-      <b>Unlock the full library</b>
-      <p>Access Mathematics, Physics, Accounting and every available mark scheme.</p>
-      <button id="upgradeSide" type="button">Get Premium Access</button>
-      <small>US$20 one-time payment · 30 days access</small>
+    <div class="premium-box" id="premiumSideBox">
+      <div class="premium-box-head"><span class="crown">♛</span><span class="premium-mini" id="premiumSideLabel">PREMIUM</span></div>
+      <b id="premiumSideTitle">Unlock premium subjects</b>
+      <p id="premiumSideText">Mathematics, Physics and Accounting for 30 days.</p>
+      <button id="upgradeSide" type="button">Get 30-Day Access</button>
+      <small id="premiumSideMeta">US$20 once · no renewal</small>
     </div>
   </aside>
 
@@ -37,7 +37,7 @@
       <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open menu">☰</button>
       <div class="page-title"><strong id="topTitle">All Subjects</strong><span id="topSubtitle">Your home study dashboard</span></div>
       <label class="search"><span>⌕</span><input id="globalSearch" placeholder="Search subjects or topics..." aria-label="Search"></label>
-      <button class="premium-top" id="premiumTop" type="button"><span>♛</span> Get Premium</button>
+      <button class="premium-top" id="premiumTop" type="button"><span>♛</span> Get 30-Day Access</button>
     </header>
 
     <main>
@@ -46,13 +46,15 @@
           <div class="section-head home-head">
             <div>
               <span class="eyebrow"><i></i> HOME DASHBOARD</span>
-              <h1>Choose your IGCSE subject</h1>
-              <p>All subjects are shown immediately on the home dashboard. Open a subject here, then open each paper in its own new tab.</p>
+              <h1>Choose your subject</h1>
+              <p>All four subjects are ready below. Open one to start practising.</p>
             </div>
             <div class="free-highlight"><span>★</span><div><b>Chemistry is free</b><small>Start practising without Premium</small></div></div>
           </div>
 
-          <div class="home-metrics" id="progress">
+          <div id="subjectGrid" class="subject-grid subjects-first"></div>
+
+          <div class="home-metrics home-metrics-after" id="progress">
             <article class="stat-card progress-stat compact-progress">
               <div class="stat-title"><span>Study progress</span><strong id="overallPercent">0%</strong></div>
               <div class="ring" id="progressRing"><b id="ringText">0%</b></div>
@@ -61,8 +63,6 @@
             <article class="stat-card accent-card"><div class="stat-icon">✦</div><div><span>Available subjects</span><strong>4</strong><small>Clearly separated by subject</small></div></article>
             <article class="stat-card"><div class="stat-icon">▤</div><div><span>Topical packs</span><strong id="topicCountStat">35</strong><small>Recent exam-style practice</small></div></article>
           </div>
-
-          <div id="subjectGrid" class="subject-grid"></div>
         </section>
       </section>
 
@@ -82,33 +82,33 @@
   <dialog id="premiumDialog">
     <div class="modal">
       <button class="close" id="closePremium" type="button">×</button>
-      <span class="eyebrow"><i></i> SECURE 30-DAY PREMIUM</span>
-      <h2>Unlock the complete study library</h2>
-      <p>Pay US$20 once for 30 days of full access. There is no automatic renewal and no old monthly subscription on this website.</p>
+      <span class="eyebrow"><i></i> SECURE ONE-TIME PAYMENT</span>
+      <h2>Get full access for 30 days</h2>
+      <p>Pay US$20 once for 30 days of full access. Pay again only when you need another 30 days.</p>
       <ul><li>Every available syllabus topic</li><li>Topical questions from the last 5 years</li><li>Full-screen papers and supplied mark schemes</li><li>Access expires automatically after 30 days</li></ul>
 
       <div id="checkoutPayment" class="checkout-options">
         <section class="payment-choice featured-choice" aria-label="One-time 30-day payment">
-          <div class="choice-label">ONE-TIME PAYMENT · NO AUTOMATIC RENEWAL</div>
+          <div class="choice-label">ONE-TIME CARD PAYMENT · 30 DAYS</div>
           <div class="price"><strong id="oneTimePrice">US$20</strong><span>for 30 days</span></div>
-          <p>Pay securely through PayPal using an eligible debit card, credit card, or PayPal account. After payment, PayPal returns you here to activate your 30 days.</p>
-          <a id="oneTimePaymentLink" class="pay-link" href="https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q">Pay US$20 for 30 days ↗</a>
-          <button id="alreadyPaidToggle" class="paid-button" type="button">Already paid? Enter the PayPal transaction ID</button>
+          <p>Choose Debit or Credit Card on the secure PayPal checkout. After payment, PayPal returns you to this website, then you sign in to activate full access.</p>
+          <a id="oneTimePaymentLink" class="pay-link" href="https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q" target="_blank" rel="noopener noreferrer">Pay by Debit or Credit Card ↗</a>
+          <button id="alreadyPaidToggle" class="paid-button" type="button">I have paid — continue to sign in</button>
           <div id="manualClaim" class="manual-claim" hidden>
-            <label for="transactionIdInput">PayPal transaction ID</label>
+            <label for="transactionIdInput">PayPal transaction ID from your receipt</label>
             <input id="transactionIdInput" type="text" inputmode="text" autocomplete="off" maxlength="30" placeholder="Example: 8AB12345CD678901E">
-            <button id="saveTransactionId" type="button">Continue to sign in</button>
+            <button id="saveTransactionId" type="button">Save payment and sign in</button>
             <small>Find this ID in the PayPal payment receipt. It is used only to verify the payment securely.</small>
           </div>
         </section>
         <div class="payment-steps" aria-label="Payment steps">
-          <span><b>1</b> Pay once</span><span><b>2</b> Return here</span><span><b>3</b> Sign in</span><span><b>4</b> Use Premium for 30 days</span>
+          <span><b>1</b> Pay by card</span><span><b>2</b> Return automatically</span><span><b>3</b> Sign in</span><span><b>4</b> Full access for 30 days</span>
         </div>
       </div>
 
       <div id="postPaymentSignIn" hidden>
-        <div class="success">Payment return received. Sign in to connect the 30-day access to your account.</div>
-        <button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Sign in and activate Premium</button>
+        <div class="success">Payment received. Sign in now to connect the 30-day access to your account.</div>
+        <button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Sign in after payment</button>
       </div>
       <div id="activatingPremium" hidden>
         <div class="success">You are signed in.</div>
@@ -123,6 +123,6 @@
   <div id="toast" class="toast" hidden></div>
   <script src="app-config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=12"></script>
 </body>
 </html>
