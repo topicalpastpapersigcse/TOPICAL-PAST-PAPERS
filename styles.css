@@ -22,7 +22,7 @@
 @media(max-width:620px){.home-metrics{grid-template-columns:1fr}.compact-progress{grid-column:auto}.home-head h1{font-size:34px}}
 
 
-/* V10 payment: one-time US$20 link for 30 days, with no monthly subscription */
+/* Final payment panel: one-time US$20 card checkout for 30 days */
 .checkout-options{display:grid;gap:16px;margin-top:18px}
 .payment-choice{border:1px solid #223a63;border-radius:16px;background:#071225;padding:18px}
 .featured-choice{border-color:rgba(55,119,255,.62);background:linear-gradient(145deg,rgba(29,67,152,.25),rgba(7,18,37,.96));box-shadow:0 0 30px rgba(48,94,255,.11)}

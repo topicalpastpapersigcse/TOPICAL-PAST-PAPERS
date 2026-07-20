@@ -34,3 +34,14 @@ create index if not exists paypal_one_time_payments_user_id_idx
 
 alter table public.paypal_one_time_payments enable row level security;
 revoke all on table public.paypal_one_time_payments from anon, authenticated;
+
+-- The browser may read only the signed-in user's own Premium expiry.
+alter table public.profiles enable row level security;
+grant select on table public.profiles to authenticated;
+
+drop policy if exists "study_hub_read_own_profile" on public.profiles;
+create policy "study_hub_read_own_profile"
+  on public.profiles
+  for select
+  to authenticated
+  using ((select auth.uid()) = id);

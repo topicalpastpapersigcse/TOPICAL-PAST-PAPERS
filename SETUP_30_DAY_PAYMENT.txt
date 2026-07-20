@@ -1,40 +1,50 @@
-FINAL 30-DAY PAYMENT SETUP
+FINAL SECURE 30-DAY PAYMENT SETUP
 
-The website now uses ONLY this one-time PayPal payment link:
+WEBSITE PAYMENT LINK
 https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
-
-Price: US$20
+Price: US$20 once
 Access: 30 days
-Renewal: customer pays again manually after access expires
-Old monthly subscription: removed from the website
+Customer flow: pay by debit/credit card -> return to website -> sign in -> full access
 
-TO MAKE ACCESS ACTIVATE AUTOMATICALLY AFTER PAYMENT:
+A. PAYPAL SETTINGS
+1. PayPal Business > Account Settings > Website payments > Website preferences.
+2. Turn Auto Return ON.
+3. Return URL:
+   https://topicalpastpapersigcse.github.io/TOPICAL-PAST-PAPERS/
+4. Turn Payment Data Transfer ON.
+5. Copy the Identity Token shown by PayPal. Keep it private.
+6. In the payment-link Confirmation settings, use the same return URL.
 
-1. In PayPal Business > Account Settings > Website payments > Website preferences:
-   - Auto Return: ON
-   - Return URL: https://topicalpastpapersigcse.github.io/TOPICAL-PAST-PAPERS/
-   - Payment Data Transfer: ON
-   - Copy the PayPal Identity Token shown there.
-
-2. In Supabase SQL Editor, run:
+B. SUPABASE DATABASE
+1. Open Supabase > SQL Editor.
+2. Run this file:
    supabase/migrations/20260720_one_time_30_day_payment.sql
 
-3. Deploy the Edge Function:
+C. SUPABASE EDGE FUNCTION
+1. Deploy this function:
    supabase/functions/claim-paypal-payment
-
-4. In Supabase Edge Function secrets, add:
-   PAYPAL_PDT_IDENTITY_TOKEN = the Identity Token copied from PayPal
+2. Add these Edge Function secrets:
+   PAYPAL_PDT_IDENTITY_TOKEN = your private PayPal Identity Token
    PAYPAL_EXPECTED_AMOUNT = 20.00
    PAYPAL_EXPECTED_CURRENCY = USD
    PAYPAL_EXPECTED_ITEM_WORDS = igcse study hub|30 days premium
    PREMIUM_DAYS = 30
+3. Do not put any of those private values inside index.html, app.js, app-config.js, or GitHub.
 
-Never place the PayPal Identity Token or Supabase service-role key in app-config.js or GitHub Pages.
+D. SUPABASE GOOGLE LOGIN
+1. Supabase > Authentication > Providers > Google: enabled.
+2. Supabase > Authentication > URL Configuration.
+3. Site URL:
+   https://topicalpastpapersigcse.github.io/TOPICAL-PAST-PAPERS/
+4. Add the same address to Redirect URLs.
 
-HOW IT WORKS:
-- Customer pays through the PayPal link.
-- PayPal returns the customer to the website with a transaction ID.
-- Customer signs in.
-- The secure Supabase function verifies the payment with PayPal.
-- Premium is extended by 30 days.
-- A transaction cannot be claimed twice.
+HOW ACTIVATION WORKS
+- PayPal returns a completed payment transaction ID as tx.
+- The website saves it and asks the customer to sign in.
+- The Supabase function verifies the payment directly with PayPal.
+- It checks completion status, US$20 amount, USD currency and product name.
+- It adds 30 days to profiles.premium_until.
+- The same transaction cannot unlock two accounts.
+
+MANUAL FALLBACK
+If PayPal does not add tx to the return address, the customer clicks “I have paid — continue to sign in” and enters the transaction ID from the PayPal receipt. Verification is still done securely by the Supabase function.

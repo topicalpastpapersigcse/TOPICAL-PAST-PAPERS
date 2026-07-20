@@ -3,9 +3,9 @@ const SUPABASE_URL = CONFIG.SUPABASE_URL || "";
 const SUPABASE_PUBLISHABLE_KEY = CONFIG.SUPABASE_PUBLISHABLE_KEY || "";
 const SITE_URL = CONFIG.SITE_URL || window.location.href.split(/[?#]/)[0];
 const PAYPAL_ONE_TIME_LINK = (CONFIG.PAYPAL_ONE_TIME_LINK || "").trim();
-const ACCESS_RESET_VERSION = CONFIG.ACCESS_RESET_VERSION || "2026-07-20-home-dashboard-payment-reset-v2";
-const AUTH_STORAGE_KEY = "igcse-study-hub-auth-v9";
-const PENDING_PAYMENT_KEY = "igcse-pending-paypal-payment-v9";
+const ACCESS_RESET_VERSION = CONFIG.ACCESS_RESET_VERSION || "2026-07-20-one-time-card-payment-v5";
+const AUTH_STORAGE_KEY = "igcse-study-hub-auth-v11";
+const PENDING_PAYMENT_KEY = "igcse-pending-paypal-payment-v11";
 
 function createMemoryStorage() {
   const data = new Map();
@@ -268,7 +268,7 @@ function capturePayPalReturn(){
   return true;
 }
 async function signIn(){
-  if(!getPendingPayment()?.transaction_id)return showToast('Complete the PayPal payment first, then return here.');
+  if(!getPendingPayment()?.transaction_id)return showToast('Pay first using the Debit or Credit Card button, then return here.');
   if(!supabaseClient)return showToast('Google sign-in could not load.');
   const {error}=await supabaseClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL}});
   if(error)showToast(error.message);
@@ -328,9 +328,12 @@ $('#backSubjects').addEventListener('click',()=>{window.location.href='index.htm
 $('#premiumTop').addEventListener('click',showPremium);$('#upgradeSide').addEventListener('click',showPremium);els.closePremium.addEventListener('click',()=>els.premiumDialog.close());$('#googleSignIn').addEventListener('click',signIn);
 if(els.alreadyPaidToggle)els.alreadyPaidToggle.addEventListener('click',()=>{els.manualClaim.hidden=!els.manualClaim.hidden;if(!els.manualClaim.hidden)els.transactionIdInput.focus();});
 if(els.saveTransactionId)els.saveTransactionId.addEventListener('click',()=>{
-  if(!savePendingPayment(els.transactionIdInput.value))return showToast('Enter the PayPal transaction ID from the payment receipt.');
+  if(!savePendingPayment(els.transactionIdInput.value))return showToast('Enter the PayPal transaction ID shown on your payment receipt.');
   updatePaymentUI();
-  showToast('Payment ID saved. Sign in now to activate access.');
+  signIn();
+});
+if(els.transactionIdInput)els.transactionIdInput.addEventListener('keydown',event=>{
+  if(event.key==='Enter')els.saveTransactionId?.click();
 });
 $('#mobileMenu').addEventListener('click',()=>document.querySelector('.sidebar').classList.toggle('open'));
 els.premiumDialog.addEventListener('click',e=>{const r=els.premiumDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)els.premiumDialog.close()});

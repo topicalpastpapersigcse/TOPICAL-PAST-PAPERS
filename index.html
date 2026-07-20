@@ -27,8 +27,8 @@
       <div class="premium-box-head"><span class="crown">♛</span><span class="premium-mini">PREMIUM</span></div>
       <b>Unlock the full library</b>
       <p>Access Mathematics, Physics, Accounting and every available mark scheme.</p>
-      <button id="upgradeSide" type="button">Get Premium Access</button>
-      <small>US$20 one-time payment · 30 days access</small>
+      <button id="upgradeSide" type="button">Get 30-Day Access</button>
+      <small>US$20 once · 30 days full access</small>
     </div>
   </aside>
 
@@ -37,7 +37,7 @@
       <button class="mobile-menu" id="mobileMenu" type="button" aria-label="Open menu">☰</button>
       <div class="page-title"><strong id="topTitle">All Subjects</strong><span id="topSubtitle">Your home study dashboard</span></div>
       <label class="search"><span>⌕</span><input id="globalSearch" placeholder="Search subjects or topics..." aria-label="Search"></label>
-      <button class="premium-top" id="premiumTop" type="button"><span>♛</span> Get Premium</button>
+      <button class="premium-top" id="premiumTop" type="button"><span>♛</span> Get 30-Day Access</button>
     </header>
 
     <main>
@@ -82,33 +82,33 @@
   <dialog id="premiumDialog">
     <div class="modal">
       <button class="close" id="closePremium" type="button">×</button>
-      <span class="eyebrow"><i></i> SECURE 30-DAY PREMIUM</span>
-      <h2>Unlock the complete study library</h2>
-      <p>Pay US$20 once for 30 days of full access. There is no automatic renewal and no old monthly subscription on this website.</p>
+      <span class="eyebrow"><i></i> SECURE ONE-TIME PAYMENT</span>
+      <h2>Get full access for 30 days</h2>
+      <p>Pay US$20 once for 30 days of full access. Pay again only when you need another 30 days.</p>
       <ul><li>Every available syllabus topic</li><li>Topical questions from the last 5 years</li><li>Full-screen papers and supplied mark schemes</li><li>Access expires automatically after 30 days</li></ul>
 
       <div id="checkoutPayment" class="checkout-options">
         <section class="payment-choice featured-choice" aria-label="One-time 30-day payment">
-          <div class="choice-label">ONE-TIME PAYMENT · NO AUTOMATIC RENEWAL</div>
+          <div class="choice-label">ONE-TIME CARD PAYMENT · 30 DAYS</div>
           <div class="price"><strong id="oneTimePrice">US$20</strong><span>for 30 days</span></div>
-          <p>Pay securely through PayPal using an eligible debit card, credit card, or PayPal account. After payment, PayPal returns you here to activate your 30 days.</p>
-          <a id="oneTimePaymentLink" class="pay-link" href="https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q">Pay US$20 for 30 days ↗</a>
-          <button id="alreadyPaidToggle" class="paid-button" type="button">Already paid? Enter the PayPal transaction ID</button>
+          <p>Choose Debit or Credit Card on the secure PayPal checkout. After payment, PayPal returns you to this website, then you sign in to activate full access.</p>
+          <a id="oneTimePaymentLink" class="pay-link" href="https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q" target="_blank" rel="noopener noreferrer">Pay by Debit or Credit Card ↗</a>
+          <button id="alreadyPaidToggle" class="paid-button" type="button">I have paid — continue to sign in</button>
           <div id="manualClaim" class="manual-claim" hidden>
-            <label for="transactionIdInput">PayPal transaction ID</label>
+            <label for="transactionIdInput">PayPal transaction ID from your receipt</label>
             <input id="transactionIdInput" type="text" inputmode="text" autocomplete="off" maxlength="30" placeholder="Example: 8AB12345CD678901E">
-            <button id="saveTransactionId" type="button">Continue to sign in</button>
+            <button id="saveTransactionId" type="button">Save payment and sign in</button>
             <small>Find this ID in the PayPal payment receipt. It is used only to verify the payment securely.</small>
           </div>
         </section>
         <div class="payment-steps" aria-label="Payment steps">
-          <span><b>1</b> Pay once</span><span><b>2</b> Return here</span><span><b>3</b> Sign in</span><span><b>4</b> Use Premium for 30 days</span>
+          <span><b>1</b> Pay by card</span><span><b>2</b> Return automatically</span><span><b>3</b> Sign in</span><span><b>4</b> Full access for 30 days</span>
         </div>
       </div>
 
       <div id="postPaymentSignIn" hidden>
-        <div class="success">Payment return received. Sign in to connect the 30-day access to your account.</div>
-        <button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Sign in and activate Premium</button>
+        <div class="success">Payment received. Sign in now to connect the 30-day access to your account.</div>
+        <button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Sign in after payment</button>
       </div>
       <div id="activatingPremium" hidden>
         <div class="success">You are signed in.</div>

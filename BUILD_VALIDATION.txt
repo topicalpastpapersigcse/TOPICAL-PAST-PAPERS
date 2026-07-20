@@ -1,0 +1,16 @@
+FINAL BUILD VALIDATION
+
+- Home page title: All Subjects
+- Home dashboard subjects: Mathematics, Physics, Chemistry, Accounting
+- Original asset files included: 61
+- Referenced local assets checked: 57
+- Missing referenced assets: 0
+- Changed original assets: 0
+- Old PayPal plan IDs found: 0
+- Old PayPal SDK recurring-payment code found: 0
+- Active payment link: https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
+- Payment type shown on website: one-time US$20 card payment
+- Access duration: 30 days
+- Login order: payment first, sign in afterward
+- JavaScript syntax check: passed
+- HTML element-to-JavaScript ID check: passed

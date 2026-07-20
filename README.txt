@@ -1,21 +1,29 @@
-TOPICAL IGCSE PAST PAPERS — ONE-TIME PAYMENT VERSION
+TOPICAL IGCSE PAST PAPERS — FINAL ONE-TIME CARD PAYMENT BUILD
 
-HOME PAGE
-- All Subjects is now the main home dashboard.
-- Mathematics, Physics, Chemistry and Accounting are shown immediately.
+HOME DASHBOARD
+- All Subjects is the main home page.
+- Mathematics, Physics, Chemistry and Accounting appear immediately.
 - Subject pages stay inside the website.
-- PDF papers open in a new browser tab.
+- Every PDF opens in a separate browser tab.
 
-PAYMENT
-- Old monthly PayPal subscription removed from the website.
-- New payment link: https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
-- US$20 one-time payment gives 30 days of access.
-- No automatic renewal. Customers pay again after 30 days.
-- Secure automatic activation requires the Supabase setup in SETUP_30_DAY_PAYMENT.txt.
+PAYMENT FLOW
+- The website uses only this one-time payment link:
+  https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
+- Price: US$20 once.
+- Access: 30 days of full Premium access.
+- Customer chooses Debit or Credit Card on PayPal.
+- Customer pays first, returns to the website, then signs in.
+- There is no automatic renewal. The customer pays again only when another 30 days are needed.
+
+SECURE ACTIVATION
+- Run the SQL migration and deploy the Supabase Edge Function described in SETUP_30_DAY_PAYMENT.txt.
+- A verified PayPal transaction can be used only once.
+- The website never contains your PayPal identity token, PayPal secret, or Supabase service-role key.
 
 LOGIN RESET
-- The reset version signs out previously saved website sessions once after publishing.
+- This build uses a new reset version. Previously saved website sessions are cleared once when the updated website first loads.
 
-IMPORTANT
-- Never upload PayPal Identity Tokens, client secrets or Supabase service-role keys to GitHub.
-- app-config.js contains only public website settings.
+UPLOAD
+- Upload every file and the complete assets folder to the root of the GitHub repository.
+- Keep .nojekyll in the root.
+- See UPLOAD_TO_GITHUB.txt.

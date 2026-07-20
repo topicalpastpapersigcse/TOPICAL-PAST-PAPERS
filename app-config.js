@@ -11,5 +11,5 @@ window.STUDY_HUB_CONFIG = Object.freeze({
   PREMIUM_DAYS: 30,
 
   // Publishing a new value forces previously saved website sessions to sign out once.
-  ACCESS_RESET_VERSION: "2026-07-20-one-time-payment-only-v4"
+  ACCESS_RESET_VERSION: "2026-07-20-one-time-card-payment-v5"
 });
