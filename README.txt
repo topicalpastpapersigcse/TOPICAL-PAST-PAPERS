@@ -1,35 +1,25 @@
-TOPICAL IGCSE PAST PAPERS - PHYSICS + ACCOUNTING ANSWERS BUILD
+TOPICAL IGCSE STUDY HUB — V17 FULL CLEAN REPLACEMENT
 
-HOME DASHBOARD
-- All Subjects is the main home page.
-- Mathematics, Physics, Chemistry and Accounting appear immediately.
-- Subject pages stay inside the website.
-- Every PDF opens in a separate browser tab.
+THIS IS A COMPLETE FRESH WEBSITE COPY
+- Upload the CONTENTS of this folder/ZIP to the repository root.
+- Do not merge individual CSS files with an older local copy.
+- index.html must be directly in the repository root.
 
-ANSWER UPDATE
-- Physics now includes matching answer guides for all six topic banks.
-- Accounting now includes matching answer guides for Topics 02-06, which are all the sections containing indexed questions.
-- Accounting Topics 01 and 07 contain no questions and remain unchanged.
-- The original website design, subjects, navigation and access rules are unchanged.
+INCLUDED SUBJECTS
+- Mathematics 0580: questions and answers
+- Physics 0625: six topical question banks and six matching answer guides
+- Chemistry 0620: twelve topical question banks and matching answers
+- Accounting 0452: seven question-bank topic cards; answer guides are linked for Topics 02–06, the topics containing indexed questions
 
-PAYMENT FLOW
-- The website uses only this one-time payment link:
-  https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
-- Price: US$20 once.
-- Access: 30 days of full Premium access.
-- Customer chooses Debit or Credit Card on PayPal.
-- Customer pays first, returns to the website, then signs in.
-- There is no automatic renewal. The customer pays again only when another 30 days are needed.
+WEBSITE AND ACCESS
+- Existing dark premium design and subjects-first dashboard are preserved.
+- PDFs open in a separate browser tab.
+- PayPal one-time payment flow and Supabase verification files are included.
+- Payment link: https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q
+- Price configured in the supplied setup: US$20 for 30 days of Premium access, with no automatic renewal.
 
-SECURE ACTIVATION
-- Run the SQL migration and deploy the Supabase Edge Function described in SETUP_30_DAY_PAYMENT.txt.
-- A verified PayPal transaction can be used only once.
-- The website never contains your PayPal identity token, PayPal secret, or Supabase service-role key.
+IMPORTANT
+- Accounting Topics 01 and 07 have no indexed topical questions, so they do not have answer buttons.
+- The Physics and Accounting answer files are independent answer guides aligned to the topical banks; they are not reproduced official Cambridge mark-scheme publications.
 
-LOGIN RESET
-- This build keeps the existing reset version and payment flow unchanged.
-
-UPLOAD
-- Upload every file and the complete assets folder to the root of the GitHub repository.
-- Keep .nojekyll in the root.
-- See UPLOAD_TO_GITHUB.txt.
+See FRESH_REPLACEMENT_UPLOAD.txt for the safest upload method.
