@@ -97,16 +97,16 @@ function subjectUrl(subject){return `index.html?subject=${encodeURIComponent(sub
 function renderSideSubjects(){
   els.sideSubjects.innerHTML=subjectOrder.map(s=>{
     const m=subjectMeta[s],p=palette[s];
-    return `<a class="side-subject ${currentSubject===s?'active':''}" href="${subjectUrl(s)}" target="_blank"><span class="subject-dot ${p.cls}">${p.icon}</span><span>${m.code} ${m.name}</span></a>`
+    return `<a class="side-subject ${currentSubject===s?'active':''}" href="${subjectUrl(s)}" target="_blank"><span class="subject-dot ${p.cls}">${p.icon}</span><span>${m.code} ${m.name}</span>${m.access==='free'?'<span class="side-free">★ FREE</span>':''}</a>`
   }).join('');
 }
 
 function subjectCard(s){
   const m=subjectMeta[s],p=palette[s], subjectTopics=topics.filter(t=>t.subject===s), free=m.access==='free';
   return `<article class="subject-card" data-name="${m.name.toLowerCase()} ${m.code}">
-    <div class="subject-card-top"><div class="big-icon ${p.cls}">${p.icon}</div><span class="badge ${free?'free':'premium'}">${free?'FREE':'PREMIUM'}</span></div>
+    <div class="subject-card-top"><div class="big-icon ${p.cls}">${p.icon}</div><span class="badge ${free?'free':'premium'}">${free?'★ FREE':'♛ PREMIUM'}</span></div>
     <div class="code">CAMBRIDGE IGCSE · ${m.code}</div><h3>${m.name}</h3>
-    <p>Every topic in the syllabus has topical questions from the last 5 years.</p>
+    <p>Every topic in the syllabus includes organised topical questions from the last 5 years.</p>
     <div class="subject-stats"><span><b>${subjectTopics.length}</b> topics</span><span><b>${totalQuestions(s)}</b> questions</span></div>
     <button class="${p.cls}" type="button" data-open-subject="${s}">Open ${m.name} →</button>
   </article>`;
