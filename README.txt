@@ -1,10 +1,16 @@
-TOPICAL IGCSE PAST PAPERS — FINAL ONE-TIME CARD PAYMENT BUILD
+TOPICAL IGCSE PAST PAPERS - PHYSICS + ACCOUNTING ANSWERS BUILD
 
 HOME DASHBOARD
 - All Subjects is the main home page.
 - Mathematics, Physics, Chemistry and Accounting appear immediately.
 - Subject pages stay inside the website.
 - Every PDF opens in a separate browser tab.
+
+ANSWER UPDATE
+- Physics now includes matching answer guides for all six topic banks.
+- Accounting now includes matching answer guides for Topics 02-06, which are all the sections containing indexed questions.
+- Accounting Topics 01 and 07 contain no questions and remain unchanged.
+- The original website design, subjects, navigation and access rules are unchanged.
 
 PAYMENT FLOW
 - The website uses only this one-time payment link:
@@ -21,7 +27,7 @@ SECURE ACTIVATION
 - The website never contains your PayPal identity token, PayPal secret, or Supabase service-role key.
 
 LOGIN RESET
-- This build uses a new reset version. Previously saved website sessions are cleared once when the updated website first loads.
+- This build keeps the existing reset version and payment flow unchanged.
 
 UPLOAD
 - Upload every file and the complete assets folder to the root of the GitHub repository.
