@@ -8,63 +8,63 @@ const supabaseClient = window.supabase?.createClient(SUPABASE_URL, SUPABASE_PUBL
 });
 
 const topics = [
-  { id: "maths-number", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "01", title: "Number", count: 104, subtopics: ["Number properties, sets and surds", "Accuracy, bounds and standard form", "Number calculations and applications", "Ratio, proportion, rates and money", "Percentages, finance and growth"], questions: "assets/maths/maths-01-number-questions.pdf", answers: "assets/maths/maths-01-number-answers.pdf" },
-  { id: "maths-algebra", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "02", title: "Algebra and Graphs", count: 233, subtopics: ["Algebraic manipulation", "Equations and inequalities", "Variation and formulae", "Sequences", "Functions", "Graphs and differentiation"], questions: "assets/maths/maths-02-algebra-graphs-questions.pdf", answers: "assets/maths/maths-02-algebra-graphs-answers.pdf" },
-  { id: "maths-coordinate", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "03", title: "Coordinate Geometry", count: 34, subtopics: ["Coordinates, length and midpoint", "Gradients and equations of lines", "Parallel and perpendicular lines"], questions: "assets/maths/maths-03-coordinate-geometry-questions.pdf", answers: "assets/maths/maths-03-coordinate-geometry-answers.pdf" },
-  { id: "maths-geometry", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "04", title: "Geometry", count: 29, subtopics: ["Circle geometry", "Constructions, loci and scale drawings", "Similarity and congruence"], questions: "assets/maths/maths-04-geometry-questions.pdf", answers: "assets/maths/maths-04-geometry-answers.pdf" },
-  { id: "maths-mensuration", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "05", title: "Mensuration", count: 116, subtopics: ["Perimeter, area and compound shapes", "Circles, arcs and sectors", "Surface area and volume"], questions: "assets/maths/maths-05-mensuration-questions.pdf", answers: "assets/maths/maths-05-mensuration-answers.pdf" },
-  { id: "maths-trigonometry", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "06", title: "Trigonometry", count: 50, subtopics: ["Pythagoras and right-angled trigonometry", "Sine rule, cosine rule and triangle area", "Bearings and three-dimensional trigonometry", "Trigonometric graphs and equations"], questions: "assets/maths/maths-06-trigonometry-questions.pdf", answers: "assets/maths/maths-06-trigonometry-answers.pdf" },
-  { id: "maths-transformations", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "07", title: "Transformations and Vectors", count: 67, subtopics: ["Transformations", "Vectors"], questions: "assets/maths/maths-07-transformations-vectors-questions.pdf", answers: "assets/maths/maths-07-transformations-vectors-answers.pdf" },
-  { id: "maths-probability", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "08", title: "Probability", count: 50, subtopics: ["Basic probability and relative frequency", "Combined probability and tree diagrams", "Venn diagrams and probability"], questions: "assets/maths/maths-08-probability-questions.pdf", answers: "assets/maths/maths-08-probability-answers.pdf" },
-  { id: "maths-statistics", subject: "maths", code: "0580 · Paper 4 · 2015–2024", number: "09", title: "Statistics", count: 68, subtopics: ["Data presentation", "Scatter diagrams and sampling", "Cumulative frequency and box plots", "Histograms"], questions: "assets/maths/maths-09-statistics-questions.pdf", answers: "assets/maths/maths-09-statistics-answers.pdf" },
+  { id: "maths-number", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "01", title: "Number", count: 104, subtopics: ["Number properties, sets and surds", "Accuracy, bounds and standard form", "Number calculations and applications", "Ratio, proportion, rates and money", "Percentages, finance and growth"], questions: "assets/maths/maths-01-number-questions.pdf", answers: "assets/maths/maths-01-number-answers.pdf" },
+  { id: "maths-algebra", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "02", title: "Algebra and Graphs", count: 233, subtopics: ["Algebraic manipulation", "Equations and inequalities", "Variation and formulae", "Sequences", "Functions", "Graphs and differentiation"], questions: "assets/maths/maths-02-algebra-graphs-questions.pdf", answers: "assets/maths/maths-02-algebra-graphs-answers.pdf" },
+  { id: "maths-coordinate", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "03", title: "Coordinate Geometry", count: 34, subtopics: ["Coordinates, length and midpoint", "Gradients and equations of lines", "Parallel and perpendicular lines"], questions: "assets/maths/maths-03-coordinate-geometry-questions.pdf", answers: "assets/maths/maths-03-coordinate-geometry-answers.pdf" },
+  { id: "maths-geometry", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "04", title: "Geometry", count: 29, subtopics: ["Circle geometry", "Constructions, loci and scale drawings", "Similarity and congruence"], questions: "assets/maths/maths-04-geometry-questions.pdf", answers: "assets/maths/maths-04-geometry-answers.pdf" },
+  { id: "maths-mensuration", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "05", title: "Mensuration", count: 116, subtopics: ["Perimeter, area and compound shapes", "Circles, arcs and sectors", "Surface area and volume"], questions: "assets/maths/maths-05-mensuration-questions.pdf", answers: "assets/maths/maths-05-mensuration-answers.pdf" },
+  { id: "maths-trigonometry", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "06", title: "Trigonometry", count: 50, subtopics: ["Pythagoras and right-angled trigonometry", "Sine rule, cosine rule and triangle area", "Bearings and three-dimensional trigonometry", "Trigonometric graphs and equations"], questions: "assets/maths/maths-06-trigonometry-questions.pdf", answers: "assets/maths/maths-06-trigonometry-answers.pdf" },
+  { id: "maths-transformations", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "07", title: "Transformations and Vectors", count: 67, subtopics: ["Transformations", "Vectors"], questions: "assets/maths/maths-07-transformations-vectors-questions.pdf", answers: "assets/maths/maths-07-transformations-vectors-answers.pdf" },
+  { id: "maths-probability", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "08", title: "Probability", count: 50, subtopics: ["Basic probability and relative frequency", "Combined probability and tree diagrams", "Venn diagrams and probability"], questions: "assets/maths/maths-08-probability-questions.pdf", answers: "assets/maths/maths-08-probability-answers.pdf" },
+  { id: "maths-statistics", subject: "maths", code: "0580 · Paper 4 · Last 5 years", number: "09", title: "Statistics", count: 68, subtopics: ["Data presentation", "Scatter diagrams and sampling", "Cumulative frequency and box plots", "Histograms"], questions: "assets/maths/maths-09-statistics-questions.pdf", answers: "assets/maths/maths-09-statistics-answers.pdf" },
   { id: "maths-legacy-matrices", subject: "maths", code: "0580 · Legacy practice · Removed syllabus content", number: "10", title: "Legacy Matrices", count: 2, subtopics: ["Matrices (legacy content removed from the current syllabus)"], questions: "assets/maths/maths-10-legacy-matrices-questions.pdf", answers: "assets/maths/maths-10-legacy-matrices-answers.pdf", legacy: true },
-  { id: "physics-motion", subject: "physics", code: "0625 · Paper 4 · 2021–2025", number: "01", title: "Motion, Forces and Energy", count: 79, subtopics: ["Scalars, vectors and motion", "Speed-time graphs and forces", "Forces, acceleration and Newton’s laws", "Momentum and impulse", "Circular motion and forces", "Density", "Pressure", "Moments and equilibrium", "Springs and Hooke’s law", "Work, energy, power and efficiency", "Mixed motion and forces"], questions: "assets/physics/physics-01-motion-forces-energy-premium.pdf" },
-  { id: "physics-thermal", subject: "physics", code: "0625 · Paper 4 · 2021–2025", number: "02", title: "Thermal Physics", count: 47, subtopics: ["Particle model and internal energy", "Gas pressure and kinetic model", "Specific heat capacity", "Specific latent heat and changes of state", "Evaporation", "Mixed thermal physics"], questions: "assets/physics/physics-02-thermal-physics-premium.pdf" },
-  { id: "physics-waves", subject: "physics", code: "0625 · Paper 4 · 2021–2025", number: "03", title: "Waves", count: 59, subtopics: ["Wave properties", "Reflection of waves", "Sound and ultrasound", "Light, refraction and lenses", "Electromagnetic spectrum", "Medical imaging", "Mixed waves"], questions: "assets/physics/physics-03-waves-premium.pdf" },
-  { id: "physics-electricity", subject: "physics", code: "0625 · Paper 4 · 2021–2025", number: "04", title: "Electricity and Magnetism", count: 102, subtopics: ["Current, charge and potential difference", "Electric circuits and resistance", "A.C. and D.C. circuits", "Magnetism and magnetic fields", "Electromagnetic induction", "Generators and motors", "Transformers", "Digital electronics and logic gates"], questions: "assets/physics/physics-04-electricity-magnetism-premium.pdf" },
-  { id: "physics-nuclear", subject: "physics", code: "0625 · Paper 4 · 2021–2025", number: "05", title: "Nuclear Physics", count: 39, subtopics: ["Atoms, nuclei and isotopes", "Alpha, beta and gamma radiation", "Half-life", "Nuclear fission and fusion", "Mixed radioactivity"], questions: "assets/physics/physics-05-nuclear-physics-premium.pdf" },
-  { id: "physics-space", subject: "physics", code: "0625 · Paper 4 · 2021–2025", number: "06", title: "Space Physics", count: 27, subtopics: ["Solar System and accretion model", "Comets and orbits", "Stars, galaxies and the Universe", "Moon phases and orbits", "Planets and the Solar System", "Mixed space physics"], questions: "assets/physics/physics-06-space-physics-premium.pdf" },
-  { id: "chemistry-states", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "01", title: "States of Matter", count: 6, subtopics: ["Particle model and changes of state"], questions: "assets/chemistry/chemistry-01-states-of-matter-premium.pdf", answers: "assets/chemistry/chemistry-01-states-of-matter-answers.pdf" },
-  { id: "chemistry-atoms", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "02", title: "Atoms, Elements and Compounds", count: 59, subtopics: ["Atomic structure", "Isotopes and ions", "Bonding and structures"], questions: "assets/chemistry/chemistry-02-atoms-elements-compounds-premium.pdf", answers: "assets/chemistry/chemistry-02-atoms-elements-compounds-answers.pdf" },
-  { id: "chemistry-stoichiometry", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "03", title: "Stoichiometry", count: 33, subtopics: ["Moles", "Formulae and equations", "Chemical calculations"], questions: "assets/chemistry/chemistry-03-stoichiometry-premium.pdf", answers: "assets/chemistry/chemistry-03-stoichiometry-answers.pdf" },
-  { id: "chemistry-electrochemistry", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "04", title: "Electrochemistry", count: 19, subtopics: ["Electrolysis", "Electrode reactions"], questions: "assets/chemistry/chemistry-04-electrochemistry-premium.pdf", answers: "assets/chemistry/chemistry-04-electrochemistry-answers.pdf" },
-  { id: "chemistry-energetics", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "05", title: "Chemical Energetics", count: 3, subtopics: ["Exothermic and endothermic changes", "Bond energies"], questions: "assets/chemistry/chemistry-05-chemical-energetics-premium.pdf", answers: "assets/chemistry/chemistry-05-chemical-energetics-answers.pdf" },
-  { id: "chemistry-reactions", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "06", title: "Chemical Reactions", count: 11, subtopics: ["Rates of reaction", "Equilibrium", "Redox and displacement"], questions: "assets/chemistry/chemistry-06-chemical-reactions-premium.pdf", answers: "assets/chemistry/chemistry-06-chemical-reactions-answers.pdf" },
-  { id: "chemistry-acids", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "07", title: "Acids, Bases and Salts", count: 24, subtopics: ["Acids and bases", "Preparation of salts", "The pH scale"], questions: "assets/chemistry/chemistry-07-acids-bases-salts-premium.pdf", answers: "assets/chemistry/chemistry-07-acids-bases-salts-answers.pdf" },
-  { id: "chemistry-periodic", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "08", title: "The Periodic Table", count: 10, subtopics: ["Groups in the Periodic Table", "Patterns and trends"], questions: "assets/chemistry/chemistry-08-periodic-table-premium.pdf", answers: "assets/chemistry/chemistry-08-periodic-table-answers.pdf" },
-  { id: "chemistry-metals", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "09", title: "Metals", count: 20, subtopics: ["Properties of metals", "Reactivity series", "Extraction", "Corrosion"], questions: "assets/chemistry/chemistry-09-metals-premium.pdf", answers: "assets/chemistry/chemistry-09-metals-answers.pdf" },
-  { id: "chemistry-environment", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "10", title: "Chemistry of the Environment", count: 14, subtopics: ["Air and water", "Climate", "Industrial chemistry"], questions: "assets/chemistry/chemistry-10-environment-premium.pdf", answers: "assets/chemistry/chemistry-10-environment-answers.pdf" },
-  { id: "chemistry-organic", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "11", title: "Organic Chemistry", count: 56, subtopics: ["Hydrocarbons and fuels", "Functional groups", "Organic reactions", "Polymers"], questions: "assets/chemistry/chemistry-11-organic-chemistry-premium.pdf", answers: "assets/chemistry/chemistry-11-organic-chemistry-answers.pdf" },
-  { id: "chemistry-experimental", subject: "chemistry", code: "0620 · Paper 4 · 2020–2025", number: "12", title: "Experimental Techniques and Analysis", count: 1, subtopics: ["Separation methods", "Titration", "Chemical tests"], questions: "assets/chemistry/chemistry-12-experimental-analysis-premium.pdf", answers: "assets/chemistry/chemistry-12-experimental-analysis-answers.pdf" },
-  { id: "accounting-fundamentals", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "01", title: "The Fundamentals of Accounting", count: 0, subtopics: ["Purpose of accounting", "Accounting equation"], questions: "assets/accounting/accounting-01-fundamentals-premium.pdf" },
-  { id: "accounting-sources", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "02", title: "Sources and Recording of Data", count: 27, subtopics: ["Double-entry bookkeeping", "Books of prime entry"], questions: "assets/accounting/accounting-02-sources-recording-premium.pdf" },
-  { id: "accounting-verification", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "03", title: "Verification of Accounting Records", count: 28, subtopics: ["Correction of errors", "Bank reconciliation", "Control accounts"], questions: "assets/accounting/accounting-03-verification-records-premium.pdf" },
-  { id: "accounting-procedures", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "04", title: "Accounting Procedures", count: 21, subtopics: ["Capital and revenue expenditure", "Depreciation and disposal", "Irrecoverable debts and provisions", "Valuation of inventory"], questions: "assets/accounting/accounting-04-procedures-premium.pdf" },
-  { id: "accounting-statements", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "05", title: "Preparation of Financial Statements", count: 41, subtopics: ["Sole traders", "Partnerships", "Limited companies", "Clubs and societies", "Manufacturing accounts", "Incomplete records"], questions: "assets/accounting/accounting-05-financial-statements-premium.pdf" },
-  { id: "accounting-analysis", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "06", title: "Analysis and Interpretation", count: 13, subtopics: ["Calculation of accounting ratios", "Understanding and interpreting ratios"], questions: "assets/accounting/accounting-06-analysis-interpretation-premium.pdf" },
-  { id: "accounting-principles", subject: "accounting", code: "0452 · Paper 2 · 2021–2025", number: "07", title: "Accounting Principles and Policies", count: 0, subtopics: ["Accounting principles", "Accounting policies"], questions: "assets/accounting/accounting-07-principles-policies-premium.pdf" }
+  { id: "physics-motion", subject: "physics", code: "0625 · Paper 4 · Last 5 years", number: "01", title: "Motion, Forces and Energy", count: 79, subtopics: ["Scalars, vectors and motion", "Speed-time graphs and forces", "Forces, acceleration and Newton’s laws", "Momentum and impulse", "Circular motion and forces", "Density", "Pressure", "Moments and equilibrium", "Springs and Hooke’s law", "Work, energy, power and efficiency", "Mixed motion and forces"], questions: "assets/physics/physics-01-motion-forces-energy-premium.pdf" },
+  { id: "physics-thermal", subject: "physics", code: "0625 · Paper 4 · Last 5 years", number: "02", title: "Thermal Physics", count: 47, subtopics: ["Particle model and internal energy", "Gas pressure and kinetic model", "Specific heat capacity", "Specific latent heat and changes of state", "Evaporation", "Mixed thermal physics"], questions: "assets/physics/physics-02-thermal-physics-premium.pdf" },
+  { id: "physics-waves", subject: "physics", code: "0625 · Paper 4 · Last 5 years", number: "03", title: "Waves", count: 59, subtopics: ["Wave properties", "Reflection of waves", "Sound and ultrasound", "Light, refraction and lenses", "Electromagnetic spectrum", "Medical imaging", "Mixed waves"], questions: "assets/physics/physics-03-waves-premium.pdf" },
+  { id: "physics-electricity", subject: "physics", code: "0625 · Paper 4 · Last 5 years", number: "04", title: "Electricity and Magnetism", count: 102, subtopics: ["Current, charge and potential difference", "Electric circuits and resistance", "A.C. and D.C. circuits", "Magnetism and magnetic fields", "Electromagnetic induction", "Generators and motors", "Transformers", "Digital electronics and logic gates"], questions: "assets/physics/physics-04-electricity-magnetism-premium.pdf" },
+  { id: "physics-nuclear", subject: "physics", code: "0625 · Paper 4 · Last 5 years", number: "05", title: "Nuclear Physics", count: 39, subtopics: ["Atoms, nuclei and isotopes", "Alpha, beta and gamma radiation", "Half-life", "Nuclear fission and fusion", "Mixed radioactivity"], questions: "assets/physics/physics-05-nuclear-physics-premium.pdf" },
+  { id: "physics-space", subject: "physics", code: "0625 · Paper 4 · Last 5 years", number: "06", title: "Space Physics", count: 27, subtopics: ["Solar System and accretion model", "Comets and orbits", "Stars, galaxies and the Universe", "Moon phases and orbits", "Planets and the Solar System", "Mixed space physics"], questions: "assets/physics/physics-06-space-physics-premium.pdf" },
+  { id: "chemistry-states", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "01", title: "States of Matter", count: 6, subtopics: ["Particle model and changes of state"], questions: "assets/chemistry/chemistry-01-states-of-matter-premium.pdf", answers: "assets/chemistry/chemistry-01-states-of-matter-answers.pdf" },
+  { id: "chemistry-atoms", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "02", title: "Atoms, Elements and Compounds", count: 59, subtopics: ["Atomic structure", "Isotopes and ions", "Bonding and structures"], questions: "assets/chemistry/chemistry-02-atoms-elements-compounds-premium.pdf", answers: "assets/chemistry/chemistry-02-atoms-elements-compounds-answers.pdf" },
+  { id: "chemistry-stoichiometry", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "03", title: "Stoichiometry", count: 33, subtopics: ["Moles", "Formulae and equations", "Chemical calculations"], questions: "assets/chemistry/chemistry-03-stoichiometry-premium.pdf", answers: "assets/chemistry/chemistry-03-stoichiometry-answers.pdf" },
+  { id: "chemistry-electrochemistry", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "04", title: "Electrochemistry", count: 19, subtopics: ["Electrolysis", "Electrode reactions"], questions: "assets/chemistry/chemistry-04-electrochemistry-premium.pdf", answers: "assets/chemistry/chemistry-04-electrochemistry-answers.pdf" },
+  { id: "chemistry-energetics", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "05", title: "Chemical Energetics", count: 3, subtopics: ["Exothermic and endothermic changes", "Bond energies"], questions: "assets/chemistry/chemistry-05-chemical-energetics-premium.pdf", answers: "assets/chemistry/chemistry-05-chemical-energetics-answers.pdf" },
+  { id: "chemistry-reactions", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "06", title: "Chemical Reactions", count: 11, subtopics: ["Rates of reaction", "Equilibrium", "Redox and displacement"], questions: "assets/chemistry/chemistry-06-chemical-reactions-premium.pdf", answers: "assets/chemistry/chemistry-06-chemical-reactions-answers.pdf" },
+  { id: "chemistry-acids", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "07", title: "Acids, Bases and Salts", count: 24, subtopics: ["Acids and bases", "Preparation of salts", "The pH scale"], questions: "assets/chemistry/chemistry-07-acids-bases-salts-premium.pdf", answers: "assets/chemistry/chemistry-07-acids-bases-salts-answers.pdf" },
+  { id: "chemistry-periodic", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "08", title: "The Periodic Table", count: 10, subtopics: ["Groups in the Periodic Table", "Patterns and trends"], questions: "assets/chemistry/chemistry-08-periodic-table-premium.pdf", answers: "assets/chemistry/chemistry-08-periodic-table-answers.pdf" },
+  { id: "chemistry-metals", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "09", title: "Metals", count: 20, subtopics: ["Properties of metals", "Reactivity series", "Extraction", "Corrosion"], questions: "assets/chemistry/chemistry-09-metals-premium.pdf", answers: "assets/chemistry/chemistry-09-metals-answers.pdf" },
+  { id: "chemistry-environment", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "10", title: "Chemistry of the Environment", count: 14, subtopics: ["Air and water", "Climate", "Industrial chemistry"], questions: "assets/chemistry/chemistry-10-environment-premium.pdf", answers: "assets/chemistry/chemistry-10-environment-answers.pdf" },
+  { id: "chemistry-organic", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "11", title: "Organic Chemistry", count: 56, subtopics: ["Hydrocarbons and fuels", "Functional groups", "Organic reactions", "Polymers"], questions: "assets/chemistry/chemistry-11-organic-chemistry-premium.pdf", answers: "assets/chemistry/chemistry-11-organic-chemistry-answers.pdf" },
+  { id: "chemistry-experimental", subject: "chemistry", code: "0620 · Paper 4 · Last 5 years", number: "12", title: "Experimental Techniques and Analysis", count: 1, subtopics: ["Separation methods", "Titration", "Chemical tests"], questions: "assets/chemistry/chemistry-12-experimental-analysis-premium.pdf", answers: "assets/chemistry/chemistry-12-experimental-analysis-answers.pdf" },
+  { id: "accounting-fundamentals", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "01", title: "The Fundamentals of Accounting", count: 0, subtopics: ["Purpose of accounting", "Accounting equation"], questions: "assets/accounting/accounting-01-fundamentals-premium.pdf" },
+  { id: "accounting-sources", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "02", title: "Sources and Recording of Data", count: 27, subtopics: ["Double-entry bookkeeping", "Books of prime entry"], questions: "assets/accounting/accounting-02-sources-recording-premium.pdf" },
+  { id: "accounting-verification", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "03", title: "Verification of Accounting Records", count: 28, subtopics: ["Correction of errors", "Bank reconciliation", "Control accounts"], questions: "assets/accounting/accounting-03-verification-records-premium.pdf" },
+  { id: "accounting-procedures", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "04", title: "Accounting Procedures", count: 21, subtopics: ["Capital and revenue expenditure", "Depreciation and disposal", "Irrecoverable debts and provisions", "Valuation of inventory"], questions: "assets/accounting/accounting-04-procedures-premium.pdf" },
+  { id: "accounting-statements", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "05", title: "Preparation of Financial Statements", count: 41, subtopics: ["Sole traders", "Partnerships", "Limited companies", "Clubs and societies", "Manufacturing accounts", "Incomplete records"], questions: "assets/accounting/accounting-05-financial-statements-premium.pdf" },
+  { id: "accounting-analysis", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "06", title: "Analysis and Interpretation", count: 13, subtopics: ["Calculation of accounting ratios", "Understanding and interpreting ratios"], questions: "assets/accounting/accounting-06-analysis-interpretation-premium.pdf" },
+  { id: "accounting-principles", subject: "accounting", code: "0452 · Paper 2 · Last 5 years", number: "07", title: "Accounting Principles and Policies", count: 0, subtopics: ["Accounting principles", "Accounting policies"], questions: "assets/accounting/accounting-07-principles-policies-premium.pdf" }
 ];
 
 const subjectMeta = {
   chemistry: {
-    name: 'Chemistry', code: '0620', icon: 'C', access: 'free', period: '2020-2025',
-    description: 'Paper 4 topical questions with a matching answer booklet for every Chemistry topic.',
-    note: '12 question banks + 12 answer booklets'
+    name: 'Chemistry', code: '0620', icon: 'C', access: 'free', period: 'Last 5 years',
+    description: 'Every Chemistry syllabus topic includes topical questions from the last 5 years, with supplied mark schemes.',
+    note: 'Complete syllabus coverage · Questions + mark schemes'
   },
   maths: {
-    name: 'Mathematics', code: '0580', icon: 'M', access: 'premium', period: '2015-2024',
-    description: 'Extended Paper 4 practice arranged by topic, with matching answer booklets for every section.',
-    note: '10 question banks + 10 answer booklets'
+    name: 'Mathematics', code: '0580', icon: 'M', access: 'premium', period: 'Last 5 years',
+    description: 'Every Mathematics syllabus topic includes topical questions from the last 5 years, with supplied mark schemes.',
+    note: 'Complete syllabus coverage · Questions + mark schemes'
   },
   physics: {
-    name: 'Physics', code: '0625', icon: 'P', access: 'premium', period: '2021-2025',
-    description: 'Paper 4 topical question banks covering motion, thermal physics, waves, electricity, nuclear and space physics.',
-    note: '6 premium question banks - answers not included in this ZIP'
+    name: 'Physics', code: '0625', icon: 'P', access: 'premium', period: 'Last 5 years',
+    description: 'Every Physics syllabus topic includes topical questions selected from the last 5 years.',
+    note: 'Complete syllabus coverage · Last 5 years'
   },
   accounting: {
-    name: 'Accounting', code: '0452', icon: 'A', access: 'premium', period: '2021-2025',
-    description: 'Paper 2 topical question banks for recording, verification, procedures, statements and analysis.',
-    note: '7 premium question banks - answers not included in this ZIP'
+    name: 'Accounting', code: '0452', icon: 'A', access: 'premium', period: 'Last 5 years',
+    description: 'Every Accounting syllabus topic includes topical questions selected from the last 5 years.',
+    note: 'Complete syllabus coverage · Last 5 years'
   }
 };
 
@@ -212,7 +212,7 @@ function cardMarkup(topic) {
   const shownSubtopics = topic.subtopics.slice(0, 4);
   const more = topic.subtopics.length - shownSubtopics.length;
   const countText = topic.legacy ? `${topic.count} legacy questions` : topic.count ? `${topic.count} question${topic.count === 1 ? '' : 's'}` : 'Topic outline';
-  const answerLabel = topic.answers ? 'Questions + answers' : 'Questions only';
+  const answerLabel = topic.answers ? 'Questions + mark scheme' : 'Topical questions';
   return `
     <article class="topic-card ${unlocked ? '' : 'locked'}" data-id="${topic.id}" data-subject="${topic.subject}">
       <div class="card-top">
@@ -236,11 +236,11 @@ function cardMarkup(topic) {
       </div>
       ${more > 0 ? `<button class="subtopics-toggle" type="button" data-more="${more}">+ ${more} more subtopic${more === 1 ? '' : 's'}</button>` : ''}
       ${topic.legacy ? '<div class="legacy-note">Legacy content removed from the current syllabus. Use only for extra practice.</div>' : ''}
-      ${!topic.answers && (topic.subject === 'physics' || topic.subject === 'accounting') ? '<div class="answer-note">Answer booklet is not included in the files currently supplied for this topic.</div>' : ''}
+      ${!topic.answers && (topic.subject === 'physics' || topic.subject === 'accounting') ? '<div class="answer-note">A separate mark scheme was not included in the supplied files for this topic.</div>' : ''}
       <div class="card-actions">
         <div class="open-group">
           <button class="card-button ${unlocked ? 'primary' : 'unlock'} open-resource" type="button" data-topic-id="${topic.id}" data-file="${topic.questions}" data-kind="Questions">${unlocked ? '▤ Open questions' : '🔒 Unlock questions'}</button>
-          ${topic.answers ? `<button class="card-button ${unlocked ? '' : 'unlock'} open-resource" type="button" data-topic-id="${topic.id}" data-file="${topic.answers}" data-kind="Answers">${unlocked ? '✓ Open answers' : '🔒 Unlock answers'}</button>` : ''}
+          ${topic.answers ? `<button class="card-button ${unlocked ? '' : 'unlock'} open-resource" type="button" data-topic-id="${topic.id}" data-file="${topic.answers}" data-kind="Mark Scheme">${unlocked ? '✓ Open mark scheme' : '🔒 Unlock answers'}</button>` : ''}
         </div>
       </div>
     </article>`;
@@ -298,8 +298,8 @@ function renderLibrary() {
 function updateAccountUI() {
   const user = session?.user;
   const premium = isPremiumActive();
-  els.accountButton?.classList.toggle('signed-in', Boolean(user));
-  if (els.accountButtonText) els.accountButtonText.textContent = user ? (premium ? 'Premium account' : 'My account') : 'Sign in';
+  if (els.accountButton) { els.accountButton.hidden = !user; els.accountButton.classList.toggle('signed-in', Boolean(user)); }
+  if (els.accountButtonText) els.accountButtonText.textContent = premium ? 'Premium account' : 'Subscription account';
   if (els.signedOutAccount) els.signedOutAccount.hidden = Boolean(user);
   if (els.signedInAccount) els.signedInAccount.hidden = !user;
 
@@ -412,7 +412,7 @@ function renderPayPalButton() {
   paypalRenderedForUser = session.user.id;
 
   window.paypal.Buttons({
-    style: { shape: 'rect', color: 'gold', layout: 'vertical', label: 'subscribe', height: 48 },
+    style: { shape: 'pill', color: 'blue', layout: 'vertical', label: 'subscribe', height: 52, tagline: false },
     createSubscription(_data, actions) {
       setPaymentMessage('Opening secure PayPal subscription checkout…');
       return actions.subscription.create({
@@ -485,11 +485,11 @@ els.heroPremiumButton.addEventListener('click', showPremiumDialog);
 els.sectionPremiumButton.addEventListener('click', showPremiumDialog);
 els.accountUpgradeButton.addEventListener('click', () => { els.accountDialog.close(); showPremiumDialog(); });
 els.continuePremiumButton.addEventListener('click', () => { els.premiumDialog.close(); document.querySelector('#section-maths')?.scrollIntoView({ behavior: 'smooth' }); });
-els.dialogClose.addEventListener('click', () => els.pdfDialog.close());
-els.pdfDialog.addEventListener('close', () => { els.pdfFrame.src = 'about:blank'; });
+els.dialogClose?.addEventListener('click', () => els.pdfDialog?.close());
+els.pdfDialog?.addEventListener('close', () => { if (els.pdfFrame) els.pdfFrame.src = 'about:blank'; });
 els.accountDialog.addEventListener('click', event => closeOnBackdrop(els.accountDialog, event));
 els.premiumDialog.addEventListener('click', event => closeOnBackdrop(els.premiumDialog, event));
-els.pdfDialog.addEventListener('click', event => closeOnBackdrop(els.pdfDialog, event));
+els.pdfDialog?.addEventListener('click', event => closeOnBackdrop(els.pdfDialog, event));
 
 els.continueButton.addEventListener('click', () => {
   try {
