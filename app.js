@@ -68,450 +68,144 @@ const subjectMeta = {
   }
 };
 
-const subjectOrder = ['chemistry', 'maths', 'physics', 'accounting'];
-const premiumSubjects = new Set(['maths', 'physics', 'accounting']);
 
-const els = {
-  accountButton: document.querySelector('#accountButton'),
-  accountButtonText: document.querySelector('#accountButtonText'),
-  accountDialog: document.querySelector('#accountDialog'),
-  accountClose: document.querySelector('#accountClose'),
-  signedOutAccount: document.querySelector('#signedOutAccount'),
-  signedInAccount: document.querySelector('#signedInAccount'),
-  googleSignInButton: document.querySelector('#googleSignInButton'),
-  premiumGoogleButton: document.querySelector('#premiumGoogleButton'),
-  signOutButton: document.querySelector('#signOutButton'),
-  accountName: document.querySelector('#accountName'),
-  accountEmail: document.querySelector('#accountEmail'),
-  accountAvatar: document.querySelector('#accountAvatar'),
-  avatarFallback: document.querySelector('#avatarFallback'),
-  accountStatus: document.querySelector('#accountStatus'),
-  accountExpiry: document.querySelector('#accountExpiry'),
-  accountUpgradeButton: document.querySelector('#accountUpgradeButton'),
-  navPremiumButton: document.querySelector('#navPremiumButton'),
-  heroPremiumButton: document.querySelector('#heroPremiumButton'),
-  sectionPremiumButton: document.querySelector('#sectionPremiumButton'),
-  premiumDialog: document.querySelector('#premiumDialog'),
-  premiumClose: document.querySelector('#premiumClose'),
-  paymentSignedOut: document.querySelector('#paymentSignedOut'),
-  paymentActive: document.querySelector('#paymentActive'),
-  paymentReady: document.querySelector('#paymentReady'),
-  paymentUserEmail: document.querySelector('#paymentUserEmail'),
-  paymentMessage: document.querySelector('#paymentMessage'),
-  premiumActiveText: document.querySelector('#premiumActiveText'),
-  continuePremiumButton: document.querySelector('#continuePremiumButton'),
-  subjectOverview: document.querySelector('#subjectOverview'),
-  subjectSections: document.querySelector('#subjectSections'),
-  jumpLinks: document.querySelector('#jumpLinks'),
-  searchInput: document.querySelector('#searchInput'),
-  resultCount: document.querySelector('#resultCount'),
-  activeFilterLabel: document.querySelector('#activeFilterLabel'),
-  emptyState: document.querySelector('#emptyState'),
-  filterButtons: [...document.querySelectorAll('.filter-pill')],
-  progressCircle: document.querySelector('#progressCircle'),
-  progressPercent: document.querySelector('#progressPercent'),
-  progressLabel: document.querySelector('#progressLabel'),
-  panelProgressPercent: document.querySelector('#panelProgressPercent'),
-  panelProgressText: document.querySelector('#panelProgressText'),
-  pdfDialog: document.querySelector('#pdfDialog'),
-  pdfFrame: document.querySelector('#pdfFrame'),
-  dialogSubject: document.querySelector('#dialogSubject'),
-  dialogTitle: document.querySelector('#dialogTitle'),
-  dialogDownload: document.querySelector('#dialogDownload'),
-  dialogClose: document.querySelector('#dialogClose'),
-  continueButton: document.querySelector('#continueButton'),
-  toast: document.querySelector('#toast')
+const subjectOrder = ['maths','physics','chemistry','accounting'];
+const palette = {
+  maths:{cls:'maths-bg',icon:'M'}, physics:{cls:'physics-bg',icon:'P'}, chemistry:{cls:'chemistry-bg',icon:'C'}, accounting:{cls:'accounting-bg',icon:'A'}
 };
-
+const premiumSubjects = new Set(['maths','physics','accounting']);
 let session = null;
 let profile = null;
-let activeSubject = 'all';
-let paypalRenderedForUser = null;
-let pendingPremiumFile = null;
-let toastTimer = null;
+let paypalRenderedFor = null;
+let currentSubject = null;
 
-function isPremiumActive() {
-  if (!profile?.premium_until) return false;
-  return new Date(profile.premium_until).getTime() > Date.now();
+const $ = s => document.querySelector(s);
+const els = {
+  dashboardPage: $('#dashboardPage'), subjectPage: $('#subjectPage'), subjectGrid: $('#subjectGrid'), sideSubjects: $('#sideSubjects'),
+  subjectHero: $('#subjectHero'), topicGrid: $('#topicGrid'), topicSearch: $('#topicSearch'), globalSearch: $('#globalSearch'), emptyTopics: $('#emptyTopics'),
+  topTitle: $('#topTitle'), topSubtitle: $('#topSubtitle'), premiumDialog: $('#premiumDialog'), closePremium: $('#closePremium'),
+  signedOutPayment: $('#signedOutPayment'), signedInPayment: $('#signedInPayment'), premiumActive: $('#premiumActive'), payEmail: $('#payEmail'), paymentMessage: $('#paymentMessage'),
+  toast: $('#toast'), progressRing: $('#progressRing'), ringText: $('#ringText'), overallPercent: $('#overallPercent'), progressText: $('#progressText')
+};
+
+function getCompleted(){try{return new Set(JSON.parse(localStorage.getItem('igcse-completed-topics')||'[]'))}catch{return new Set()}}
+function isPremiumActive(){return !!(profile?.premium_until && new Date(profile.premium_until).getTime()>Date.now())}
+function totalQuestions(subject){return topics.filter(t=>t.subject===subject).reduce((a,t)=>a+(t.count||0),0)}
+function showToast(msg){els.toast.textContent=msg;els.toast.hidden=false;clearTimeout(showToast.t);showToast.t=setTimeout(()=>els.toast.hidden=true,3500)}
+function subjectUrl(subject){return `index.html?subject=${encodeURIComponent(subject)}`}
+
+function renderSideSubjects(){
+  els.sideSubjects.innerHTML=subjectOrder.map(s=>{
+    const m=subjectMeta[s],p=palette[s];
+    return `<a class="side-subject ${currentSubject===s?'active':''}" href="${subjectUrl(s)}" target="_blank"><span class="subject-dot ${p.cls}">${p.icon}</span><span>${m.code} ${m.name}</span></a>`
+  }).join('');
 }
 
-function formatDate(value) {
-  if (!value) return '';
-  return new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(value));
+function subjectCard(s){
+  const m=subjectMeta[s],p=palette[s], subjectTopics=topics.filter(t=>t.subject===s), free=m.access==='free';
+  return `<article class="subject-card" data-name="${m.name.toLowerCase()} ${m.code}">
+    <div class="subject-card-top"><div class="big-icon ${p.cls}">${p.icon}</div><span class="badge ${free?'free':'premium'}">${free?'FREE':'PREMIUM'}</span></div>
+    <div class="code">CAMBRIDGE IGCSE · ${m.code}</div><h3>${m.name}</h3>
+    <p>Every topic in the syllabus has topical questions from the last 5 years.</p>
+    <div class="subject-stats"><span><b>${subjectTopics.length}</b> topics</span><span><b>${totalQuestions(s)}</b> questions</span></div>
+    <button class="${p.cls}" type="button" data-open-subject="${s}">Open ${m.name} →</button>
+  </article>`;
 }
 
-function showToast(message) {
-  if (!els.toast) return;
-  els.toast.textContent = message;
-  els.toast.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { els.toast.hidden = true; }, 4500);
+function renderDashboardSubjects(filter=''){
+  const q=filter.trim().toLowerCase();
+  els.subjectGrid.innerHTML=subjectOrder.filter(s=>{
+    const m=subjectMeta[s]; return !q || `${m.name} ${m.code}`.toLowerCase().includes(q);
+  }).map(subjectCard).join('');
 }
 
-function setPaymentMessage(message, type = '') {
-  if (!els.paymentMessage) return;
-  els.paymentMessage.textContent = message;
-  els.paymentMessage.className = `payment-message ${type}`.trim();
+function updateProgress(){
+  const done=getCompleted().size, pct=Math.round(done/topics.length*100);
+  els.overallPercent.textContent=`${pct}%`; els.ringText.textContent=`${pct}%`; els.progressText.textContent=`${done} of ${topics.length} topics completed`;
+  els.progressRing.style.setProperty('--angle',`${pct*3.6}deg`);
 }
 
-function getCompleted() {
-  try { return new Set(JSON.parse(localStorage.getItem('igcse-completed-topics') || '[]')); }
-  catch { return new Set(); }
+function openSubject(subject){ window.open(subjectUrl(subject),'_blank','noopener'); }
+function showDashboard(){
+  currentSubject=null; els.dashboardPage.hidden=false; els.subjectPage.hidden=true; els.topTitle.textContent='Dashboard'; els.topSubtitle.textContent='Topical IGCSE Past Papers';
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.toggle('active',a.dataset.page==='dashboard')); renderSideSubjects();
 }
 
-function saveCompleted(set) {
-  localStorage.setItem('igcse-completed-topics', JSON.stringify([...set]));
+function topicCard(topic){
+  const meta=subjectMeta[topic.subject], p=palette[topic.subject], free=meta.access==='free', unlocked=free||isPremiumActive();
+  const answer=!!topic.answers;
+  return `<article class="topic-card" data-search="${(topic.title+' '+topic.subtopics.join(' ')).toLowerCase()}">
+    <div class="topic-head"><div class="topic-number ${p.cls}">${topic.number}</div><div><h3>${topic.title}</h3><div class="topic-code">${topic.code}</div></div></div>
+    <div class="topic-info"><span class="chip">${topic.count||'Topic'} questions</span><span class="chip">${answer?'Questions + mark scheme':'Question paper'}</span><span class="chip">${free?'Free':unlocked?'Premium active':'Premium'}</span></div>
+    <ul class="subtopic-list">${topic.subtopics.slice(0,5).map(x=>`<li>${x}</li>`).join('')}</ul>
+    <div class="topic-actions">
+      <button class="${unlocked?'primary '+p.cls:'locked'}" data-resource="questions" data-id="${topic.id}" type="button">${unlocked?'Open questions ↗':'🔒 Unlock questions'}</button>
+      ${answer?`<button class="${unlocked?'':'locked'}" data-resource="answers" data-id="${topic.id}" type="button">${unlocked?'Mark scheme ↗':'🔒 Unlock mark scheme'}</button>`:''}
+    </div>
+  </article>`;
 }
 
-function countCompleted(subject = null) {
-  const completed = getCompleted();
-  return topics.filter(topic => completed.has(topic.id) && (!subject || topic.subject === subject)).length;
+function renderSubjectPage(subject, filter=''){
+  currentSubject=subject; const meta=subjectMeta[subject], p=palette[subject];
+  if(!meta){showDashboard();return}
+  els.dashboardPage.hidden=true; els.subjectPage.hidden=false; els.topTitle.textContent=meta.name; els.topSubtitle.textContent=`Cambridge IGCSE ${meta.code}`;
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('active')); renderSideSubjects();
+  const subTopics=topics.filter(t=>t.subject===subject), ans=subTopics.filter(t=>t.answers).length;
+  els.subjectHero.className=`subject-hero ${p.cls}`;
+  els.subjectHero.innerHTML=`<div><span class="eyebrow" style="color:#fff9">CAMBRIDGE IGCSE ${meta.code}</span><h1>${meta.name}</h1><p>Every topic in the syllabus has topical questions from the last 5 years. Open question papers and supplied mark schemes in separate full-screen tabs.</p></div><div class="hero-metrics"><div><strong>${subTopics.length}</strong><span>Syllabus topics</span></div><div><strong>${totalQuestions(subject)}</strong><span>Questions</span></div><div><strong>${ans}</strong><span>Mark schemes</span></div><div><strong>${meta.access==='free'?'Free':'Premium'}</strong><span>Access</span></div></div>`;
+  const q=filter.trim().toLowerCase(); const filtered=subTopics.filter(t=>!q || `${t.title} ${t.subtopics.join(' ')}`.toLowerCase().includes(q));
+  els.topicGrid.innerHTML=filtered.map(topicCard).join(''); els.emptyTopics.hidden=filtered.length>0;
 }
 
-function updateProgress() {
-  const count = countCompleted();
-  const percent = Math.round((count / topics.length) * 100);
-  if (els.progressPercent) els.progressPercent.textContent = `${percent}%`;
-  if (els.progressLabel) els.progressLabel.textContent = `${count} of ${topics.length} topics completed`;
-  if (els.panelProgressPercent) els.panelProgressPercent.textContent = `${percent}%`;
-  if (els.panelProgressText) els.panelProgressText.textContent = `${count} of ${topics.length} topics completed`;
-  if (els.progressCircle) els.progressCircle.style.setProperty('--progress', `${percent * 3.6}deg`);
+function openPdf(file){
+  const url=new URL(file,window.location.href); url.hash='view=FitH'; const w=window.open(url.href,'_blank','noopener,noreferrer');
+  if(!w) showToast('Allow pop-ups for this website, then try again.');
+}
+function requestResource(topic,kind){
+  const unlocked=subjectMeta[topic.subject].access==='free'||isPremiumActive();
+  if(!unlocked){showPremium();return}
+  const file=kind==='answers'?topic.answers:topic.questions; if(file) openPdf(file);
 }
 
-function getSubjectTopics(subject) { return topics.filter(topic => topic.subject === subject); }
-function getSubjectQuestionTotal(subject) { return getSubjectTopics(subject).reduce((sum, topic) => sum + (topic.count || 0), 0); }
-
-function subjectOverviewMarkup(subject) {
-  const meta = subjectMeta[subject];
-  const free = meta.access === 'free';
-  const unlocked = free || isPremiumActive();
-  const answerCount = getSubjectTopics(subject).filter(topic => topic.answers).length;
-  return `
-    <article class="subject-overview-card" data-subject="${subject}">
-      <div class="subject-overview-top">
-        <div class="subject-emblem">${meta.icon}</div>
-        <span class="access-label ${free ? 'free' : unlocked ? 'active' : 'premium'}">${free ? 'Free access' : unlocked ? 'Premium active' : 'Premium locked'}</span>
-      </div>
-      <div class="subject-code">${meta.code} · ${meta.period}</div>
-      <h3>${meta.name}</h3>
-      <p>${meta.description}</p>
-      <div class="overview-stats">
-        <span><b>${getSubjectTopics(subject).length}</b> topics</span>
-        <span><b>${getSubjectQuestionTotal(subject)}</b> questions</span>
-        <span><b>${answerCount}</b> answer booklets</span>
-      </div>
-      <a class="subject-link subject-jump" href="#section-${subject}" data-set-subject="${subject}">${free || unlocked ? `Open ${meta.name}` : `View locked ${meta.name}`} <span aria-hidden="true">→</span></a>
-    </article>`;
+async function loadProfile(){
+  if(!session?.user||!supabaseClient){profile=null;return}
+  const {data}=await supabaseClient.from('profiles').select('*').eq('id',session.user.id).maybeSingle(); profile=data||null;
+}
+async function refreshAuth(){
+  if(!supabaseClient)return; const {data}=await supabaseClient.auth.getSession(); session=data.session; await loadProfile(); updatePaymentUI(); if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value);
+}
+async function signIn(){
+  if(!supabaseClient)return showToast('Google sign-in could not load.');
+  const {error}=await supabaseClient.auth.signInWithOAuth({provider:'google',options:{redirectTo:SITE_URL}}); if(error)showToast(error.message);
+}
+function showPremium(){els.premiumDialog.showModal();updatePaymentUI();if(session?.user&&!isPremiumActive())setTimeout(renderPayPal,100)}
+function updatePaymentUI(){
+  const active=isPremiumActive(); els.signedOutPayment.hidden=!!session; els.signedInPayment.hidden=!session||active; els.premiumActive.hidden=!active;
+  if(session){els.payEmail.textContent=session.user.email||''; if(!active)setTimeout(renderPayPal,50)}
+}
+function renderPayPal(){
+  if(!session?.user||isPremiumActive()||!window.paypal?.Buttons)return; if(paypalRenderedFor===session.user.id)return;
+  const c=$('#paypal-button-container-P-58263651AM188451SNJOJBBQ'); if(!c)return; c.innerHTML=''; paypalRenderedFor=session.user.id;
+  window.paypal.Buttons({style:{shape:'pill',color:'blue',layout:'vertical',label:'subscribe',height:50},
+    createSubscription(_d,a){els.paymentMessage.textContent='Opening secure PayPal checkout…';return a.subscription.create({plan_id:PAYPAL_PLAN_ID,custom_id:session.user.id,application_context:{shipping_preference:'NO_SHIPPING',user_action:'SUBSCRIBE_NOW'}})},
+    onApprove(){els.paymentMessage.textContent='Subscription approved. Premium activation is being confirmed.';showToast('Subscription approved. Refresh shortly if access is not active yet.')},
+    onCancel(){els.paymentMessage.textContent='Payment cancelled. You were not charged.'},onError(){els.paymentMessage.textContent='PayPal could not complete the subscription.'}
+  }).render(c).catch(()=>{paypalRenderedFor=null;els.paymentMessage.textContent='PayPal button could not load. Refresh and try again.'});
 }
 
-function cardMarkup(topic) {
-  const meta = subjectMeta[topic.subject];
-  const free = meta.access === 'free';
-  const unlocked = free || isPremiumActive();
-  const completed = getCompleted().has(topic.id);
-  const shownSubtopics = topic.subtopics.slice(0, 4);
-  const more = topic.subtopics.length - shownSubtopics.length;
-  const countText = topic.legacy ? `${topic.count} legacy questions` : topic.count ? `${topic.count} question${topic.count === 1 ? '' : 's'}` : 'Topic outline';
-  const answerLabel = topic.answers ? 'Questions + mark scheme' : 'Topical questions';
-  return `
-    <article class="topic-card ${unlocked ? '' : 'locked'}" data-id="${topic.id}" data-subject="${topic.subject}">
-      <div class="card-top">
-        <div class="card-headline">
-          <div>
-            <div class="card-topline"><i></i>${meta.name} · Topic ${topic.number}</div>
-            <h4>${topic.title}</h4>
-          </div>
-          <button class="card-button complete-button ${completed ? 'completed' : ''}" type="button" data-complete="${topic.id}" aria-label="${completed ? 'Mark topic incomplete' : 'Mark topic complete'}">${completed ? '✓' : '○'}</button>
-        </div>
-        <div class="topic-code">${topic.code}</div>
-        <div class="topic-meta">
-          <span class="meta-chip">${countText}</span>
-          <span class="meta-chip">${answerLabel}</span>
-          <span class="meta-chip access-chip ${free ? 'free' : unlocked ? 'active' : 'premium'}">${free ? 'Free' : unlocked ? 'Unlocked' : 'Premium'}</span>
-        </div>
-      </div>
-      <div class="subtopics">
-        ${shownSubtopics.map(item => `<span class="subtopic-pill">${item}</span>`).join('')}
-        ${topic.subtopics.slice(4).map(item => `<span class="subtopic-pill extra-subtopic" hidden>${item}</span>`).join('')}
-      </div>
-      ${more > 0 ? `<button class="subtopics-toggle" type="button" data-more="${more}">+ ${more} more subtopic${more === 1 ? '' : 's'}</button>` : ''}
-      ${topic.legacy ? '<div class="legacy-note">Legacy content removed from the current syllabus. Use only for extra practice.</div>' : ''}
-      ${!topic.answers && (topic.subject === 'physics' || topic.subject === 'accounting') ? '<div class="answer-note">A separate mark scheme was not included in the supplied files for this topic.</div>' : ''}
-      <div class="card-actions">
-        <div class="open-group">
-          <button class="card-button ${unlocked ? 'primary' : 'unlock'} open-resource" type="button" data-topic-id="${topic.id}" data-file="${topic.questions}" data-kind="Questions">${unlocked ? '▤ Open questions' : '🔒 Unlock questions'}</button>
-          ${topic.answers ? `<button class="card-button ${unlocked ? '' : 'unlock'} open-resource" type="button" data-topic-id="${topic.id}" data-file="${topic.answers}" data-kind="Mark Scheme">${unlocked ? '✓ Open mark scheme' : '🔒 Unlock answers'}</button>` : ''}
-        </div>
-      </div>
-    </article>`;
-}
+els.subjectGrid.addEventListener('click',e=>{const b=e.target.closest('[data-open-subject]');if(b)openSubject(b.dataset.openSubject)});
+els.sideSubjects.addEventListener('click',e=>{const a=e.target.closest('a');if(a&&innerWidth<760)document.querySelector('.sidebar').classList.remove('open')});
+els.topicGrid.addEventListener('click',e=>{const b=e.target.closest('[data-resource]');if(!b)return;const t=topics.find(x=>x.id===b.dataset.id);if(t)requestResource(t,b.dataset.resource)});
+els.topicSearch.addEventListener('input',()=>renderSubjectPage(currentSubject,els.topicSearch.value));
+els.globalSearch.addEventListener('input',()=>{if(currentSubject){els.topicSearch.value=els.globalSearch.value;renderSubjectPage(currentSubject,els.globalSearch.value)}else renderDashboardSubjects(els.globalSearch.value)});
+$('#exploreSubjects').addEventListener('click',()=>$('#subjects').scrollIntoView({behavior:'smooth'}));
+$('#continueStudy').addEventListener('click',()=>{const last=localStorage.getItem('igcse-last-subject')||'maths';openSubject(last)});
+$('#backSubjects').addEventListener('click',()=>window.open('index.html#subjects','_blank','noopener'));
+$('#premiumTop').addEventListener('click',showPremium);$('#upgradeSide').addEventListener('click',showPremium);els.closePremium.addEventListener('click',()=>els.premiumDialog.close());$('#googleSignIn').addEventListener('click',signIn);
+$('#mobileMenu').addEventListener('click',()=>document.querySelector('.sidebar').classList.toggle('open'));
+els.premiumDialog.addEventListener('click',e=>{const r=els.premiumDialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)els.premiumDialog.close()});
 
-function sectionMarkup(subject, subjectTopics) {
-  const meta = subjectMeta[subject];
-  const free = meta.access === 'free';
-  const unlocked = free || isPremiumActive();
-  const answerCount = subjectTopics.filter(topic => topic.answers).length;
-  return `
-    <section class="subject-section" id="section-${subject}" data-subject="${subject}">
-      <div class="subject-section-head">
-        <div>
-          <div class="subject-title-wrap">
-            <div class="subject-icon">${meta.icon}</div>
-            <div><h3>${meta.name}</h3><p>${meta.code} · ${meta.period} · ${meta.note}</p></div>
-          </div>
-          <div class="subject-summary">${meta.description}</div>
-        </div>
-        <div class="subject-mini-stats">
-          <div><strong>${subjectTopics.length}</strong><span>topics</span></div>
-          <div><strong>${subjectTopics.reduce((sum, topic) => sum + (topic.count || 0), 0)}</strong><span>questions</span></div>
-          <div><strong>${answerCount}</strong><span>answers</span></div>
-          <div><strong>${free ? 'FREE' : unlocked ? 'OPEN' : 'LOCKED'}</strong><span>access</span></div>
-        </div>
-      </div>
-      <div class="topic-grid">${subjectTopics.map(cardMarkup).join('')}</div>
-    </section>`;
-}
-
-function filteredTopics() {
-  const term = els.searchInput.value.trim().toLowerCase();
-  return topics.filter(topic => {
-    const matchesSubject = activeSubject === 'all' || topic.subject === activeSubject;
-    const haystack = [topic.title, topic.code, subjectMeta[topic.subject].name, ...topic.subtopics].join(' ').toLowerCase();
-    return matchesSubject && haystack.includes(term);
-  });
-}
-
-function renderOverview() { els.subjectOverview.innerHTML = subjectOrder.map(subjectOverviewMarkup).join(''); }
-
-function renderLibrary() {
-  const filtered = filteredTopics();
-  const visibleSubjects = subjectOrder.filter(subject => filtered.some(topic => topic.subject === subject));
-  els.subjectSections.innerHTML = visibleSubjects.map(subject => sectionMarkup(subject, filtered.filter(topic => topic.subject === subject))).join('');
-  els.jumpLinks.innerHTML = visibleSubjects.map(subject => `<a class="jump-link subject-jump" href="#section-${subject}" data-set-subject="${subject}">${subjectMeta[subject].name}</a>`).join('');
-  els.resultCount.textContent = `${filtered.length} topic${filtered.length === 1 ? '' : 's'}`;
-  els.activeFilterLabel.textContent = activeSubject === 'all' ? 'across all four subjects' : `in ${subjectMeta[activeSubject].name}`;
-  els.emptyState.hidden = filtered.length !== 0;
-  els.subjectSections.hidden = filtered.length === 0;
-  updateProgress();
-}
-
-function updateAccountUI() {
-  const user = session?.user;
-  const premium = isPremiumActive();
-  if (els.accountButton) { els.accountButton.hidden = !user; els.accountButton.classList.toggle('signed-in', Boolean(user)); }
-  if (els.accountButtonText) els.accountButtonText.textContent = premium ? 'Premium account' : 'Subscription account';
-  if (els.signedOutAccount) els.signedOutAccount.hidden = Boolean(user);
-  if (els.signedInAccount) els.signedInAccount.hidden = !user;
-
-  if (user) {
-    const metadata = user.user_metadata || {};
-    const name = metadata.full_name || metadata.name || user.email?.split('@')[0] || 'Account';
-    els.accountName.textContent = name;
-    els.accountEmail.textContent = user.email || '';
-    els.avatarFallback.textContent = name.charAt(0).toUpperCase();
-    const avatar = metadata.avatar_url || metadata.picture;
-    if (avatar) { els.accountAvatar.src = avatar; els.accountAvatar.hidden = false; els.avatarFallback.hidden = true; }
-    else { els.accountAvatar.hidden = true; els.avatarFallback.hidden = false; }
-    if (premium) {
-      els.accountStatus.textContent = 'Premium active';
-      els.accountExpiry.textContent = `Full premium access until ${formatDate(profile.premium_until)}.`;
-      els.accountUpgradeButton.hidden = true;
-    } else {
-      els.accountStatus.textContent = 'Free account';
-      els.accountExpiry.textContent = 'Chemistry is free. Maths, Physics and Accounting require premium access.';
-      els.accountUpgradeButton.hidden = false;
-    }
-  }
-
-  if (els.paymentSignedOut) els.paymentSignedOut.hidden = Boolean(user);
-  if (els.paymentActive) els.paymentActive.hidden = !(user && premium);
-  if (els.paymentReady) els.paymentReady.hidden = !(user && !premium);
-  if (user && els.paymentUserEmail) els.paymentUserEmail.textContent = user.email || 'Google account';
-  if (user && premium && els.premiumActiveText) els.premiumActiveText.textContent = `Your premium access is active until ${formatDate(profile.premium_until)}.`;
-}
-
-async function loadProfile() {
-  if (!session?.user || !supabaseClient) { profile = null; return; }
-  const { data, error } = await supabaseClient.from('profiles').select('premium_until, paypal_subscription_id, email, full_name, avatar_url').eq('id', session.user.id).maybeSingle();
-  if (error) console.warn('Unable to load profile:', error.message);
-  profile = data || null;
-}
-
-async function refreshUserState() {
-  if (!supabaseClient) { updateAccountUI(); renderOverview(); renderLibrary(); return; }
-  const { data } = await supabaseClient.auth.getSession();
-  session = data.session;
-  await loadProfile();
-  updateAccountUI();
-  renderOverview();
-  renderLibrary();
-  if (session?.user && !isPremiumActive()) renderPayPalButton();
-}
-
-async function signInWithGoogle() {
-  if (!supabaseClient) { showToast('Google sign-in could not load. Refresh and try again.'); return; }
-  const { error } = await supabaseClient.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: SITE_URL } });
-  if (error) showToast(`Google sign-in could not start: ${error.message}`);
-}
-
-async function signOut() {
-  if (!supabaseClient) return;
-  await supabaseClient.auth.signOut();
-  session = null; profile = null; paypalRenderedForUser = null;
-  updateAccountUI(); renderOverview(); renderLibrary();
-  els.accountDialog.close();
-  showToast('You have signed out.');
-}
-
-function showAccountDialog() { updateAccountUI(); els.accountDialog.showModal(); }
-function showPremiumDialog() { updateAccountUI(); els.premiumDialog.showModal(); if (session?.user && !isPremiumActive()) setTimeout(renderPayPalButton, 50); }
-
-function openPdf(topic, file, kind) {
-  localStorage.setItem('igcse-last-opened', JSON.stringify({ topicId: topic.id, file, kind }));
-  const pdfUrl = new URL(file, window.location.href);
-  pdfUrl.hash = 'view=FitH';
-  const opened = window.open(pdfUrl.href, '_blank', 'noopener,noreferrer');
-  if (!opened) {
-    showToast('Your browser blocked the new PDF tab. Allow pop-ups for this website and try again.');
-  }
-}
-
-function requestResource(topic, file, kind) {
-  if (topic.subject === 'chemistry' || isPremiumActive()) { openPdf(topic, file, kind); return; }
-  pendingPremiumFile = { topic, file, kind };
-  showPremiumDialog();
-}
-
-async function waitForPremiumActivation(subscriptionId) {
-  setPaymentMessage('Subscription approved. Confirming premium access…');
-  const started = Date.now();
-  while (Date.now() - started < 90000) {
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    await loadProfile();
-    if (isPremiumActive()) {
-      updateAccountUI(); renderOverview(); renderLibrary();
-      setPaymentMessage('Payment confirmed. Premium access is active.', 'success');
-      showToast('Premium access is active.');
-      if (pendingPremiumFile) {
-        const pending = pendingPremiumFile; pendingPremiumFile = null;
-        setTimeout(() => { els.premiumDialog.close(); openPdf(pending.topic, pending.file, pending.kind); }, 800);
-      }
-      return;
-    }
-  }
-  setPaymentMessage(`PayPal approved subscription ${subscriptionId}, but account confirmation is still processing. Refresh this page in one minute.`, 'error');
-}
-
-function renderPayPalButton() {
-  if (!session?.user || isPremiumActive()) return;
-  if (!window.paypal?.Buttons) { setPaymentMessage('PayPal is still loading. Close and reopen this window in a moment.'); return; }
-  if (paypalRenderedForUser === session.user.id) return;
-  const container = document.querySelector(`#paypal-button-container-${PAYPAL_PLAN_ID}`);
-  if (!container) return;
-  container.innerHTML = '';
-  paypalRenderedForUser = session.user.id;
-
-  window.paypal.Buttons({
-    style: { shape: 'pill', color: 'blue', layout: 'vertical', label: 'subscribe', height: 52, tagline: false },
-    createSubscription(_data, actions) {
-      setPaymentMessage('Opening secure PayPal subscription checkout…');
-      return actions.subscription.create({
-        plan_id: PAYPAL_PLAN_ID,
-        custom_id: session.user.id,
-        application_context: { shipping_preference: 'NO_SHIPPING', user_action: 'SUBSCRIBE_NOW' }
-      });
-    },
-    async onApprove(data) { await waitForPremiumActivation(data.subscriptionID); },
-    onCancel() { setPaymentMessage('Payment was cancelled. You have not been charged.'); },
-    onError(error) { console.error('PayPal error:', error); setPaymentMessage('PayPal could not complete the subscription. Try again or use another eligible payment method.', 'error'); }
-  }).render(container).catch(error => {
-    console.error('PayPal render error:', error);
-    paypalRenderedForUser = null;
-    setPaymentMessage('The PayPal subscription button could not load. Refresh the page and try again.', 'error');
-  });
-}
-
-function setActiveFilter(subject) {
-  activeSubject = subject;
-  els.filterButtons.forEach(button => {
-    const active = button.dataset.subject === subject;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-selected', active ? 'true' : 'false');
-  });
-  renderLibrary();
-}
-
-function closeOnBackdrop(dialog, event) {
-  const box = dialog.getBoundingClientRect();
-  const outside = event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom;
-  if (outside) dialog.close();
-}
-
-els.filterButtons.forEach(button => button.addEventListener('click', () => setActiveFilter(button.dataset.subject)));
-els.searchInput.addEventListener('input', renderLibrary);
-els.subjectOverview.addEventListener('click', event => { if (event.target.closest('.subject-jump')) setActiveFilter('all'); });
-els.jumpLinks.addEventListener('click', event => { if (event.target.closest('.subject-jump')) setActiveFilter('all'); });
-
-els.subjectSections.addEventListener('click', event => {
-  const resourceButton = event.target.closest('.open-resource');
-  if (resourceButton) {
-    const topic = topics.find(item => item.id === resourceButton.dataset.topicId);
-    if (topic) requestResource(topic, resourceButton.dataset.file, resourceButton.dataset.kind);
-    return;
-  }
-  const completeButton = event.target.closest('[data-complete]');
-  if (completeButton) {
-    const completed = getCompleted();
-    if (completed.has(completeButton.dataset.complete)) completed.delete(completeButton.dataset.complete); else completed.add(completeButton.dataset.complete);
-    saveCompleted(completed); renderLibrary(); return;
-  }
-  const toggle = event.target.closest('.subtopics-toggle');
-  if (toggle) {
-    const extras = toggle.closest('.topic-card').querySelectorAll('.extra-subtopic');
-    const opening = extras[0]?.hidden;
-    extras.forEach(item => { item.hidden = !opening; });
-    toggle.textContent = opening ? 'Show fewer subtopics' : `+ ${toggle.dataset.more} more subtopic${toggle.dataset.more === '1' ? '' : 's'}`;
-  }
-});
-
-els.accountButton.addEventListener('click', showAccountDialog);
-els.accountClose.addEventListener('click', () => els.accountDialog.close());
-els.premiumClose.addEventListener('click', () => els.premiumDialog.close());
-els.googleSignInButton.addEventListener('click', signInWithGoogle);
-els.premiumGoogleButton.addEventListener('click', signInWithGoogle);
-els.signOutButton.addEventListener('click', signOut);
-els.navPremiumButton.addEventListener('click', showPremiumDialog);
-els.heroPremiumButton.addEventListener('click', showPremiumDialog);
-els.sectionPremiumButton.addEventListener('click', showPremiumDialog);
-els.accountUpgradeButton.addEventListener('click', () => { els.accountDialog.close(); showPremiumDialog(); });
-els.continuePremiumButton.addEventListener('click', () => { els.premiumDialog.close(); document.querySelector('#section-maths')?.scrollIntoView({ behavior: 'smooth' }); });
-els.dialogClose?.addEventListener('click', () => els.pdfDialog?.close());
-els.pdfDialog?.addEventListener('close', () => { if (els.pdfFrame) els.pdfFrame.src = 'about:blank'; });
-els.accountDialog.addEventListener('click', event => closeOnBackdrop(els.accountDialog, event));
-els.premiumDialog.addEventListener('click', event => closeOnBackdrop(els.premiumDialog, event));
-els.pdfDialog?.addEventListener('click', event => closeOnBackdrop(els.pdfDialog, event));
-
-els.continueButton.addEventListener('click', () => {
-  try {
-    const last = JSON.parse(localStorage.getItem('igcse-last-opened') || 'null');
-    if (!last) return document.querySelector('#subjects').scrollIntoView({ behavior: 'smooth' });
-    const topic = topics.find(item => item.id === last.topicId);
-    if (topic) requestResource(topic, last.file, last.kind);
-  } catch { document.querySelector('#subjects').scrollIntoView({ behavior: 'smooth' }); }
-});
-
-document.addEventListener('keydown', event => {
-  if (event.key === '/' && document.activeElement !== els.searchInput) { event.preventDefault(); els.searchInput.focus(); }
-});
-
-supabaseClient?.auth.onAuthStateChange(async (_event, newSession) => {
-  session = newSession;
-  await loadProfile();
-  updateAccountUI(); renderOverview(); renderLibrary();
-  if (session?.user && !isPremiumActive()) setTimeout(renderPayPalButton, 100);
-});
-
-renderOverview();
-renderLibrary();
-updateAccountUI();
-refreshUserState().catch(error => { console.error('Initialisation error:', error); updateAccountUI(); });
+const params=new URLSearchParams(location.search); const requested=params.get('subject');
+renderDashboardSubjects();updateProgress();if(requested&&subjectMeta[requested]){localStorage.setItem('igcse-last-subject',requested);renderSubjectPage(requested)}else showDashboard();
+supabaseClient?.auth.onAuthStateChange(async(_e,s)=>{session=s;await loadProfile();updatePaymentUI();if(currentSubject)renderSubjectPage(currentSubject,els.topicSearch.value)});
+refreshAuth().catch(console.error);
