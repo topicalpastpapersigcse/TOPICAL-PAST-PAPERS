@@ -122,11 +122,19 @@
       <button class="close" id="closePremium" type="button">×</button>
       <span class="eyebrow"><i></i> SECURE PREMIUM CHECKOUT</span>
       <h2>Unlock the complete study library</h2>
-      <p>Sign in only when you are ready to subscribe. Visitors can browse the website without creating an account.</p>
+      <p>Pay first with PayPal. After PayPal approves the subscription, sign in with Google to connect Premium access to your account.</p>
       <div class="price"><strong>US$20</strong><span>per month</span></div>
       <ul><li>Every available syllabus topic</li><li>Topical questions from the last 5 years</li><li>Full-screen papers and supplied mark schemes</li></ul>
-      <div id="signedOutPayment"><button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Continue securely with Google</button></div>
-      <div id="signedInPayment" hidden><p class="signed-line">Signed in as <b id="payEmail"></b></p><div id="paypal-button-container-P-58263651AM188451SNJOJBBQ"></div><p id="paymentMessage"></p></div>
+      <div id="checkoutPayment">
+        <div class="checkout-step"><span>1</span><div><b>Complete payment</b><small>Subscribe securely through PayPal.</small></div></div>
+        <div id="paypal-button-container-P-58263651AM188451SNJOJBBQ"></div>
+        <p id="paymentMessage"></p>
+      </div>
+      <div id="postPaymentSignIn" hidden>
+        <div class="checkout-step success-step"><span>2</span><div><b>Payment approved</b><small>Now sign in to activate Premium on your account.</small></div></div>
+        <button id="googleSignIn" class="google" type="button">G&nbsp;&nbsp; Sign in with Google to activate Premium</button>
+      </div>
+      <div id="linkingPremium" hidden><div class="success">Connecting your paid subscription to <b id="payEmail"></b>…</div></div>
       <div id="premiumActive" hidden><div class="success">Premium access is active.</div></div>
     </div>
   </dialog>
