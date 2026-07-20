@@ -33,3 +33,12 @@ main{padding:18px 24px 52px}
 @media(max-width:1180px){.subject-card{min-height:240px}}
 @media(max-width:860px){main{padding:14px 14px 42px}.home-dashboard{padding:17px}.home-head{align-items:flex-start}.subject-card{min-height:235px}}
 @media(max-width:560px){.home-dashboard{padding:15px}.home-head h1{font-size:30px}.subject-card{min-height:226px}.home-metrics{margin-top:14px}}
+
+/* V13 — explain cross-device Premium access before payment */
+.device-access-note{display:flex;gap:11px;align-items:flex-start;margin:14px 0 16px;padding:13px 14px;border:1px solid rgba(80,126,255,.34);border-radius:13px;background:linear-gradient(145deg,rgba(20,37,75,.72),rgba(8,20,42,.88));text-align:left}
+.device-access-icon{flex:0 0 auto;display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(71,108,255,.18);color:#8da9ff;font-size:18px;font-weight:900}
+.device-access-note b{display:block;color:#fff;font-size:13px;margin:0 0 5px}
+.device-access-note p{margin:0;color:#bac6dc;font-size:11px;line-height:1.55}
+.device-access-note strong{color:#fff}
+.device-access-note small{display:block;margin-top:7px;color:#8291ad;font-size:9px;line-height:1.45}
+@media(max-width:560px){.device-access-note{padding:12px;gap:9px}.device-access-icon{width:30px;height:30px}.device-access-note b{font-size:12px}}
