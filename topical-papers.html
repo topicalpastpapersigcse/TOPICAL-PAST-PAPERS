@@ -157,13 +157,14 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
   <script src="app.js?v=25"></script>
   <script src="v12-ui.js?v=25"></script>
-  <script src="v15-payment-reset.js?v=31"></script>
+  <script src="v15-payment-reset.js?v=35"></script>
+  <script src="v16-navigation-tools.js?v=35" data-v16-navigation-tools="true"></script>
   <script>
     (() => {
       const params = new URLSearchParams(location.search);
       const subject = params.get('subject');
       if (!subject) {
-        location.replace('index.html');
+        location.replace('index.html?build=35');
         return;
       }
 
@@ -172,7 +173,7 @@
         const newBack = oldBack.cloneNode(true);
         oldBack.replaceWith(newBack);
         newBack.addEventListener('click', () => {
-          location.href = `index.html?subject=${encodeURIComponent(subject)}`;
+          location.href = `index.html?subject=${encodeURIComponent(subject)}&build=35`;
         });
       }
 
