@@ -2,6 +2,11 @@
 (() => {
   const resetBeforeSignIn = document.getElementById('resetPaymentBeforeSignIn');
   const resetAfterError = document.getElementById('resetPaymentAfterError');
+  const PREMIUM_UI_CACHE_KEY = 'igcse-premium-visual-cache-v1';
+
+  function clearPremiumVisualCache() {
+    try { window.localStorage.removeItem(PREMIUM_UI_CACHE_KEY); } catch {}
+  }
 
   async function resetPaymentFlow() {
     const pendingKey = typeof PENDING_PAYMENT_KEY !== 'undefined'
@@ -10,6 +15,7 @@
     const storage = typeof localStore !== 'undefined' ? localStore : window.localStorage;
 
     try { storage.removeItem(pendingKey); } catch {}
+    clearPremiumVisualCache();
 
     const input = document.getElementById('transactionIdInput');
     const manualClaim = document.getElementById('manualClaim');
@@ -40,6 +46,93 @@
 
   resetBeforeSignIn?.addEventListener('click', resetPaymentFlow);
   resetAfterError?.addEventListener('click', resetPaymentFlow);
+})();
+
+// Keep the Premium Active label visually stable while authentication restores after navigation.
+(() => {
+  if (typeof updatePaymentUI !== 'function' || typeof subjectCard !== 'function') return;
+
+  const PREMIUM_UI_CACHE_KEY = 'igcse-premium-visual-cache-v1';
+
+  function readCachedPremium() {
+    try {
+      const cached = JSON.parse(window.localStorage.getItem(PREMIUM_UI_CACHE_KEY) || 'null');
+      const expiry = cached?.expiry ? new Date(cached.expiry).getTime() : 0;
+      if (!Number.isFinite(expiry) || expiry <= Date.now()) {
+        window.localStorage.removeItem(PREMIUM_UI_CACHE_KEY);
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function savePremiumCache() {
+    const expiry = typeof profile !== 'undefined' ? profile?.premium_until : null;
+    if (!expiry) return;
+    try {
+      window.localStorage.setItem(PREMIUM_UI_CACHE_KEY, JSON.stringify({ expiry }));
+    } catch {}
+  }
+
+  function clearPremiumCache() {
+    try { window.localStorage.removeItem(PREMIUM_UI_CACHE_KEY); } catch {}
+  }
+
+  const previousSubjectCard = subjectCard;
+  subjectCard = function stablePremiumSubjectCard(subject) {
+    const html = previousSubjectCard(subject);
+    const meta = typeof subjectMeta !== 'undefined' ? subjectMeta[subject] : null;
+    if (!meta || meta.access === 'free' || !readCachedPremium()) return html;
+    return html.replace('class="badge premium">♛ PREMIUM', 'class="badge active">✓ ACTIVE');
+  };
+
+  const previousUpdatePaymentUI = updatePaymentUI;
+  updatePaymentUI = function stablePremiumPaymentUI() {
+    previousUpdatePaymentUI();
+
+    const realActive = typeof isPremiumActive === 'function' && isPremiumActive();
+    if (realActive) savePremiumCache();
+
+    if (!realActive && typeof session !== 'undefined' && session?.user && typeof profile !== 'undefined' && profile) {
+      clearPremiumCache();
+    }
+
+    const displayActive = realActive || readCachedPremium();
+    const topButton = document.getElementById('premiumTop');
+    const sideBox = document.getElementById('premiumSideBox');
+    const sideLabel = document.getElementById('premiumSideLabel');
+    const sideTitle = document.getElementById('premiumSideTitle');
+    const sideText = document.getElementById('premiumSideText');
+    const sideMeta = document.getElementById('premiumSideMeta');
+    const sideButton = document.getElementById('upgradeSide');
+
+    if (topButton) {
+      topButton.classList.toggle('active', displayActive);
+      topButton.innerHTML = displayActive ? '<span>✓</span> Premium Active' : '<span>♛</span> Get 30-Day Access';
+      topButton.disabled = displayActive;
+    }
+    if (sideBox) sideBox.classList.toggle('active', displayActive);
+    if (sideLabel) sideLabel.textContent = displayActive ? 'ACTIVE' : 'PREMIUM';
+    if (sideTitle) sideTitle.textContent = displayActive ? 'Premium is active' : 'Unlock premium subjects';
+    if (sideText) sideText.textContent = displayActive
+      ? 'Mathematics, Physics and Accounting are fully unlocked.'
+      : 'Mathematics, Physics and Accounting for 30 days.';
+    if (sideMeta && displayActive && typeof profile !== 'undefined' && profile?.premium_until && typeof formatExpiry === 'function') {
+      sideMeta.textContent = `Access until ${formatExpiry(profile.premium_until)}`;
+    }
+    if (sideButton) {
+      sideButton.textContent = displayActive ? '✓ Premium Active' : 'Get 30-Day Access';
+      sideButton.disabled = displayActive;
+    }
+
+    if (typeof currentSubject !== 'undefined' && !currentSubject && typeof renderDashboardSubjects === 'function') {
+      renderDashboardSubjects(document.getElementById('globalSearch')?.value || '');
+    }
+  };
+
+  updatePaymentUI();
 })();
 
 // Open topical papers on their own page in the same browser tab.
