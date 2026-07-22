@@ -1,9 +1,10 @@
 services:
   - type: web
-    name: my-ai-studio
+    name: usman-ai-studio
     runtime: node
     plan: free
-    buildCommand: npm install
+    branch: usman-ai-studio-deploy
+    buildCommand: cat .ai_archive/part-*.b64 | base64 -d > /tmp/ai-studio-project.tar.gz && tar -xzf /tmp/ai-studio-project.tar.gz && npm install
     startCommand: npm start
     envVars:
       - key: NODE_VERSION
@@ -15,7 +16,7 @@ services:
       - key: OPENAI_IMAGE_MODEL
         value: gpt-image-1
       - key: APP_NAME
-        value: My AI Studio
+        value: Usman AI Studio
       - key: APP_TAGLINE
         value: Chat, create, edit and work with files
       - key: MAX_FILE_MB
