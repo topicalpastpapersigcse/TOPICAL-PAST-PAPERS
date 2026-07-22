@@ -1,4 +1,17 @@
 // V15 — payment recovery, stable premium display, current routing, and V16 loader.
+
+// Old bookmarked/cached subject URLs must always move to the current website build.
+(() => {
+  const LATEST_BUILD = '36';
+  const params = new URLSearchParams(location.search);
+  const currentBuild = Number(params.get('build') || 0);
+  if (currentBuild < Number(LATEST_BUILD)) {
+    params.set('build', LATEST_BUILD);
+    const nextUrl = `${location.pathname}?${params.toString()}${location.hash}`;
+    location.replace(nextUrl);
+  }
+})();
+
 (() => {
   const resetBeforeSignIn = document.getElementById('resetPaymentBeforeSignIn');
   const resetAfterError = document.getElementById('resetPaymentAfterError');
@@ -137,7 +150,7 @@
 
 // Force every subject to use the same latest shared design build.
 (() => {
-  const BUILD = '34';
+  const BUILD = '36';
   const validSubjects = new Set(['maths', 'physics', 'chemistry', 'accounting']);
   const subjectPageUrl = subject => `index.html?subject=${encodeURIComponent(subject)}&build=${BUILD}`;
   const topicalPageUrl = subject => `topical-papers.html?subject=${encodeURIComponent(subject)}&build=${BUILD}`;
@@ -196,12 +209,12 @@
     replacement.addEventListener('click', () => {
       const subject = new URLSearchParams(location.search).get('subject');
       if (!validSubjects.has(subject)) {
-        location.href = 'index.html?build=34';
+        location.href = 'index.html?build=36';
         return;
       }
       location.href = typeof window.__latestTopicalPageUrl === 'function'
         ? window.__latestTopicalPageUrl(subject)
-        : `topical-papers.html?subject=${encodeURIComponent(subject)}&build=34`;
+        : `topical-papers.html?subject=${encodeURIComponent(subject)}&build=36`;
     });
     return true;
   }
@@ -216,11 +229,11 @@
   }, 0);
 })();
 
-// Load the new navigation and study-tools strip with its own cache-busting version.
+// Load the top navigation and website-tools strip directly.
 (() => {
   if (document.querySelector('script[data-v16-navigation-tools]')) return;
   const script = document.createElement('script');
-  script.src = 'v16-navigation-tools.js?v=34';
+  script.src = 'v16-navigation-tools.js?v=36';
   script.dataset.v16NavigationTools = 'true';
   document.head.appendChild(script);
 })();
