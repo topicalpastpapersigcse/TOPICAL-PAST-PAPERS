@@ -8,7 +8,7 @@
   <title>Topical IGCSE Past Papers</title>
   <link rel="stylesheet" href="styles.css?v=25">
   <link rel="stylesheet" href="v12.css?v=25">
-  <link rel="stylesheet" href="v15.css?v=31">
+  <link rel="stylesheet" href="v15.css?v=32">
   <style>
     .subject-card{cursor:pointer}
     #subjectPage .subject-hero,
@@ -18,56 +18,85 @@
     #subjectPage .subject-hero.accounting-bg{
       position:relative!important;
       overflow:hidden!important;
-      min-height:238px!important;
-      padding:28px 32px!important;
+      display:grid!important;
+      grid-template-columns:minmax(0,1fr) minmax(300px,370px)!important;
+      align-items:center!important;
+      gap:24px!important;
+      min-height:0!important;
+      height:auto!important;
+      padding:22px 24px!important;
       border:1px solid rgba(91,226,195,.30)!important;
-      border-radius:21px!important;
+      border-radius:19px!important;
       background:linear-gradient(135deg,#071522 0%,#0a2230 56%,#102d3b 100%)!important;
-      box-shadow:0 20px 52px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.04)!important;
+      box-shadow:0 16px 42px rgba(0,0,0,.30),inset 0 1px 0 rgba(255,255,255,.04)!important;
     }
     #subjectPage .subject-hero::before{
       content:"";
       position:absolute;
       inset:0;
-      background:radial-gradient(circle at 84% 12%,rgba(67,231,192,.20),transparent 30%),radial-gradient(circle at 18% 110%,rgba(52,112,255,.15),transparent 34%);
+      background:radial-gradient(circle at 84% 12%,rgba(67,231,192,.18),transparent 30%),radial-gradient(circle at 18% 110%,rgba(52,112,255,.13),transparent 34%);
       pointer-events:none;
     }
-    #subjectPage .subject-hero>div{position:relative;z-index:1}
+    #subjectPage .subject-hero>div{position:relative;z-index:1;min-width:0}
     #subjectPage .subject-hero h1{
-      margin:10px 0 11px!important;
-      font-size:clamp(32px,3vw,44px)!important;
+      margin:8px 0 9px!important;
+      font-size:clamp(28px,2.6vw,38px)!important;
       line-height:1.03!important;
-      letter-spacing:-.04em!important;
+      letter-spacing:-.035em!important;
     }
     #subjectPage .subject-hero p{
-      max-width:720px!important;
+      max-width:680px!important;
       margin:0!important;
       color:#bfd0dc!important;
-      font-size:14px!important;
-      line-height:1.62!important;
+      font-size:13px!important;
+      line-height:1.55!important;
     }
-    #subjectPage .subject-hero .eyebrow{color:#78efd0!important}
-    #subjectPage .subject-hero .hero-metrics{gap:11px!important}
+    #subjectPage .subject-hero .eyebrow{color:#78efd0!important;font-size:10px!important}
+    #subjectPage .subject-hero .hero-metrics{
+      display:grid!important;
+      grid-template-columns:repeat(2,minmax(0,1fr))!important;
+      gap:10px!important;
+      width:100%!important;
+      min-width:0!important;
+    }
     #subjectPage .subject-hero .hero-metrics>div{
-      min-height:90px!important;
-      padding:16px!important;
+      min-width:0!important;
+      min-height:72px!important;
+      padding:13px 14px!important;
+      overflow:hidden!important;
       border:1px solid rgba(111,224,199,.18)!important;
-      border-radius:15px!important;
+      border-radius:14px!important;
       background:rgba(4,17,29,.48)!important;
       box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
     }
-    #subjectPage .subject-hero .hero-metrics strong{font-size:28px!important}
-    #subjectPage .subject-hero .hero-metrics span{color:#9eb3c1!important}
+    #subjectPage .subject-hero .hero-metrics strong{
+      display:block!important;
+      width:100%!important;
+      max-width:100%!important;
+      min-width:0!important;
+      font-size:23px!important;
+      line-height:1.05!important;
+      white-space:normal!important;
+      overflow-wrap:anywhere!important;
+      word-break:break-word!important;
+    }
+    #subjectPage .subject-hero .hero-metrics>div:last-child strong{font-size:20px!important}
+    #subjectPage .subject-hero .hero-metrics span{color:#9eb3c1!important;font-size:10px!important}
     @media(max-width:900px){
-      #subjectPage .subject-hero{padding:25px!important;min-height:220px!important}
-      #subjectPage .subject-hero h1{font-size:clamp(30px,5.5vw,40px)!important}
+      #subjectPage .subject-hero{grid-template-columns:1fr!important;padding:20px!important;gap:18px!important}
+      #subjectPage .subject-hero h1{font-size:clamp(28px,5vw,36px)!important}
+      #subjectPage .subject-hero .hero-metrics{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+    }
+    @media(max-width:700px){
+      #subjectPage .subject-hero .hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
     }
     @media(max-width:620px){
-      #subjectPage .subject-hero{padding:21px 19px!important;border-radius:18px!important;min-height:auto!important}
-      #subjectPage .subject-hero h1{font-size:clamp(28px,8.5vw,36px)!important}
-      #subjectPage .subject-hero p{font-size:13px!important}
-      #subjectPage .subject-hero .hero-metrics>div{min-height:78px!important;padding:13px!important}
-      #subjectPage .subject-hero .hero-metrics strong{font-size:24px!important}
+      #subjectPage .subject-hero{padding:18px!important;border-radius:17px!important}
+      #subjectPage .subject-hero h1{font-size:clamp(27px,8vw,34px)!important}
+      #subjectPage .subject-hero p{font-size:12px!important}
+      #subjectPage .subject-hero .hero-metrics>div{min-height:68px!important;padding:12px!important}
+      #subjectPage .subject-hero .hero-metrics strong{font-size:21px!important}
+      #subjectPage .subject-hero .hero-metrics>div:last-child strong{font-size:18px!important}
     }
   </style>
 </head>
