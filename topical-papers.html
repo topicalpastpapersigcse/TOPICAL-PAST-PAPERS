@@ -8,15 +8,15 @@
   <title>Topical Past Papers | Topical IGCSE</title>
   <link rel="stylesheet" href="styles.css?v=25">
   <link rel="stylesheet" href="v12.css?v=25">
-  <link rel="stylesheet" href="v15.css?v=28">
+  <link rel="stylesheet" href="v15.css?v=32">
   <style>
-    .topical-page-intro{margin:24px 0 18px;padding:22px 24px;border:1px solid rgba(78,229,190,.28);border-radius:18px;background:linear-gradient(135deg,#071827,#0b2431);box-shadow:0 18px 42px rgba(0,0,0,.28)}
-    .topical-page-intro h2{margin:8px 0 6px;font-size:30px;letter-spacing:-.03em}
-    .topical-page-intro p{margin:0;color:#9aabc6;font-size:13px;line-height:1.65}
+    .topical-page-intro{margin:20px 0 16px;padding:19px 22px;border:1px solid rgba(78,229,190,.28);border-radius:17px;background:linear-gradient(135deg,#071827,#0b2431);box-shadow:0 16px 36px rgba(0,0,0,.25)}
+    .topical-page-intro h2{margin:7px 0 5px;font-size:27px;letter-spacing:-.03em}
+    .topical-page-intro p{margin:0;color:#9aabc6;font-size:12px;line-height:1.6}
     .topical-page-intro .eyebrow{color:#69efc8}
     .topical-only-page .subject-toolbar{margin-top:0}
     .topical-only-page .subject-hero{margin-top:0}
-    @media(max-width:620px){.topical-page-intro{padding:18px}.topical-page-intro h2{font-size:25px}}
+    @media(max-width:620px){.topical-page-intro{padding:17px}.topical-page-intro h2{font-size:23px}}
   </style>
 </head>
 <body class="topical-only-page">
@@ -50,6 +50,28 @@
       <label class="search"><span>⌕</span><input id="globalSearch" placeholder="Search topics..." aria-label="Search"></label>
       <button class="premium-top" id="premiumTop" type="button"><span>♛</span> Get 30-Day Access</button>
     </header>
+
+    <script>
+      (() => {
+        try {
+          const cached = JSON.parse(localStorage.getItem('igcse-premium-visual-cache-v1') || 'null');
+          const expiry = cached?.expiry ? new Date(cached.expiry).getTime() : 0;
+          if (!Number.isFinite(expiry) || expiry <= Date.now()) return;
+          const top = document.getElementById('premiumTop');
+          const sideBox = document.getElementById('premiumSideBox');
+          const sideLabel = document.getElementById('premiumSideLabel');
+          const sideTitle = document.getElementById('premiumSideTitle');
+          const sideText = document.getElementById('premiumSideText');
+          const sideButton = document.getElementById('upgradeSide');
+          if (top) { top.classList.add('active'); top.innerHTML = '<span>✓</span> Premium Active'; top.disabled = true; }
+          if (sideBox) sideBox.classList.add('active');
+          if (sideLabel) sideLabel.textContent = 'ACTIVE';
+          if (sideTitle) sideTitle.textContent = 'Premium is active';
+          if (sideText) sideText.textContent = 'Mathematics, Physics and Accounting are fully unlocked.';
+          if (sideButton) { sideButton.textContent = '✓ Premium Active'; sideButton.disabled = true; }
+        } catch {}
+      })();
+    </script>
 
     <main>
       <section id="dashboardPage" class="page" hidden>
@@ -135,7 +157,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
   <script src="app.js?v=25"></script>
   <script src="v12-ui.js?v=25"></script>
-  <script src="v15-payment-reset.js?v=28"></script>
+  <script src="v15-payment-reset.js?v=31"></script>
   <script>
     (() => {
       const params = new URLSearchParams(location.search);
