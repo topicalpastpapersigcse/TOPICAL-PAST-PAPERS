@@ -1,4 +1,4 @@
-// V15 — let visitors escape a mistaken or fake "I have paid" flow.
+// V15 — payment recovery, stable premium display, current routing, and V16 loader.
 (() => {
   const resetBeforeSignIn = document.getElementById('resetPaymentBeforeSignIn');
   const resetAfterError = document.getElementById('resetPaymentAfterError');
@@ -48,7 +48,7 @@
   resetAfterError?.addEventListener('click', resetPaymentFlow);
 })();
 
-// Keep the Premium Active label visually stable while authentication restores after navigation.
+// Keep Premium Active visually stable while authentication restores after navigation.
 (() => {
   if (typeof updatePaymentUI !== 'function' || typeof subjectCard !== 'function') return;
 
@@ -137,7 +137,7 @@
 
 // Force every subject to use the same latest shared design build.
 (() => {
-  const BUILD = '33';
+  const BUILD = '34';
   const validSubjects = new Set(['maths', 'physics', 'chemistry', 'accounting']);
   const subjectPageUrl = subject => `index.html?subject=${encodeURIComponent(subject)}&build=${BUILD}`;
   const topicalPageUrl = subject => `topical-papers.html?subject=${encodeURIComponent(subject)}&build=${BUILD}`;
@@ -162,10 +162,10 @@
 
   document.addEventListener('click', event => {
     const subjectButton = event.target.closest('[data-open-subject]');
-    const subjectCard = event.target.closest('.subject-card');
+    const subjectCardElement = event.target.closest('.subject-card');
     const sideLink = event.target.closest('a[href*="index.html?subject="]');
     const subject = subjectButton?.dataset.openSubject
-      || subjectCard?.querySelector('[data-open-subject]')?.dataset.openSubject
+      || subjectCardElement?.querySelector('[data-open-subject]')?.dataset.openSubject
       || (sideLink ? new URL(sideLink.href, location.href).searchParams.get('subject') : null);
 
     if (!validSubjects.has(subject)) return;
@@ -196,12 +196,12 @@
     replacement.addEventListener('click', () => {
       const subject = new URLSearchParams(location.search).get('subject');
       if (!validSubjects.has(subject)) {
-        location.href = 'index.html';
+        location.href = 'index.html?build=34';
         return;
       }
       location.href = typeof window.__latestTopicalPageUrl === 'function'
         ? window.__latestTopicalPageUrl(subject)
-        : `topical-papers.html?subject=${encodeURIComponent(subject)}&build=33`;
+        : `topical-papers.html?subject=${encodeURIComponent(subject)}&build=34`;
     });
     return true;
   }
@@ -214,4 +214,13 @@
     observer.observe(document.documentElement, { childList: true, subtree: true });
     setTimeout(() => observer.disconnect(), 10000);
   }, 0);
+})();
+
+// Load the new navigation and study-tools strip with its own cache-busting version.
+(() => {
+  if (document.querySelector('script[data-v16-navigation-tools]')) return;
+  const script = document.createElement('script');
+  script.src = 'v16-navigation-tools.js?v=34';
+  script.dataset.v16NavigationTools = 'true';
+  document.head.appendChild(script);
 })();
