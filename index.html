@@ -8,7 +8,7 @@
   <title>Topical IGCSE Past Papers</title>
   <link rel="stylesheet" href="styles.css?v=25">
   <link rel="stylesheet" href="v12.css?v=25">
-  <link rel="stylesheet" href="v15.css?v=25">
+  <link rel="stylesheet" href="v15.css?v=28">
   <style>.subject-card{cursor:pointer}</style>
 </head>
 <body>
@@ -136,7 +136,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
   <script src="app.js?v=25"></script>
   <script src="v12-ui.js?v=25"></script>
-  <script src="v15-payment-reset.js?v=27"></script>
+  <script src="v15-payment-reset.js?v=28"></script>
   <script>
     document.addEventListener('click', event => {
       const card = event.target.closest('.subject-card');
@@ -170,7 +170,7 @@
         .final-resource-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.final-resource-card{min-height:230px;padding:22px;border:1px solid #1c3156;border-radius:19px;background:linear-gradient(150deg,#0b172b,#07101f);display:flex;flex-direction:column;transition:.22s ease}.final-resource-card:hover{transform:translateY(-5px);border-color:#4c73b4;box-shadow:0 20px 42px rgba(0,0,0,.34)}
         .final-card-top{display:flex;align-items:center;justify-content:space-between}.final-card-icon{display:grid;place-items:center;width:55px;height:55px;border-radius:15px;background:linear-gradient(145deg,#19356a,#30247b);font-size:25px}.final-card-status{padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9dabc3;font-size:9px;font-weight:950;letter-spacing:.1em}.final-resource-card h3{margin:19px 0 8px;font-size:21px}.final-resource-card p{margin:0 0 20px;color:#91a1bd;font-size:12px;line-height:1.65}
         .final-resource-card button{margin-top:auto;width:100%;min-height:49px;border-radius:12px;color:#fff;font-weight:950;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 28px rgba(0,0,0,.25);transition:.2s ease}.final-resource-card button:hover{transform:translateY(-2px);filter:brightness(1.15)}.final-notes button{background:linear-gradient(100deg,#1e67ff,#394cf0)}.final-mocks button{background:linear-gradient(100deg,#7b3ff2,#9846dc)}.final-predicted button{background:linear-gradient(100deg,#ed7b1f,#d94d45)}
-        .final-topical-heading{margin:8px 0 15px;scroll-margin-top:100px}.final-topical-heading h2{margin:8px 0 5px;font-size:29px}.final-topical-heading p{margin:0;color:#8391aa;font-size:12px}.final-topical-hidden{display:none!important}.final-topical-reveal{animation:finalReveal .42s ease both}@keyframes finalReveal{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+        .final-topical-heading{margin:8px 0 15px;scroll-margin-top:100px}.final-topical-heading h2{margin:8px 0 5px;font-size:29px}.final-topical-heading p{margin:0;color:#8391aa;font-size:12px}.final-topical-hidden{display:none!important}
         @media(max-width:1000px){.final-topical-button{grid-template-columns:auto 1fr}.final-topical-cta{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;width:100%}.final-resource-grid{grid-template-columns:1fr}}
         @media(max-width:620px){.final-resource-hub{padding:20px}.final-resource-head{display:grid}.final-badge{justify-self:start}.final-topical-button{grid-template-columns:1fr;padding:21px}.final-topical-cta{display:grid;justify-items:stretch}.final-topical-action{text-align:center}.final-topical-icon{width:62px;height:62px}.final-resource-card{padding:18px}}
       `;
@@ -183,10 +183,10 @@
           <div><span class="eyebrow"><i></i> CHOOSE YOUR STUDY RESOURCE</span><h2 id="finalResourceTitle">Study resources</h2><p>Open topical practice, revision notes, mock papers or predicted papers.</p></div>
           <span class="final-badge">4 STUDY OPTIONS</span>
         </div>
-        <button id="finalOpenTopical" class="final-topical-button" type="button" aria-expanded="false">
+        <button id="finalOpenTopical" class="final-topical-button" type="button">
           <span class="final-topical-icon">▦</span>
           <span class="final-topical-copy"><small>AVAILABLE NOW · REAL EXAM PRACTICE</small><strong>Topical Past Papers</strong><span>Open all question packs organised by syllabus topic, with available mark schemes.</span></span>
-          <span class="final-topical-cta"><span class="final-topical-status">READY TO PRACTISE</span><span class="final-topical-action">View all topical papers ↓</span></span>
+          <span class="final-topical-cta"><span class="final-topical-status">READY TO PRACTISE</span><span class="final-topical-action">View all topical papers →</span></span>
         </button>
         <div class="final-resource-grid">
           <article class="final-resource-card final-notes"><div class="final-card-top"><span class="final-card-icon">▤</span><span class="final-card-status">COMING SOON</span></div><h3>Revision Notes</h3><p>Clear syllabus notes, formulas, definitions, diagrams and exam tips organised by topic.</p><button type="button" data-final-resource="Revision Notes">Explore revision notes →</button></article>
@@ -194,11 +194,7 @@
           <article class="final-resource-card final-predicted"><div class="final-card-top"><span class="final-card-icon">✦</span><span class="final-card-status">COMING SOON</span></div><h3>Predicted Papers</h3><p>Focused practice covering important syllabus areas and likely question styles for 2026.</p><button type="button" data-final-resource="Predicted Papers">Explore predicted papers →</button></article>
         </div>`;
 
-      const heading = document.createElement('div');
-      heading.className = 'final-topical-heading final-topical-hidden';
-      heading.innerHTML = '<span class="eyebrow"><i></i> TOPICAL PRACTICE</span><h2>Topical Past Papers</h2><p>Choose a topic below to open its question paper and mark scheme.</p>';
       hero.insertAdjacentElement('afterend', hub);
-      toolbar.insertAdjacentElement('beforebegin', heading);
       [toolbar, grid, empty].forEach(el => el.classList.add('final-topical-hidden'));
 
       const updateTitle = () => {
@@ -210,15 +206,11 @@
       updateTitle();
 
       document.getElementById('finalOpenTopical')?.addEventListener('click',() => {
-        [heading, toolbar, grid, empty].forEach(el => {el.classList.remove('final-topical-hidden');el.classList.add('final-topical-reveal')});
-        if (empty.hidden) empty.classList.remove('final-topical-reveal');
-        const btn = document.getElementById('finalOpenTopical');
-        btn?.setAttribute('aria-expanded','true');
-        const status = btn?.querySelector('.final-topical-status');
-        const action = btn?.querySelector('.final-topical-action');
-        if (status) status.textContent = 'NOW OPEN';
-        if (action) action.textContent = 'Topical papers opened ✓';
-        heading.scrollIntoView({behavior:'smooth',block:'start'});
+        const subject = new URLSearchParams(location.search).get('subject');
+        const validSubjects = new Set(['maths','physics','chemistry','accounting']);
+        location.href = validSubjects.has(subject)
+          ? `topical-papers.html?subject=${encodeURIComponent(subject)}`
+          : 'index.html';
       });
 
       hub.addEventListener('click',event => {
