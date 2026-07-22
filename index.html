@@ -247,7 +247,8 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
   <script src="app.js?v=25"></script>
   <script src="v12-ui.js?v=25"></script>
-  <script src="v15-payment-reset.js?v=31"></script>
+  <script src="v15-payment-reset.js?v=35"></script>
+  <script src="v16-navigation-tools.js?v=35" data-v16-navigation-tools="true"></script>
   <script>
     document.addEventListener('click', event => {
       const card = event.target.closest('.subject-card');
@@ -320,8 +321,8 @@
         const subject = new URLSearchParams(location.search).get('subject');
         const validSubjects = new Set(['maths','physics','chemistry','accounting']);
         location.href = validSubjects.has(subject)
-          ? `topical-papers.html?subject=${encodeURIComponent(subject)}`
-          : 'index.html';
+          ? `topical-papers.html?subject=${encodeURIComponent(subject)}&build=35`
+          : 'index.html?build=35';
       });
 
       hub.addEventListener('click',event => {
