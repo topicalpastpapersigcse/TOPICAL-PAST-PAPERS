@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="styles.css?v=25">
   <link rel="stylesheet" href="v12.css?v=25">
   <link rel="stylesheet" href="v15.css?v=25">
+  <style>.subject-card{cursor:pointer}</style>
 </head>
 <body>
   <aside class="sidebar">
@@ -136,5 +137,13 @@
   <script src="app.js?v=25"></script>
   <script src="v12-ui.js?v=25"></script>
   <script src="v15-payment-reset.js?v=25"></script>
+  <script>
+    document.addEventListener('click', event => {
+      const card = event.target.closest('.subject-card');
+      if (!card || event.target.closest('button, a')) return;
+      const subjectButton = card.querySelector('[data-open-subject]');
+      if (subjectButton) subjectButton.click();
+    });
+  </script>
 </body>
 </html>
