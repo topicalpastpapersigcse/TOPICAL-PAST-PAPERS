@@ -8,8 +8,9 @@
   <title>Topical IGCSE Past Papers</title>
   <link rel="stylesheet" href="styles.css?v=25">
   <link rel="stylesheet" href="v12.css?v=25">
-  <link rel="stylesheet" href="v15.css?v=32">
+  <link rel="stylesheet" href="v15.css?v=38">
   <style>
+    .website-tools-strip{display:none!important}
     .subject-card{cursor:pointer}
     #subjectPage .subject-hero,
     #subjectPage .subject-hero.maths-bg,
@@ -38,48 +39,12 @@
       pointer-events:none;
     }
     #subjectPage .subject-hero>div{position:relative;z-index:1;min-width:0}
-    #subjectPage .subject-hero h1{
-      margin:8px 0 9px!important;
-      font-size:clamp(28px,2.6vw,38px)!important;
-      line-height:1.03!important;
-      letter-spacing:-.035em!important;
-    }
-    #subjectPage .subject-hero p{
-      max-width:680px!important;
-      margin:0!important;
-      color:#bfd0dc!important;
-      font-size:13px!important;
-      line-height:1.55!important;
-    }
+    #subjectPage .subject-hero h1{margin:8px 0 9px!important;font-size:clamp(28px,2.6vw,38px)!important;line-height:1.03!important;letter-spacing:-.035em!important}
+    #subjectPage .subject-hero p{max-width:680px!important;margin:0!important;color:#bfd0dc!important;font-size:13px!important;line-height:1.55!important}
     #subjectPage .subject-hero .eyebrow{color:#78efd0!important;font-size:10px!important}
-    #subjectPage .subject-hero .hero-metrics{
-      display:grid!important;
-      grid-template-columns:repeat(2,minmax(0,1fr))!important;
-      gap:10px!important;
-      width:100%!important;
-      min-width:0!important;
-    }
-    #subjectPage .subject-hero .hero-metrics>div{
-      min-width:0!important;
-      min-height:72px!important;
-      padding:13px 14px!important;
-      overflow:hidden!important;
-      border:1px solid rgba(111,224,199,.18)!important;
-      border-radius:14px!important;
-      background:rgba(4,17,29,.48)!important;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
-    }
-    #subjectPage .subject-hero .hero-metrics strong{
-      display:block!important;
-      width:100%!important;
-      max-width:100%!important;
-      min-width:0!important;
-      font-size:23px!important;
-      line-height:1.05!important;
-      white-space:normal!important;
-      overflow-wrap:anywhere!important;
-      word-break:break-word!important;
-    }
+    #subjectPage .subject-hero .hero-metrics{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px!important;width:100%!important;min-width:0!important}
+    #subjectPage .subject-hero .hero-metrics>div{min-width:0!important;min-height:72px!important;padding:13px 14px!important;overflow:hidden!important;border:1px solid rgba(111,224,199,.18)!important;border-radius:14px!important;background:rgba(4,17,29,.48)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important}
+    #subjectPage .subject-hero .hero-metrics strong{display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;font-size:23px!important;line-height:1.05!important;white-space:normal!important;overflow-wrap:anywhere!important;word-break:break-word!important}
     #subjectPage .subject-hero .hero-metrics>div:last-child strong{font-size:20px!important}
     #subjectPage .subject-hero .hero-metrics span{color:#9eb3c1!important;font-size:10px!important}
     @media(max-width:900px){
@@ -87,9 +52,7 @@
       #subjectPage .subject-hero h1{font-size:clamp(28px,5vw,36px)!important}
       #subjectPage .subject-hero .hero-metrics{grid-template-columns:repeat(4,minmax(0,1fr))!important}
     }
-    @media(max-width:700px){
-      #subjectPage .subject-hero .hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-    }
+    @media(max-width:700px){#subjectPage .subject-hero .hero-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
     @media(max-width:620px){
       #subjectPage .subject-hero{padding:18px!important;border-radius:17px!important}
       #subjectPage .subject-hero h1{font-size:clamp(27px,8vw,34px)!important}
@@ -102,14 +65,14 @@
 </head>
 <body>
   <aside class="sidebar">
-    <a class="brand" href="index.html" aria-label="Study Hub dashboard">
+    <a class="brand" href="index.html?build=38" aria-label="Study Hub dashboard">
       <span class="brand-mark"><i></i><i></i><i></i></span>
       <span class="brand-copy"><b>Topical IGCSE</b><small>Past Papers</small></span>
     </a>
 
     <nav class="main-nav" aria-label="Main navigation">
-      <a class="nav-link" data-page="subjects" href="index.html"><span class="nav-icon">▦</span><span>All Subjects</span></a>
-      <a class="nav-link" href="index.html#progress"><span class="nav-icon">↗</span><span>My Progress</span></a>
+      <a class="nav-link" data-page="subjects" href="index.html?build=38"><span class="nav-icon">▦</span><span>All Subjects</span></a>
+      <a class="nav-link" href="index.html?build=38#progress"><span class="nav-icon">↗</span><span>My Progress</span></a>
     </nav>
 
     <div class="side-heading">SUBJECT LIBRARY</div>
@@ -207,10 +170,7 @@
           <div class="price"><strong id="oneTimePrice">US$20</strong><span>for 30 days</span></div>
           <div class="device-access-note" role="note" aria-label="Keep your transaction ID safe">
             <span class="device-access-icon">!</span>
-            <div>
-              <b>Keep your transaction ID safe</b>
-              <p>You will receive it by email after payment.</p>
-            </div>
+            <div><b>Keep your transaction ID safe</b><p>You will receive it by email after payment.</p></div>
           </div>
           <a id="oneTimePaymentLink" class="pay-link" href="https://www.paypal.com/ncp/payment/NB4QAJS7YDT9Q" target="_blank" rel="noopener noreferrer">Pay by Debit or Credit Card ↗</a>
           <button id="alreadyPaidToggle" class="paid-button" type="button">I have paid — continue to sign in</button>
@@ -242,13 +202,15 @@
       </div>
     </div>
   </dialog>
+
   <div id="toast" class="toast" hidden></div>
   <script src="app-config.js?v=25"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
   <script src="app.js?v=25"></script>
   <script src="v12-ui.js?v=25"></script>
-  <script src="v15-payment-reset.js?v=35"></script>
-  <script src="v16-navigation-tools.js?v=35" data-v16-navigation-tools="true"></script>
+  <script src="v15-payment-reset.js?v=38"></script>
+  <script src="resource-gateway.js?v=38"></script>
+  <script src="v16-navigation-tools.js?v=38" data-v16-navigation-tools="true"></script>
   <script>
     document.addEventListener('click', event => {
       const card = event.target.closest('.subject-card');
@@ -256,82 +218,6 @@
       const subjectButton = card.querySelector('[data-open-subject]');
       if (subjectButton) subjectButton.click();
     });
-
-    (() => {
-      const hero = document.getElementById('subjectHero');
-      const page = document.getElementById('subjectPage');
-      const toolbar = page?.querySelector('.subject-toolbar');
-      const grid = document.getElementById('topicGrid');
-      const empty = document.getElementById('emptyTopics');
-      if (!hero || !page || !toolbar || !grid || !empty) return;
-
-      document.querySelectorAll('.extra-resource-hub,.topical-section-heading').forEach(el => el.remove());
-
-      const style = document.createElement('style');
-      style.id = 'finalResourceGatewayStyle';
-      style.textContent = `
-        .final-resource-hub{position:relative;overflow:hidden;margin:26px 0 30px;padding:30px;border:1px solid rgba(85,115,190,.42);border-radius:24px;background:linear-gradient(145deg,#071124,#0a1022);box-shadow:0 22px 60px rgba(0,0,0,.3)}
-        .final-resource-hub:before{content:"";position:absolute;width:390px;height:390px;border-radius:50%;right:-170px;top:-225px;background:rgba(90,65,255,.26);filter:blur(12px)}
-        .final-resource-head{position:relative;z-index:1;display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:22px}
-        .final-resource-head h2{margin:10px 0 6px;font-size:31px}.final-resource-head p{margin:0;color:#91a2c1;font-size:13px}.final-badge{padding:8px 12px;border-radius:999px;border:1px solid rgba(84,242,169,.34);background:rgba(26,180,112,.12);color:#5ff0b0;font-size:10px;font-weight:950;letter-spacing:.12em}
-        .final-topical-button{position:relative;z-index:1;overflow:hidden;width:100%;min-height:145px;margin-bottom:18px;padding:24px 26px;border:1px solid rgba(180,207,255,.75);border-radius:21px;background:linear-gradient(115deg,#1060f5,#3e57ee 52%,#7d37e9);color:#fff;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;text-align:left;box-shadow:0 20px 52px rgba(41,83,255,.42),0 0 34px rgba(100,75,255,.22);transition:.22s ease}
-        .final-topical-button:hover{transform:translateY(-5px) scale(1.005);box-shadow:0 28px 68px rgba(49,78,255,.55),0 0 44px rgba(117,77,255,.32)}
-        .final-topical-icon{display:grid;place-items:center;width:78px;height:78px;border-radius:20px;background:rgba(4,20,70,.34);border:1px solid rgba(255,255,255,.25);font-size:35px}
-        .final-topical-copy{display:grid;gap:6px}.final-topical-copy small{font-size:10px;font-weight:950;letter-spacing:.15em;color:#e4edff}.final-topical-copy strong{font-size:clamp(27px,2.4vw,38px);line-height:1}.final-topical-copy span{font-size:13px;color:#e8eeff;line-height:1.55}
-        .final-topical-cta{display:grid;justify-items:end;gap:9px}.final-topical-status{padding:6px 10px;border:1px solid rgba(103,255,190,.45);border-radius:999px;background:rgba(5,77,52,.4);color:#73ffc4;font-size:9px;font-weight:950;letter-spacing:.11em}.final-topical-action{padding:14px 18px;border-radius:12px;background:#fff;color:#193dad;font-size:14px;font-weight:950;box-shadow:0 12px 28px rgba(0,0,0,.22)}
-        .final-resource-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.final-resource-card{min-height:230px;padding:22px;border:1px solid #1c3156;border-radius:19px;background:linear-gradient(150deg,#0b172b,#07101f);display:flex;flex-direction:column;transition:.22s ease}.final-resource-card:hover{transform:translateY(-5px);border-color:#4c73b4;box-shadow:0 20px 42px rgba(0,0,0,.34)}
-        .final-card-top{display:flex;align-items:center;justify-content:space-between}.final-card-icon{display:grid;place-items:center;width:55px;height:55px;border-radius:15px;background:linear-gradient(145deg,#19356a,#30247b);font-size:25px}.final-card-status{padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#9dabc3;font-size:9px;font-weight:950;letter-spacing:.1em}.final-resource-card h3{margin:19px 0 8px;font-size:21px}.final-resource-card p{margin:0 0 20px;color:#91a1bd;font-size:12px;line-height:1.65}
-        .final-resource-card button{margin-top:auto;width:100%;min-height:49px;border-radius:12px;color:#fff;font-weight:950;border:1px solid rgba(255,255,255,.16);box-shadow:0 12px 28px rgba(0,0,0,.25);transition:.2s ease}.final-resource-card button:hover{transform:translateY(-2px);filter:brightness(1.15)}.final-notes button{background:linear-gradient(100deg,#1e67ff,#394cf0)}.final-mocks button{background:linear-gradient(100deg,#7b3ff2,#9846dc)}.final-predicted button{background:linear-gradient(100deg,#ed7b1f,#d94d45)}
-        .final-topical-heading{margin:8px 0 15px;scroll-margin-top:100px}.final-topical-heading h2{margin:8px 0 5px;font-size:29px}.final-topical-heading p{margin:0;color:#8391aa;font-size:12px}.final-topical-hidden{display:none!important}
-        @media(max-width:1000px){.final-topical-button{grid-template-columns:auto 1fr}.final-topical-cta{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;width:100%}.final-resource-grid{grid-template-columns:1fr}}
-        @media(max-width:620px){.final-resource-hub{padding:20px}.final-resource-head{display:grid}.final-badge{justify-self:start}.final-topical-button{grid-template-columns:1fr;padding:21px}.final-topical-cta{display:grid;justify-items:stretch}.final-topical-action{text-align:center}.final-topical-icon{width:62px;height:62px}.final-resource-card{padding:18px}}
-      `;
-      document.head.appendChild(style);
-
-      const hub = document.createElement('section');
-      hub.className = 'final-resource-hub';
-      hub.innerHTML = `
-        <div class="final-resource-head">
-          <div><span class="eyebrow"><i></i> CHOOSE YOUR STUDY RESOURCE</span><h2 id="finalResourceTitle">Study resources</h2><p>Open topical practice, revision notes, mock papers or predicted papers.</p></div>
-          <span class="final-badge">4 STUDY OPTIONS</span>
-        </div>
-        <button id="finalOpenTopical" class="final-topical-button" type="button">
-          <span class="final-topical-icon">▦</span>
-          <span class="final-topical-copy"><small>AVAILABLE NOW · REAL EXAM PRACTICE</small><strong>Topical Past Papers</strong><span>Open all question packs organised by syllabus topic, with available mark schemes.</span></span>
-          <span class="final-topical-cta"><span class="final-topical-status">READY TO PRACTISE</span><span class="final-topical-action">View all topical papers →</span></span>
-        </button>
-        <div class="final-resource-grid">
-          <article class="final-resource-card final-notes"><div class="final-card-top"><span class="final-card-icon">▤</span><span class="final-card-status">COMING SOON</span></div><h3>Revision Notes</h3><p>Clear syllabus notes, formulas, definitions, diagrams and exam tips organised by topic.</p><button type="button" data-final-resource="Revision Notes">Explore revision notes →</button></article>
-          <article class="final-resource-card final-mocks"><div class="final-card-top"><span class="final-card-icon">⌁</span><span class="final-card-status">COMING SOON</span></div><h3>Mock Papers</h3><p>Full timed practice papers designed to test the complete syllabus under exam conditions.</p><button type="button" data-final-resource="Mock Papers">Explore mock papers →</button></article>
-          <article class="final-resource-card final-predicted"><div class="final-card-top"><span class="final-card-icon">✦</span><span class="final-card-status">COMING SOON</span></div><h3>Predicted Papers</h3><p>Focused practice covering important syllabus areas and likely question styles for 2026.</p><button type="button" data-final-resource="Predicted Papers">Explore predicted papers →</button></article>
-        </div>`;
-
-      hero.insertAdjacentElement('afterend', hub);
-      [toolbar, grid, empty].forEach(el => el.classList.add('final-topical-hidden'));
-
-      const updateTitle = () => {
-        const name = hero.querySelector('h1')?.textContent?.trim() || 'Subject';
-        const title = document.getElementById('finalResourceTitle');
-        if (title) title.textContent = `${name} study resources`;
-      };
-      new MutationObserver(updateTitle).observe(hero,{childList:true,subtree:true});
-      updateTitle();
-
-      document.getElementById('finalOpenTopical')?.addEventListener('click',() => {
-        const subject = new URLSearchParams(location.search).get('subject');
-        const validSubjects = new Set(['maths','physics','chemistry','accounting']);
-        location.href = validSubjects.has(subject)
-          ? `topical-papers.html?subject=${encodeURIComponent(subject)}&build=35`
-          : 'index.html?build=35';
-      });
-
-      hub.addEventListener('click',event => {
-        const button = event.target.closest('[data-final-resource]');
-        if (!button) return;
-        const name = hero.querySelector('h1')?.textContent?.trim() || 'this subject';
-        if (typeof showToast === 'function') showToast(`${button.dataset.finalResource} for ${name} will appear here when the PDFs are uploaded.`);
-      });
-    })();
   </script>
 </body>
 </html>
