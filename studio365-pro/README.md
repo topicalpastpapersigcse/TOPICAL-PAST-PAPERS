@@ -18,7 +18,7 @@ Studio365 Pro integrates **ONLYOFFICE Docs** to edit real Word, Excel and PowerP
 
 The repository's root `render.yaml` deploys both the app and ONLYOFFICE Document Server.
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/topicalpastpapersigcse/TOPICAL-PAST-PAPERS/tree/agent/studio365-pro-deploy)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/topicalpastpapersigcse/TOPICAL-PAST-PAPERS)
 
 During setup, enter an `ACCESS_PASSWORD`. Use `owner` as the username when the deployed site asks you to sign in.
 
