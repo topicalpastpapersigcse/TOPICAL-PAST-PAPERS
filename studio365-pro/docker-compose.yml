@@ -1,0 +1,40 @@
+services:
+  app:
+    build: .
+    container_name: studio365-app
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      JWT_SECRET: ${JWT_SECRET:-change-this-secret-before-production}
+      APP_PUBLIC_URL: ${APP_PUBLIC_URL:-http://localhost:3000}
+      APP_INTERNAL_URL: ${APP_INTERNAL_URL:-http://app:3000}
+      DOCUMENT_SERVER_PUBLIC_URL: ${DOCUMENT_SERVER_PUBLIC_URL:-http://localhost:8080}
+      DOCUMENT_SERVER_INTERNAL_URL: ${DOCUMENT_SERVER_INTERNAL_URL:-http://documentserver}
+      MAX_FILE_MB: ${MAX_FILE_MB:-100}
+      ACCESS_USERNAME: ${ACCESS_USERNAME:-owner}
+      ACCESS_PASSWORD: ${ACCESS_PASSWORD:-}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./files:/app/files
+    depends_on:
+      - documentserver
+
+  documentserver:
+    image: onlyoffice/documentserver:latest
+    container_name: studio365-documentserver
+    restart: unless-stopped
+    environment:
+      JWT_ENABLED: "true"
+      JWT_SECRET: ${JWT_SECRET:-change-this-secret-before-production}
+    ports:
+      - "8080:80"
+    volumes:
+      - document_data:/var/www/onlyoffice/Data
+      - document_logs:/var/log/onlyoffice
+      - document_lib:/var/lib/onlyoffice
+
+volumes:
+  document_data:
+  document_logs:
+  document_lib:

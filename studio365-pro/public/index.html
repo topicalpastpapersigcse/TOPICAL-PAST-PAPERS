@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Studio365 Pro</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div><strong>Studio365 Pro</strong><span>Real office file editing</span></div>
+    </div>
+    <div class="top-actions">
+      <label class="upload-button">
+        <input id="fileUpload" type="file" multiple accept=".doc,.docx,.odt,.rtf,.txt,.xls,.xlsx,.ods,.csv,.ppt,.pptx,.odp,.ppsx">
+        Upload files
+      </label>
+      <button id="refreshButton" class="secondary">Refresh</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">DOCUMENTS · SPREADSHEETS · PRESENTATIONS</p>
+        <h1>Create and edit real Office files.</h1>
+        <p>Open DOCX, XLSX and PPTX files in a complete browser editor powered by ONLYOFFICE Docs.</p>
+      </div>
+      <div id="serverStatus" class="server-status checking">Checking editor server…</div>
+    </section>
+
+    <section class="create-grid" aria-label="Create a file">
+      <button class="create-card word" data-type="word">
+        <span class="app-icon">W</span>
+        <span><strong>New document</strong><small>Create a DOCX file</small></span>
+      </button>
+      <button class="create-card excel" data-type="cell">
+        <span class="app-icon">X</span>
+        <span><strong>New spreadsheet</strong><small>Create an XLSX file</small></span>
+      </button>
+      <button class="create-card powerpoint" data-type="slide">
+        <span class="app-icon">P</span>
+        <span><strong>New presentation</strong><small>Create a PPTX file</small></span>
+      </button>
+    </section>
+
+    <section class="files-section">
+      <div class="section-heading">
+        <div>
+          <h2>Your files</h2>
+          <p id="fileCount">Loading…</p>
+        </div>
+        <div class="filters" role="tablist">
+          <button class="filter active" data-filter="all">All</button>
+          <button class="filter" data-filter="word">Documents</button>
+          <button class="filter" data-filter="cell">Spreadsheets</button>
+          <button class="filter" data-filter="slide">Presentations</button>
+        </div>
+      </div>
+      <div id="fileGrid" class="file-grid"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <div class="empty-icon">＋</div>
+        <h3>No files yet</h3>
+        <p>Create a new file or upload an existing Office document.</p>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="createDialog">
+    <form method="dialog" id="createForm">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">NEW FILE</p>
+          <h2 id="dialogTitle">Create file</h2>
+        </div>
+        <button value="cancel" class="close-button" aria-label="Close">×</button>
+      </div>
+      <label>File name
+        <input id="newFileName" required maxlength="120" autocomplete="off">
+      </label>
+      <div class="dialog-actions">
+        <button value="cancel" class="secondary">Cancel</button>
+        <button id="createSubmit" value="default" class="primary">Create and open</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/assets/app.js" type="module"></script>
+</body>
+</html>

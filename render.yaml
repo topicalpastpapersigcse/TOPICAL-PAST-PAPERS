@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: studio365-pro-app-usman
+    runtime: docker
+    plan: starter
+    region: frankfurt
+    dockerfilePath: studio365-pro/Dockerfile
+    dockerContext: studio365-pro
+    healthCheckPath: /api/health
+    autoDeployTrigger: off
+    envVars:
+      - key: PORT
+        value: "3000"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ACCESS_USERNAME
+        value: owner
+      - key: ACCESS_PASSWORD
+        sync: false
+      - key: APP_PUBLIC_URL
+        fromService:
+          type: web
+          name: studio365-pro-app-usman
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: APP_INTERNAL_URL
+        fromService:
+          type: web
+          name: studio365-pro-app-usman
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: DOCUMENT_SERVER_PUBLIC_URL
+        fromService:
+          type: web
+          name: studio365-pro-docs-usman
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: MAX_FILE_MB
+        value: "100"
+    disk:
+      name: studio365-files
+      mountPath: /app/files
+      sizeGB: 5
+
+  - type: web
+    name: studio365-pro-docs-usman
+    runtime: image
+    plan: pro
+    region: frankfurt
+    image:
+      url: docker.io/onlyoffice/documentserver:latest
+    healthCheckPath: /healthcheck
+    envVars:
+      - key: JWT_ENABLED
+        value: "true"
+      - key: JWT_SECRET
+        fromService:
+          type: web
+          name: studio365-pro-app-usman
+          envVarKey: JWT_SECRET
