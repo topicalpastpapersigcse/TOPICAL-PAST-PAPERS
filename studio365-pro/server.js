@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import fsp from 'node:fs/promises';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { ensureBlankTemplates } from './ooxml.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,15 +33,7 @@ const MIME_TYPES = {
 };
 
 await fsp.mkdir(FILES_DIR, { recursive: true });
-await fsp.mkdir(TEMPLATES_DIR, { recursive: true });
-for (const templateName of ['blank.docx','blank.xlsx','blank.pptx']) {
-  const binaryPath = path.join(TEMPLATES_DIR, templateName);
-  const encodedPath = `${binaryPath}.b64`;
-  if (!fs.existsSync(binaryPath) && fs.existsSync(encodedPath)) {
-    const encoded = await fsp.readFile(encodedPath, 'utf8');
-    await fsp.writeFile(binaryPath, Buffer.from(encoded.trim(), 'base64'));
-  }
-}
+await ensureBlankTemplates(TEMPLATES_DIR);
 
 function hmacToken(action, filename) {
   return crypto.createHmac('sha256', JWT_SECRET).update(`${action}:${filename}`).digest('base64url');
