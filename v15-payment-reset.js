@@ -2,7 +2,7 @@
 
 // Move old cached/bookmarked URLs to the current website build.
 (() => {
-  const LATEST_BUILD = '38';
+  const LATEST_BUILD = '39';
   const params = new URLSearchParams(location.search);
   const currentBuild = Number(params.get('build') || 0);
   if (currentBuild < Number(LATEST_BUILD)) {
@@ -96,7 +96,8 @@
   subjectCard = function stablePremiumSubjectCard(subject) {
     const html = previousSubjectCard(subject);
     const meta = typeof subjectMeta !== 'undefined' ? subjectMeta[subject] : null;
-    if (!meta || meta.access === 'free' || !readCachedPremium()) return html;
+    const ownerActive = typeof isOwnerAccessActive === 'function' && isOwnerAccessActive();
+    if (!meta || meta.access === 'free' || !(ownerActive || readCachedPremium())) return html;
     return html.replace('class="badge premium">♛ PREMIUM', 'class="badge active">✓ ACTIVE');
   };
 
@@ -104,8 +105,9 @@
   updatePaymentUI = function stablePremiumPaymentUI() {
     previousUpdatePaymentUI();
 
+    const ownerActive = typeof isOwnerAccessActive === 'function' && isOwnerAccessActive();
     const realActive = typeof isPremiumActive === 'function' && isPremiumActive();
-    if (realActive) savePremiumCache();
+    if (realActive && !ownerActive) savePremiumCache();
     if (!realActive && typeof session !== 'undefined' && session?.user && typeof profile !== 'undefined' && profile) clearPremiumCache();
 
     const displayActive = realActive || readCachedPremium();
@@ -119,20 +121,29 @@
 
     if (topButton) {
       topButton.classList.toggle('active', displayActive);
-      topButton.innerHTML = displayActive ? '<span>✓</span> Premium Active' : '<span>♛</span> Get 30-Day Access';
+      topButton.innerHTML = displayActive
+        ? (ownerActive ? '<span>✓</span> Owner Access' : '<span>✓</span> Premium Active')
+        : '<span>♛</span> Get 30-Day Access';
       topButton.disabled = displayActive;
     }
     if (sideBox) sideBox.classList.toggle('active', displayActive);
-    if (sideLabel) sideLabel.textContent = displayActive ? 'ACTIVE' : 'PREMIUM';
-    if (sideTitle) sideTitle.textContent = displayActive ? 'Premium is active' : 'Unlock premium subjects';
+    if (sideLabel) sideLabel.textContent = displayActive ? (ownerActive ? 'OWNER' : 'ACTIVE') : 'PREMIUM';
+    if (sideTitle) sideTitle.textContent = displayActive
+      ? (ownerActive ? 'Owner access is active' : 'Premium is active')
+      : 'Unlock premium subjects';
     if (sideText) sideText.textContent = displayActive
       ? 'Mathematics, Physics and Accounting are fully unlocked.'
       : 'Mathematics, Physics and Accounting for 30 days.';
-    if (sideMeta && displayActive && typeof profile !== 'undefined' && profile?.premium_until && typeof formatExpiry === 'function') {
-      sideMeta.textContent = `Access until ${formatExpiry(profile.premium_until)}`;
+    if (sideMeta) {
+      if (ownerActive) sideMeta.textContent = 'Permanent owner access';
+      else if (displayActive && typeof profile !== 'undefined' && profile?.premium_until && typeof formatExpiry === 'function') {
+        sideMeta.textContent = `Access until ${formatExpiry(profile.premium_until)}`;
+      } else if (!displayActive) sideMeta.textContent = 'US$20 once · no renewal';
     }
     if (sideButton) {
-      sideButton.textContent = displayActive ? '✓ Premium Active' : 'Get 30-Day Access';
+      sideButton.textContent = displayActive
+        ? (ownerActive ? '✓ Owner Access' : '✓ Premium Active')
+        : 'Get 30-Day Access';
       sideButton.disabled = displayActive;
     }
 
@@ -144,9 +155,9 @@
   updatePaymentUI();
 })();
 
-// Force every subject and topical link to use build 38.
+// Force every subject and topical link to use build 39.
 (() => {
-  const BUILD = '38';
+  const BUILD = '39';
   const validSubjects = new Set(['maths', 'physics', 'chemistry', 'accounting']);
   const subjectPageUrl = subject => `index.html?subject=${encodeURIComponent(subject)}&build=${BUILD}`;
   const topicalPageUrl = subject => `topical-papers.html?subject=${encodeURIComponent(subject)}&build=${BUILD}`;
