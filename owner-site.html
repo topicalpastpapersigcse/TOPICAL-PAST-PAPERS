@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#050914">
+  <title>Owner Access | Topical IGCSE</title>
+  <style>
+    html,body{height:100%;margin:0;background:#050914;color:#fff;font-family:Inter,Arial,sans-serif}
+    #gate{min-height:100%;display:grid;place-items:center;padding:24px;box-sizing:border-box}
+    .card{width:min(520px,100%);padding:28px;border:1px solid #25415e;border-radius:22px;background:linear-gradient(145deg,#081624,#0b2331);box-shadow:0 24px 70px rgba(0,0,0,.4);text-align:center}
+    .badge{display:inline-block;padding:7px 11px;border-radius:999px;background:#103c32;color:#75f3cc;font-size:11px;font-weight:800;letter-spacing:.12em}
+    h1{margin:16px 0 10px;font-size:30px}p{color:#a9bdd0;line-height:1.6}
+    button{margin-top:10px;width:100%;min-height:52px;border:0;border-radius:13px;background:linear-gradient(100deg,#36d6ae,#36a8ff);color:#06111c;font-weight:900;font-size:15px;cursor:pointer}
+    #status{margin-top:14px;font-size:12px;color:#9fb4c7}
+    #site{display:none;width:100%;height:100%;border:0;background:#050914}
+  </style>
+</head>
+<body>
+  <section id="gate">
+    <div class="card">
+      <span class="badge">OWNER ACCESS</span>
+      <h1>Topical IGCSE Owner Portal</h1>
+      <p>Sign in with the website owner's Google account. This owner portal does not use the 30-day customer payment expiry.</p>
+      <button id="signIn" type="button">Sign in as website owner</button>
+      <div id="status">Checking owner session…</div>
+    </div>
+  </section>
+  <iframe id="site" title="Topical IGCSE website"></iframe>
+
+  <script src="app-config.js?v=40"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.7"></script>
+  <script>
+    (() => {
+      const OWNER_EMAIL_SHA256 = 'c5f5094fe1c811c12ef841c74f54185a31e95bf19bab95572a4f5fa5d6417f9c';
+      const config = window.STUDY_HUB_CONFIG || {};
+      const gate = document.getElementById('gate');
+      const frame = document.getElementById('site');
+      const button = document.getElementById('signIn');
+      const status = document.getElementById('status');
+      const client = window.supabase?.createClient(config.SUPABASE_URL, config.SUPABASE_PUBLISHABLE_KEY, {
+        auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storageKey:'igcse-study-hub-auth-v11'}
+      });
+
+      async function hash(text){
+        const data = new TextEncoder().encode(String(text||'').trim().toLowerCase());
+        const digest = await crypto.subtle.digest('SHA-256',data);
+        return [...new Uint8Array(digest)].map(b=>b.toString(16).padStart(2,'0')).join('');
+      }
+
+      async function isOwner(session){
+        const email=session?.user?.email||'';
+        if(!email)return false;
+        return (await hash(email))===OWNER_EMAIL_SHA256;
+      }
+
+      function unlockFrame(){
+        try{
+          const w=frame.contentWindow;
+          w.eval(`
+            try {
+              isPremiumActive = function(){ return true; };
+              if (typeof profile !== 'undefined') {
+                profile = Object.assign({}, profile || {}, {
+                  premium_source: 'owner_account',
+                  paypal_transaction_id: 'OWNER_ACCOUNT',
+                  premium_until: '2099-12-31T23:59:59Z'
+                });
+              }
+              if (typeof updatePaymentUI === 'function') updatePaymentUI();
+              const ownerSubject = new URLSearchParams(location.search).get('subject');
+              if (ownerSubject && typeof subjectMeta !== 'undefined' && subjectMeta[ownerSubject] && typeof renderSubjectPage === 'function') {
+                renderSubjectPage(ownerSubject);
+              } else if (typeof renderDashboardSubjects === 'function') {
+                renderDashboardSubjects(document.getElementById('globalSearch')?.value || '');
+              }
+              document.getElementById('premiumDialog')?.close?.();
+            } catch (e) { console.error('Owner frame unlock failed', e); }
+          `);
+        }catch(error){console.error(error)}
+      }
+
+      function openSite(){
+        gate.style.display='none';
+        frame.style.display='block';
+        if(!frame.src) frame.src=`index.html?build=40&owner_view=1&t=${Date.now()}`;
+      }
+
+      frame.addEventListener('load',()=>{
+        unlockFrame();
+        setTimeout(unlockFrame,150);
+        setTimeout(unlockFrame,700);
+      });
+
+      async function check(){
+        if(!client){status.textContent='Owner sign-in could not load.';return}
+        const {data}=await client.auth.getSession();
+        const session=data?.session||null;
+        if(!session){status.textContent='Sign in to open permanent owner access.';return}
+        if(await isOwner(session)){
+          status.textContent='Owner verified.';
+          openSite();
+        }else{
+          status.textContent='This Google account is not authorised as the website owner.';
+          await client.auth.signOut();
+        }
+      }
+
+      button.addEventListener('click',async()=>{
+        status.textContent='Opening Google sign-in…';
+        const redirect=new URL('owner-site.html',location.href);
+        const {error}=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:redirect.href}});
+        if(error)status.textContent=error.message;
+      });
+
+      client?.auth.onAuthStateChange(()=>setTimeout(check,0));
+      check().catch(error=>{console.error(error);status.textContent='Could not verify owner account.'});
+    })();
+  </script>
+</body>
+</html>
