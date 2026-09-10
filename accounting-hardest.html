@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Accounting 0452 – 4 Hardest Questions Per Topic</title>
+<style>
+:root{--bg:#07111f;--panel:#0e1b2d;--panel2:#12233a;--text:#eef6ff;--muted:#9db0c8;--accent:#4fd1c5;--gold:#f6c453;--border:#243a55}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#07111f,#0a1525 45%,#07111f);color:var(--text)}
+a{color:inherit}.wrap{width:min(1180px,94vw);margin:auto;padding:32px 0 70px}.hero{padding:28px;border:1px solid var(--border);background:rgba(14,27,45,.92);border-radius:22px;box-shadow:0 18px 50px #0005}.eyebrow{font-size:12px;letter-spacing:.14em;color:var(--accent);font-weight:800}.hero h1{margin:8px 0 8px;font-size:clamp(28px,4vw,48px)}.hero p{margin:0;color:var(--muted);line-height:1.55}.notice{margin-top:14px;padding:12px 14px;border-radius:12px;background:#1c2735;color:#d8e6f6;font-size:14px}.topic{margin-top:30px}.topic h2{font-size:25px;margin:0 0 14px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{border:1px solid var(--border);background:var(--panel);border-radius:18px;padding:18px}.rank{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:10px;background:var(--gold);color:#111;font-weight:900;margin-bottom:10px}.card h3{font-size:18px;margin:0 0 8px}.meta{color:var(--muted);font-size:14px;line-height:1.45}.buttons{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.btn{border:0;border-radius:11px;padding:11px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.q{background:var(--accent);color:#042225}.ms{background:#213650;color:#eaf4ff;border:1px solid #355374}.empty{padding:18px;border:1px dashed #465c78;border-radius:15px;color:var(--muted);background:#0b1726}.back{display:inline-block;margin-top:24px;color:var(--muted);text-decoration:none}.modal{position:fixed;inset:0;background:#000c;display:none;z-index:50}.modal.open{display:flex;flex-direction:column}.bar{height:58px;background:#08111d;display:flex;align-items:center;gap:12px;padding:0 14px;border-bottom:1px solid #243a55}.bar strong{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bar button,.bar a{background:#172a43;color:white;border:1px solid #355374;border-radius:9px;padding:8px 11px;text-decoration:none;cursor:pointer}.viewer{width:100%;height:calc(100vh - 58px);border:0;background:#fff}@media(max-width:760px){.grid{grid-template-columns:1fr}.wrap{width:min(96vw,1180px);padding-top:14px}.hero{padding:20px}.bar strong{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <div class="eyebrow">CAMBRIDGE IGCSE ACCOUNTING 0452 · PAPER 2</div>
+    <h1>4 Hardest Questions Per Website Topic</h1>
+    <p>These buttons open the original questions already stored in your Topical IGCSE Study Hub PDFs, at the selected question page, plus the matching answer/mark-scheme page.</p>
+    <div class="notice">Topics 01 and 07 currently contain 0 questions in the website bank, so there are no original questions to select from those two topics.</div>
+  </section>
+
+  <div id="topics"></div>
+  <a class="back" href="index.html?subject=accounting">← Back to Accounting</a>
+</div>
+
+<div class="modal" id="modal">
+  <div class="bar"><strong id="viewerTitle">Question</strong><a id="openTab" target="_blank" rel="noopener">Open in new tab</a><button id="closeBtn">Close ✕</button></div>
+  <iframe class="viewer" id="viewer" title="PDF viewer"></iframe>
+</div>
+
+<script>
+const picks = [
+ {topic:'02 – Sources and Recording of Data', q:'assets/accounting/accounting-02-sources-recording-premium.pdf', ms:'assets/accounting/accounting-02-sources-recording-answers.pdf?v=25', items:[
+  ['Feb/Mar 2024 · Paper 22 · Question 4','Double-entry bookkeeping',9,3],
+  ['Oct/Nov 2023 · Paper 22 · Question 1','Books of prime entry',65,14],
+  ['May/June 2023 · Paper 22 · Question 1','Books of prime entry',57,12],
+  ['May/June 2022 · Paper 22 · Question 1','Books of prime entry',42,9]
+ ]},
+ {topic:'03 – Verification of Accounting Records', q:'assets/accounting/accounting-03-verification-records-premium.pdf', ms:'assets/accounting/accounting-03-verification-records-answers.pdf?v=25', items:[
+  ['May/June 2024 · Paper 23 · Question 3','Correction of errors',34,8],
+  ['Oct/Nov 2024 · Paper 21 · Question 1','Bank reconciliation',72,17],
+  ['Feb/Mar 2024 · Paper 22 · Question 2','Control accounts',99,24],
+  ['Oct/Nov 2023 · Paper 21 · Question 1','Bank reconciliation',66,14]
+ ]},
+ {topic:'04 – Accounting Procedures', q:'assets/accounting/accounting-04-procedures-premium.pdf', ms:'assets/accounting/accounting-04-procedures-answers.pdf?v=25', items:[
+  ['Oct/Nov 2021 · Paper 22 · Question 5','Depreciation and disposal',22,5],
+  ['Feb/Mar 2021 · Paper 22 · Question 2','Depreciation and disposal',12,3],
+  ['May/June 2022 · Paper 21 · Question 2','Depreciation / year-end adjustments',29,6],
+  ['May/June 2022 · Paper 22 · Question 4','Inventory / expenditure / depreciation',33,7]
+ ]},
+ {topic:'05 – Preparation of Financial Statements', q:'assets/accounting/accounting-05-financial-statements-premium.pdf', ms:'assets/accounting/accounting-05-financial-statements-answers.pdf?v=25', items:[
+  ['Feb/Mar 2022 · Paper 22 · Question 5','Partnerships · 34 marks',25,5],
+  ['May/June 2024 · Paper 23 · Question 2','Manufacturing accounts · 28 marks',148,25],
+  ['Oct/Nov 2024 · Paper 21 · Question 5','Manufacturing accounts',154,34],
+  ['Oct/Nov 2023 · Paper 21 · Question 5','Limited companies',78,14]
+ ]},
+ {topic:'06 – Analysis and Interpretation', q:'assets/accounting/accounting-06-analysis-interpretation-premium.pdf', ms:'assets/accounting/accounting-06-analysis-interpretation-answers.pdf?v=25', items:[
+  ['May/June 2022 · Paper 21 · Question 4','Accounting ratios · 34 marks',42,5],
+  ['May/June 2021 · Paper 21 · Question 5','Accounting ratios · 34 marks',30,3],
+  ['Oct/Nov 2023 · Paper 22 · Question 5','Ratio interpretation',51,7],
+  ['May/June 2024 · Paper 21 · Question 4','Ratios + accounting adjustments',57,7]
+ ]}
+];
+const topics = document.getElementById('topics');
+const modal=document.getElementById('modal'), viewer=document.getElementById('viewer'), viewerTitle=document.getElementById('viewerTitle'), openTab=document.getElementById('openTab');
+function srcWithPage(file,page){const hash='#page='+page+'&view=FitH';return file+hash}
+function openPdf(title,file,page){const src=srcWithPage(file,page);viewer.src=src;viewerTitle.textContent=title;openTab.href=src;modal.classList.add('open')}
+document.getElementById('closeBtn').onclick=()=>{modal.classList.remove('open');viewer.src=''};
+modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');viewer.src=''}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){modal.classList.remove('open');viewer.src=''}});
+for(const t of picks){
+ const sec=document.createElement('section'); sec.className='topic';
+ sec.innerHTML='<h2>'+t.topic+'</h2><div class="grid"></div>';
+ const grid=sec.querySelector('.grid');
+ t.items.forEach((it,i)=>{
+   const card=document.createElement('article');card.className='card';
+   card.innerHTML='<div class="rank">#'+(i+1)+'</div><h3>'+it[0]+'</h3><div class="meta">'+it[1]+'<br>Opens the original website question and matching answer/MS.</div><div class="buttons"><button class="btn q">Open original question</button><button class="btn ms">Open answer / MS</button></div>';
+   card.querySelector('.q').onclick=()=>openPdf(it[0]+' – Question',t.q,it[2]);
+   card.querySelector('.ms').onclick=()=>openPdf(it[0]+' – Answer/MS',t.ms,it[3]);
+   grid.appendChild(card);
+ });
+ topics.appendChild(sec);
+}
+</script>
+</body>
+</html>
